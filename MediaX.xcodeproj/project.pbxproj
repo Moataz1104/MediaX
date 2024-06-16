@@ -14,6 +14,9 @@
 		006A0C5E2C1F84B500457AD9 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C5D2C1F84B500457AD9 /* Colors.xcassets */; };
 		006A0C632C1F855000457AD9 /* LogInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C622C1F855000457AD9 /* LogInView.xib */; };
 		006A0C642C1F855000457AD9 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C612C1F855000457AD9 /* LogInView.swift */; };
+		006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C652C1F913400457AD9 /* Coordinator.swift */; };
+		006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C672C1F918000457AD9 /* MainCoordinator.swift */; };
+		006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C692C1F921600457AD9 /* AuthCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		006A0C5D2C1F84B500457AD9 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		006A0C612C1F855000457AD9 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		006A0C622C1F855000457AD9 /* LogInView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LogInView.xib; sourceTree = "<group>"; };
+		006A0C652C1F913400457AD9 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		006A0C672C1F918000457AD9 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		006A0C692C1F921600457AD9 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +110,9 @@
 		006A0C5A2C1F81D900457AD9 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				006A0C652C1F913400457AD9 /* Coordinator.swift */,
+				006A0C672C1F918000457AD9 /* MainCoordinator.swift */,
+				006A0C692C1F921600457AD9 /* AuthCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -206,8 +215,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */,
 				006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */,
 				006A0C642C1F855000457AD9 /* LogInView.swift in Sources */,
+				006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */,
+				006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */,
 				006A0C432C1F74F600457AD9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
