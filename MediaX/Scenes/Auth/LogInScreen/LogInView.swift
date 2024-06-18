@@ -11,13 +11,36 @@ class LogInView: UIViewController {
 
 //    MARK: - Attributes
     
+    @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var logInButton: UIButton!
+    @IBOutlet weak var mainViewTopCons: NSLayoutConstraint!
     
 
 //    MARK: - View Controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUi()
-        
+    }
+    
+//    MARK: - Actions
+    
+    @IBAction func viewTapGesture(_ sender: Any) {
+        view.endEditing(true)
+    }
+    
+    @IBAction func logInButtonAction(_ sender: Any) {
+        print("logInButtonAction")
+    }
+    
+    @IBAction func forgetPwAction(_ sender: Any) {
+        print("forgetPwAction")
+
+    }
+    @IBAction func signUpButtonAction(_ sender: Any) {
+        print("signUpButtonAction")
+
     }
     
     
@@ -25,13 +48,17 @@ class LogInView: UIViewController {
 //    MARK: - Privates
     
     private func configUi(){
-        title = "Login"
-        let textAttributes: [NSAttributedString.Key:Any] = [
-            .foregroundColor : UIColor.main,
-            .font : UIFont.systemFont(ofSize: 24, weight: .bold)
-        ]
+        navigationController?.navigationBar.isHidden = true
+        mainViewTopCons.constant = view.frame.height * 0.1
+
+
+        logInButton.layer.cornerRadius = 20
+                
         
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        mainView.layer.cornerRadius = 40
+        mainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+
+        
     }
 
 }
