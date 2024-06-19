@@ -22,9 +22,24 @@ class AuthCoordinator : Coordinator {
         showLogInScreen()
     }
     
-    func showLogInScreen(){
-        let vc = LogInView()
-        navigationController.pushViewController(vc, animated: true)
+    func popVC(){
+        DispatchQueue.main.async {[weak self] in
+            self?.navigationController.popViewController(animated: true)
+        }
     }
     
+    
+    func showLogInScreen(){
+        let viewModel = LogInViewModel(coordinator: self)
+        let vc = LogInView(viewModel: viewModel)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    
+    func showSignUpScreen(){
+        let viewModel = RegisterViewModel(coordinator: self)
+        let vc = RegisterView(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }

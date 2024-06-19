@@ -10,6 +10,7 @@ import UIKit
 class LogInView: UIViewController {
 
 //    MARK: - Attributes
+    private var viewModel : LogInViewModel
     
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var emailTextField: UITextField!
@@ -23,6 +24,18 @@ class LogInView: UIViewController {
         super.viewDidLoad()
         configUi()
     }
+    
+    init(viewModel : LogInViewModel){
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+
     
 //    MARK: - Actions
     
@@ -40,8 +53,7 @@ class LogInView: UIViewController {
     }
     @IBAction func signUpButtonAction(_ sender: Any) {
         print("signUpButtonAction")
-        navigationController?.pushViewController(RegisterView(), animated: true)
-
+        viewModel.pushRegisterScreen()
     }
     
     

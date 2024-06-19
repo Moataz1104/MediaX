@@ -11,6 +11,8 @@ class RegisterView: UIViewController {
 
 //    MARK: - Attributes
 
+    private var viewModel : RegisterViewModel
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var scrollViewTopCons: NSLayoutConstraint!
@@ -31,12 +33,23 @@ class RegisterView: UIViewController {
         keyBoardWillDisappear()
 
     }
+    
+    init(viewModel : RegisterViewModel){
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 //    MARK: - Actions
 
     @IBAction func registerButtonAction(_ sender: Any) {
     }
     @IBAction func signInButtonAction(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+        viewModel.popToLogInScreen()
     }
     @IBAction func viewTapGesture(_ sender: Any) {
         view.endEditing(true)
