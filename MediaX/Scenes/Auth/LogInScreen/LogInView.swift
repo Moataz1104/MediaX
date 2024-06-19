@@ -22,6 +22,8 @@ class LogInView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configUi()
+        emailTextField.setAttributedPlaceholder(with: "Enter your Email address", image: "emailIcon")
+        passwordTextField.setAttributedPlaceholder(with: "Enter your Password", image: "pwIcon")
     }
     
 //    MARK: - Actions
@@ -60,5 +62,7 @@ class LogInView: UIViewController {
 
         
     }
-
 }
+
+
+
