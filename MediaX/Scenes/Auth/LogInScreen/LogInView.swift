@@ -22,8 +22,6 @@ class LogInView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configUi()
-        emailTextField.setAttributedPlaceholder(with: "Enter your Email address", image: "emailIcon")
-        passwordTextField.setAttributedPlaceholder(with: "Enter your Password", image: "pwIcon")
     }
     
 //    MARK: - Actions
@@ -42,6 +40,7 @@ class LogInView: UIViewController {
     }
     @IBAction func signUpButtonAction(_ sender: Any) {
         print("signUpButtonAction")
+        navigationController?.pushViewController(RegisterView(), animated: true)
 
     }
     
@@ -61,6 +60,9 @@ class LogInView: UIViewController {
         mainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         
+        emailTextField.setAttributedPlaceholder(with: "Enter your Email address", image: "emailIcon")
+        passwordTextField.setAttributedPlaceholder(with: "Enter your Password", image: "pwIcon")
+
     }
 }
 
