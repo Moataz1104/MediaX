@@ -20,6 +20,7 @@
 		00E8C9ED2C2331F6008A3996 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8C9EB2C2331F6008A3996 /* RegisterView.swift */; };
 		00E8C9EE2C2331F6008A3996 /* RegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00E8C9EC2C2331F6008A3996 /* RegisterView.xib */; };
 		00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */; };
+		E1F5B06D58CC3457AA679DF1 /* Pods_MediaX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,9 @@
 		00E8C9EB2C2331F6008A3996 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		00E8C9EC2C2331F6008A3996 /* RegisterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterView.xib; sourceTree = "<group>"; };
 		00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
+		1BF2EB1D77B7F74D198EC9FC /* Pods-MediaX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaX.debug.xcconfig"; path = "Target Support Files/Pods-MediaX/Pods-MediaX.debug.xcconfig"; sourceTree = "<group>"; };
+		A3023D612AD1B91F7229DA2C /* Pods-MediaX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaX.release.xcconfig"; path = "Target Support Files/Pods-MediaX/Pods-MediaX.release.xcconfig"; sourceTree = "<group>"; };
+		F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1F5B06D58CC3457AA679DF1 /* Pods_MediaX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +61,8 @@
 			children = (
 				006A0C3F2C1F74F600457AD9 /* MediaX */,
 				006A0C3E2C1F74F600457AD9 /* Products */,
+				3748A9770DF25CD6FDA8E81F /* Pods */,
+				4EE81193026AFDE3FE9E6807 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,6 +175,23 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		3748A9770DF25CD6FDA8E81F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1BF2EB1D77B7F74D198EC9FC /* Pods-MediaX.debug.xcconfig */,
+				A3023D612AD1B91F7229DA2C /* Pods-MediaX.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		4EE81193026AFDE3FE9E6807 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -175,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 006A0C512C1F74F700457AD9 /* Build configuration list for PBXNativeTarget "MediaX" */;
 			buildPhases = (
+				61C835B93A294237AFEC6A6C /* [CP] Check Pods Manifest.lock */,
 				006A0C392C1F74F600457AD9 /* Sources */,
 				006A0C3A2C1F74F600457AD9 /* Frameworks */,
 				006A0C3B2C1F74F600457AD9 /* Resources */,
+				458425F49ADC0B7212A040BF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -236,6 +262,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		458425F49ADC0B7212A040BF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MediaX/Pods-MediaX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MediaX/Pods-MediaX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MediaX/Pods-MediaX-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61C835B93A294237AFEC6A6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MediaX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		006A0C392C1F74F600457AD9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -292,7 +360,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -355,7 +423,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -376,6 +444,7 @@
 		};
 		006A0C522C1F74F700457AD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BF2EB1D77B7F74D198EC9FC /* Pods-MediaX.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -407,6 +476,7 @@
 		};
 		006A0C532C1F74F700457AD9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3023D612AD1B91F7229DA2C /* Pods-MediaX.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

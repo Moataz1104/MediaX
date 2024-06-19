@@ -1,0 +1,6 @@
+framework module Pods_MediaX {
+  umbrella header "Pods-MediaX-umbrella.h"
+
+  export *
+  module * { export * }
+}
