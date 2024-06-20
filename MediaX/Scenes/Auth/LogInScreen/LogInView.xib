@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LogInView" customModule="MediaX" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="WYT-RF-R6M" id="4Vq-ay-bJo"/>
                 <outlet property="emailTextField" destination="tIs-X3-Znn" id="F7B-Z7-f5m"/>
                 <outlet property="logInButton" destination="hiy-VL-NFd" id="Dh9-F8-CRq"/>
                 <outlet property="mainView" destination="RJc-Mn-6QG" id="N9v-sC-Gmq"/>
@@ -35,7 +36,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="5gS-0T-mKA">
-                            <rect key="frame" x="39.333333333333343" y="177.66666666666669" width="314.33333333333326" height="387.00000000000006"/>
+                            <rect key="frame" x="39.333333333333343" y="132.66666666666663" width="314.33333333333326" height="477"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="jep-fB-yZX">
                                     <rect key="frame" x="0.0" y="0.0" width="314.33333333333331" height="125"/>
@@ -49,7 +50,7 @@
                                             <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="●●●●●●●●" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0xW-ou-L2N">
-                                            <rect key="frame" x="0.0" y="70" width="314.33333333333331" height="55"/>
+                                            <rect key="frame" x="0.0" y="70.000000000000028" width="314.33333333333331" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="55" id="LOh-14-pjn"/>
                                             </constraints>
@@ -58,8 +59,11 @@
                                         </textField>
                                     </subviews>
                                 </stackView>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="WYT-RF-R6M">
+                                    <rect key="frame" x="147.33333333333331" y="195.00000000000003" width="20" height="20"/>
+                                </activityIndicatorView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Cnj-jS-7L1">
-                                    <rect key="frame" x="57.333333333333343" y="195" width="200.00000000000003" height="94"/>
+                                    <rect key="frame" x="57.333333333333343" y="285" width="200.00000000000003" height="94"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hiy-VL-NFd">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="45"/>
@@ -78,7 +82,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pyb-KP-832">
-                                            <rect key="frame" x="41.999999999999986" y="64.999999999999943" width="116.00000000000001" height="29"/>
+                                            <rect key="frame" x="41.999999999999986" y="65" width="116.00000000000001" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Forgot Password?">
@@ -91,7 +95,7 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AiJ-Gh-0U9">
-                                    <rect key="frame" x="57.999999999999986" y="358.99999999999994" width="198.33333333333331" height="28"/>
+                                    <rect key="frame" x="57.999999999999986" y="449" width="198.33333333333331" height="28"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don’t have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oT6-hQ-heg">
                                             <rect key="frame" x="0.0" y="0.0" width="142.33333333333334" height="28"/>

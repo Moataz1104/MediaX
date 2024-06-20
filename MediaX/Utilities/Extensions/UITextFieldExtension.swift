@@ -15,7 +15,7 @@ extension UITextField {
         
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage(named: image)
-        imageAttachment.bounds = CGRect(x: 0, y: -5, width: 20, height: 20)
+        imageAttachment.bounds = CGRect(x: 0, y: -7, width: 24, height: 24)
         
         
         

@@ -21,6 +21,8 @@
 		00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4A2C23721F00358924 /* RegisterViewModel.swift */; };
 		00C92C4E2C23992200358924 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4D2C23992200358924 /* APIConstants.swift */; };
 		00C92C502C239A0B00358924 /* APIBaseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4F2C239A0B00358924 /* APIBaseSession.swift */; };
+		00C92C522C239C0100358924 /* APIAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C512C239C0100358924 /* APIAuth.swift */; };
+		00C92C542C249F5200358924 /* AuthResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C532C249F5200358924 /* AuthResponses.swift */; };
 		00E8C9ED2C2331F6008A3996 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8C9EB2C2331F6008A3996 /* RegisterView.swift */; };
 		00E8C9EE2C2331F6008A3996 /* RegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00E8C9EC2C2331F6008A3996 /* RegisterView.xib */; };
 		00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */; };
@@ -44,6 +46,8 @@
 		00C92C4A2C23721F00358924 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		00C92C4D2C23992200358924 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		00C92C4F2C239A0B00358924 /* APIBaseSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIBaseSession.swift; sourceTree = "<group>"; };
+		00C92C512C239C0100358924 /* APIAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuth.swift; sourceTree = "<group>"; };
+		00C92C532C249F5200358924 /* AuthResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponses.swift; sourceTree = "<group>"; };
 		00E8C9EB2C2331F6008A3996 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		00E8C9EC2C2331F6008A3996 /* RegisterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterView.xib; sourceTree = "<group>"; };
 		00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 		006A0C562C1F819900457AD9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				00C92C532C249F5200358924 /* AuthResponses.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 			children = (
 				00C92C4D2C23992200358924 /* APIConstants.swift */,
 				00C92C4F2C239A0B00358924 /* APIBaseSession.swift */,
+				00C92C512C239C0100358924 /* APIAuth.swift */,
 			);
 			path = APIServices;
 			sourceTree = "<group>";
@@ -329,7 +335,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C92C522C239C0100358924 /* APIAuth.swift in Sources */,
 				006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */,
+				00C92C542C249F5200358924 /* AuthResponses.swift in Sources */,
 				00C92C4E2C23992200358924 /* APIConstants.swift in Sources */,
 				00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */,
 				00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */,
