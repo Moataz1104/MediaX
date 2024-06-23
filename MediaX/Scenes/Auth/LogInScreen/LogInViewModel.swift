@@ -65,6 +65,7 @@ class LogInViewModel {
         APIAuth.shared.resultDataPublisher
             .subscribe { [weak self] event in
                 self?.activityIndicatorRelay.accept(false)
+                self?.coordinator?.delegate?.didLoginSuccessfully()
             }
             .disposed(by: disposeBag)
     }
