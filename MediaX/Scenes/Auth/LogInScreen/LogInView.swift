@@ -74,14 +74,14 @@ class LogInView: UIViewController {
     
     //    MARK: - RX Binding
     private func bindTextFields(){
-        emailTextField.rx.controlEvent(.editingDidEnd)
+        emailTextField.rx.controlEvent(.allEvents)
             .subscribe(onNext: { [weak self] in
                 guard let text = self?.emailTextField.text else { return }
                 self?.viewModel.emailSubject.onNext(text)
             })
             .disposed(by: disposeBag)
 
-        passwordTextField.rx.controlEvent(.editingDidEnd)
+        passwordTextField.rx.controlEvent(.allEvents)
             .subscribe(onNext: { [weak self] in
                 guard let text = self?.passwordTextField.text else { return }
                 self?.viewModel.passwordSubject.onNext(text)

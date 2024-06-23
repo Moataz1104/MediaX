@@ -36,7 +36,7 @@ class AuthCoordinator : Coordinator {
         let viewModel = LogInViewModel(coordinator: self, disposeBag: disposeBag)
         let vc = LogInView(viewModel: viewModel, disposeBag: disposeBag)
         
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.setViewControllers([vc], animated: true)
     }
 
     

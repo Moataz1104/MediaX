@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -41,7 +40,7 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="jep-fB-yZX">
                                     <rect key="frame" x="0.0" y="0.0" width="314.33333333333331" height="125"/>
                                     <subviews>
-                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="example@gmail.com " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tIs-X3-Znn">
+                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="moataz.mohamed.id2@gmail.com" borderStyle="roundedRect" placeholder="example@gmail.com " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tIs-X3-Znn">
                                             <rect key="frame" x="0.0" y="0.0" width="314.33333333333331" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="55" id="tGH-CP-VN2"/>
@@ -49,7 +48,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="●●●●●●●●" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0xW-ou-L2N">
+                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="MmMm@1234" borderStyle="roundedRect" placeholder="●●●●●●●●" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0xW-ou-L2N">
                                             <rect key="frame" x="0.0" y="70.000000000000028" width="314.33333333333331" height="55"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="55" id="LOh-14-pjn"/>
@@ -119,7 +118,7 @@
                             </subviews>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="5gS-0T-mKA" firstAttribute="centerY" secondItem="RJc-Mn-6QG" secondAttribute="centerY" id="IxC-xm-1qc"/>
                         <constraint firstItem="kyq-II-0KM" firstAttribute="leading" secondItem="5gS-0T-mKA" secondAttribute="leading" id="TgZ-n8-101"/>
@@ -154,8 +153,5 @@
         <namedColor name="Main">
             <color red="0.23137254901960785" green="0.58823529411764708" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

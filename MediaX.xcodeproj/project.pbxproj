@@ -91,7 +91,6 @@
 			children = (
 				006A0C562C1F819900457AD9 /* Models */,
 				006A0C572C1F81A900457AD9 /* Scenes */,
-				006A0C582C1F81C000457AD9 /* APIServices */,
 				006A0C592C1F81CC00457AD9 /* Utilities */,
 				006A0C5B2C1F81E900457AD9 /* Resources */,
 				006A0C402C1F74F600457AD9 /* AppDelegate.swift */,
@@ -116,13 +115,6 @@
 				006A0C5F2C1F851F00457AD9 /* Auth */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		006A0C582C1F81C000457AD9 /* APIServices */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = APIServices;
 			sourceTree = "<group>";
 		};
 		006A0C592C1F81CC00457AD9 /* Utilities */ = {
@@ -482,6 +474,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MT6D65325Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MediaX/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -514,6 +507,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MT6D65325Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MediaX/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

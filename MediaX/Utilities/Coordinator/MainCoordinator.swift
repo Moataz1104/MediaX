@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import SwiftKeychainWrapper
 
 class MainCoordinator : Coordinator{
     var childCoordinators = [Coordinator]()
@@ -17,8 +17,18 @@ class MainCoordinator : Coordinator{
         self.navigationController = navigationController
     }
     
+    
+    let accessToken :String? = KeychainWrapper.standard.string(forKey: "token")
+    
+    
+    
     func start() {
-        showAuth()
+        print(accessToken ?? "No token")
+        if let _ = KeychainWrapper.standard.string(forKey: "token") {
+            print("Done")
+        } else {
+            showAuth()
+        }
     }
     
     func showAuth(){

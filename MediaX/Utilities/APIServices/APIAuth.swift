@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-
+import SwiftKeychainWrapper
 
 
 class APIAuth {
@@ -41,6 +41,7 @@ class APIAuth {
                         let response = try JSONDecoder().decode(TokenResponse.self, from: data)
                         self?.resultDataPublisher.onNext(response)
                         self?.accessToken = response.token
+                        let _:Bool = KeychainWrapper.standard.set(response.token, forKey: "token")
                         print(response.token)
                     } catch {
                         print("Error decoding response: \(error)")
