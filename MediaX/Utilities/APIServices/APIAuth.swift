@@ -42,6 +42,9 @@ class APIAuth {
                         self?.resultDataPublisher.onNext(response)
                         self?.accessToken = response.token
                         let _:Bool = KeychainWrapper.standard.set(response.token, forKey: "token")
+                        UserDefaults.standard.set(Date(), forKey: "loginTimestamp")
+                        print( "******************************************************")
+
                         print(response.token)
                     } catch {
                         print("Error decoding response: \(error)")
