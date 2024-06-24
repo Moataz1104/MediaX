@@ -141,7 +141,7 @@ class MainCoordinator : Coordinator{
     
     
     private func startSession() {
-        print("start session")
+        
         logoutTimer = Timer.scheduledTimer(withTimeInterval: sessionDuration, repeats: false){[weak self] _ in
             self?.logOut()
         }

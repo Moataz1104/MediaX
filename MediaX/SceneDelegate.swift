@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         if let loginTimestamp = UserDefaults.standard.object(forKey: "loginTimestamp") as? Date {
-            print("10")
+            
             
             let sessionDuration: TimeInterval = 24 * 60 * 59
             let timeElapsed = Date().timeIntervalSince(loginTimestamp)

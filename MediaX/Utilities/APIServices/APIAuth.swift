@@ -15,8 +15,13 @@ class APIAuth {
     static let shared = APIAuth()
     private init(){}
     
-    let errorPublisher = PublishRelay<Error>()
+//    for log in
+    let logInErrorPublisher = PublishRelay<Error>()
     let resultDataPublisher = PublishSubject<Any>()
+    
+//    for register
+    let registerErrorStringPublisher = PublishRelay<String>()
+
     
     var accessToken = ""
     
@@ -29,7 +34,7 @@ class APIAuth {
         var request = URLRequest(url: apiK.logInURL)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let jsonData = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        let jsonData = try? JSONSerialization.data(withJSONObject: body, options: [])
         request.httpBody = jsonData
 
         APIBaseSession.baseSession( request: request) {[weak self] result in
@@ -43,56 +48,66 @@ class APIAuth {
                         self?.accessToken = response.token
                         let _:Bool = KeychainWrapper.standard.set(response.token, forKey: "token")
                         UserDefaults.standard.set(Date(), forKey: "loginTimestamp")
-                        print( "******************************************************")
-
                         print(response.token)
                     } catch {
                         print("Error decoding response: \(error)")
-                        self?.errorPublisher.accept(error)
+                        self?.logInErrorPublisher.accept(error)
                     }
                     
                 }
             case .failure(let error):
                 print("Request failed with error: \(error)")
-                self?.errorPublisher.accept(error)
+                self?.logInErrorPublisher.accept(error)
             }
         }
     }
     
     func registerUser(userName:String,email: String, password: String){
         print("Request sent")
-        _ = [
-            "name":userName,
-            "userName":userName,
-            "email": email,
-            "password": password,
-            "confirmPassword":password
+        let body = [
+            "userProfileUpdateDto": [
+                "fullName": userName,
+                "email":email,
+                "password":password,
+                "phoneNumber": "01123433300",
+                "bio": "testtest"
+            ]
         ]
-//        var request = URLRequest(url: apiK.registerURL!)
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.httpMethod = "POST"
-//        let jsonData = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
-//        request.httpBody = jsonData
-//
-//        APIRequests.baseSession(request:request) {[weak self] result in
-//            switch result{
-//            case .success(let data):
-//                if let data = data{
-//                    print("Request successful. Response data: \(data)")
-//                    do {
-//                        let response = try JSONDecoder().decode(SignupResponse.self, from: data)
-//                        print("Request successful. Response data: \(response)")
-//                        self?.resultDataPublisher.onNext(response)
-//                    } catch {
-//                        print("Error decoding response: \(error)")
-//                        self?.errorPublisher.accept(error)
-//                    }
-//                }
-//            case .failure(let error):
-//                print("Request failed with error: \(error.localizedDescription)")
-//                self?.errorPublisher.accept(error)
-//            }
-//        }
+        var request = URLRequest(url: apiK.registerURL)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        let jsonData = try? JSONSerialization.data(withJSONObject: body, options: [])
+        request.httpBody = jsonData
+
+        APIBaseSession.baseSession(request:request) {[weak self] result in
+            switch result{
+            case .success(let data):
+                if let data = data{
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("Response: \(responseString)")
+                        
+                        if responseString.contains("Registration successful") {
+                            print("Registration was successful")
+                            
+                        } else {
+                            print("Unexpected response: \(responseString)")
+                            self?.registerErrorStringPublisher.accept(responseString)
+
+                        }
+                    } else {
+                        print("Unable to convert data to string")
+                        self?.registerErrorStringPublisher.accept("Error")
+
+                    }
+
+                    
+                    
+                }
+            case .failure(let error):
+                print("Request failed with error: \(error.localizedDescription)")
+                self?.registerErrorStringPublisher.accept(error.localizedDescription)
+            }
+        }
     }
 
     

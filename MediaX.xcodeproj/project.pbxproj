@@ -29,6 +29,7 @@
 		00ACB1222C28786C00932E44 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB1202C28786C00932E44 /* ProfileView.xib */; };
 		00ACB1252C289B5E00932E44 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1232C289B5E00932E44 /* HomeView.swift */; };
 		00ACB1262C289B5E00932E44 /* HomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB1242C289B5E00932E44 /* HomeView.xib */; };
+		00ACB1292C28E92800932E44 /* FieldsValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1282C28E92800932E44 /* FieldsValidation.swift */; };
 		00C92C492C23720400358924 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C482C23720400358924 /* LogInViewModel.swift */; };
 		00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4A2C23721F00358924 /* RegisterViewModel.swift */; };
 		00C92C4E2C23992200358924 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4D2C23992200358924 /* APIConstants.swift */; };
@@ -66,6 +67,7 @@
 		00ACB1202C28786C00932E44 /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		00ACB1232C289B5E00932E44 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		00ACB1242C289B5E00932E44 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
+		00ACB1282C28E92800932E44 /* FieldsValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldsValidation.swift; sourceTree = "<group>"; };
 		00C92C482C23720400358924 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		00C92C4A2C23721F00358924 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		00C92C4D2C23992200358924 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		006A0C592C1F81CC00457AD9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				00ACB1272C28E90A00932E44 /* TextFieldsValidation */,
 				00C92C4C2C23990900358924 /* APIServices */,
 				00E8C9EF2C233E50008A3996 /* Extensions */,
 				006A0C5A2C1F81D900457AD9 /* Coordinator */,
@@ -239,6 +242,14 @@
 				00ACB1202C28786C00932E44 /* ProfileView.xib */,
 			);
 			path = ProfileScreen;
+			sourceTree = "<group>";
+		};
+		00ACB1272C28E90A00932E44 /* TextFieldsValidation */ = {
+			isa = PBXGroup;
+			children = (
+				00ACB1282C28E92800932E44 /* FieldsValidation.swift */,
+			);
+			path = TextFieldsValidation;
 			sourceTree = "<group>";
 		};
 		00C92C4C2C23990900358924 /* APIServices */ = {
@@ -421,6 +432,7 @@
 				006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */,
 				00C92C502C239A0B00358924 /* APIBaseSession.swift in Sources */,
 				006A0C642C1F855000457AD9 /* LogInView.swift in Sources */,
+				00ACB1292C28E92800932E44 /* FieldsValidation.swift in Sources */,
 				00C92C492C23720400358924 /* LogInViewModel.swift in Sources */,
 				00E8C9ED2C2331F6008A3996 /* RegisterView.swift in Sources */,
 				00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */,

@@ -52,7 +52,7 @@ class LogInViewModel {
     }
     
     private func subscribeToErrorPublisher(){
-        APIAuth.shared.errorPublisher
+        APIAuth.shared.logInErrorPublisher
             .subscribe {[weak self] event in
                 print(event.element?.localizedDescription ?? "")
                 self?.errorSubjectMessage.onNext(event.element?.localizedDescription ?? "No Description")

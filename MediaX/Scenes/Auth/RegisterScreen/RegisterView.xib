@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterView" customModule="MediaX" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="85V-iG-0T3" id="AGG-XE-5CE"/>
                 <outlet property="confirmPwTextField" destination="KrE-QX-wQf" id="kJN-nw-vhM"/>
                 <outlet property="emailTextField" destination="X2H-Oa-1vj" id="gI4-TZ-fMP"/>
                 <outlet property="mainView" destination="nAI-s5-vui" id="HzM-gQ-TIQ"/>
@@ -31,10 +32,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nAI-s5-vui" userLabel="ContentView">
-                            <rect key="frame" x="29.333333333333343" y="30" width="334.33333333333326" height="575"/>
+                            <rect key="frame" x="29.333333333333343" y="30" width="334.33333333333326" height="665"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="7Dc-ZM-9vT" userLabel="MainStack">
-                                    <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="575"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="665"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vas-kJ-IFQ" userLabel="labelsStack">
                                             <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="92"/>
@@ -54,7 +55,7 @@
                                             </subviews>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="DYb-D9-gqy">
-                                            <rect key="frame" x="0.0" y="142" width="334.33333333333331" height="433"/>
+                                            <rect key="frame" x="0.0" y="142" width="334.33333333333331" height="523"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vbJ-30-dAW" userLabel="textFieldsStack">
                                                     <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="280"/>
@@ -93,8 +94,11 @@
                                                         </textField>
                                                     </subviews>
                                                 </stackView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="85V-iG-0T3">
+                                                    <rect key="frame" x="0.0" y="350" width="334.33333333333331" height="20"/>
+                                                </activityIndicatorView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dxs-t0-Y1G">
-                                                    <rect key="frame" x="0.0" y="350" width="334.33333333333331" height="83"/>
+                                                    <rect key="frame" x="0.0" y="440" width="334.33333333333331" height="83"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mu1-if-pVC">
                                                             <rect key="frame" x="67.333333333333343" y="0.0" width="200.00000000000003" height="45"/>

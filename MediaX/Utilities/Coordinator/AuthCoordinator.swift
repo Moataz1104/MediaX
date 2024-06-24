@@ -49,8 +49,9 @@ class AuthCoordinator : Coordinator {
 
     
     func showSignUpScreen(){
-        let viewModel = RegisterViewModel(coordinator: self)
-        let vc = RegisterView(viewModel: viewModel)
+        let disposeBag = DisposeBag()
+        let viewModel = RegisterViewModel(coordinator: self, disposeBage: disposeBag)
+        let vc = RegisterView(viewModel: viewModel, disposeBag: disposeBag)
         navigationController.pushViewController(vc, animated: true)
     }
 }
