@@ -20,6 +20,7 @@ class RegisterViewModel {
     let errorSubjectMessage = PublishSubject<String>()
     let mainButtonSubject = PublishRelay<Void>()
     let activityIndicatorRelay = BehaviorRelay(value: false)
+    let showRegisterAlertSubject = PublishSubject<Void>()
 
 
     init(coordinator: AuthCoordinator,disposeBage : DisposeBag) {
@@ -101,7 +102,10 @@ class RegisterViewModel {
         APIAuth.shared.registerSuccessPublisher
             .subscribe { [weak self] event in
                 self?.activityIndicatorRelay.accept(false)
-
+                self?.showRegisterAlertSubject.onNext(())
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
+                    self?.popToLogInScreen()
+                }
             }
             .disposed(by: disposeBag)
     }

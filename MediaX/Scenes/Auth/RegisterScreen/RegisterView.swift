@@ -25,7 +25,7 @@ class RegisterView: UIViewController {
     @IBOutlet weak var confirmPwTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
+
     
     
     //    MARK: - View Controller life cycle
@@ -49,11 +49,11 @@ class RegisterView: UIViewController {
         
         //Networking
         showingNetworkErrorAlert()
+        showingRegisterAlert()
         
         activityIndicator.isHidden = true
         subscribeToActivityIndicator()
         
-
         
     }
     
@@ -204,6 +204,27 @@ class RegisterView: UIViewController {
                 let alert = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self?.present(alert, animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func showingRegisterAlert(){
+        viewModel
+            .showRegisterAlertSubject
+            .observe(on: MainScheduler.instance)
+            .subscribe {[weak self] _ in
+                let vc = RegisterAlertView(nibName: "RegisterAlertView", bundle: nil)
+
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                
+                // Presenting from the current view controller
+                self?.present(vc, animated: true, completion: nil)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
+                    vc.dismiss(animated: true)
+                }
+                
             }
             .disposed(by: disposeBag)
     }

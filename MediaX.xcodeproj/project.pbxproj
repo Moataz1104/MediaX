@@ -33,6 +33,8 @@
 		00ACB12B2C28F0DE00932E44 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB12A2C28F0DE00932E44 /* DataExtension.swift */; };
 		00ACB12E2C28F13600932E44 /* GenerateMultiPartFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB12D2C28F13600932E44 /* GenerateMultiPartFile.swift */; };
 		00ACB1312C2CDC8A00932E44 /* NetworkingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1302C2CDC8A00932E44 /* NetworkingErrors.swift */; };
+		00ACB1382C2CF4BD00932E44 /* RegisterAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1362C2CF4BD00932E44 /* RegisterAlertView.swift */; };
+		00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00ACB1372C2CF4BD00932E44 /* RegisterAlertView.xib */; };
 		00C92C492C23720400358924 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C482C23720400358924 /* LogInViewModel.swift */; };
 		00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4A2C23721F00358924 /* RegisterViewModel.swift */; };
 		00C92C4E2C23992200358924 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4D2C23992200358924 /* APIConstants.swift */; };
@@ -73,6 +75,8 @@
 		00ACB12A2C28F0DE00932E44 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		00ACB12D2C28F13600932E44 /* GenerateMultiPartFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateMultiPartFile.swift; sourceTree = "<group>"; };
 		00ACB1302C2CDC8A00932E44 /* NetworkingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingErrors.swift; sourceTree = "<group>"; };
+		00ACB1362C2CF4BD00932E44 /* RegisterAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAlertView.swift; sourceTree = "<group>"; };
+		00ACB1372C2CF4BD00932E44 /* RegisterAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterAlertView.xib; sourceTree = "<group>"; };
 		00C92C482C23720400358924 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		00C92C4A2C23721F00358924 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		00C92C4D2C23992200358924 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 		006A0C592C1F81CC00457AD9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				00ACB1322C2CF00400932E44 /* CustomViews */,
 				00ACB12F2C2CDC5C00932E44 /* HandlingErrors */,
 				00ACB12C2C28F10B00932E44 /* Helpers */,
 				00ACB1272C28E90A00932E44 /* TextFieldsValidation */,
@@ -274,6 +279,23 @@
 			path = HandlingErrors;
 			sourceTree = "<group>";
 		};
+		00ACB1322C2CF00400932E44 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				00ACB1332C2CF00B00932E44 /* RegisterationAlert */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		00ACB1332C2CF00B00932E44 /* RegisterationAlert */ = {
+			isa = PBXGroup;
+			children = (
+				00ACB1362C2CF4BD00932E44 /* RegisterAlertView.swift */,
+				00ACB1372C2CF4BD00932E44 /* RegisterAlertView.xib */,
+			);
+			path = RegisterationAlert;
+			sourceTree = "<group>";
+		};
 		00C92C4C2C23990900358924 /* APIServices */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,6 +409,7 @@
 				006A0C632C1F855000457AD9 /* LogInView.xib in Resources */,
 				00ACB1222C28786C00932E44 /* ProfileView.xib in Resources */,
 				006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */,
+				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
 				00ACB11E2C28785D00932E44 /* NotificationView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +465,7 @@
 			files = (
 				00ACB1192C28784D00932E44 /* SearchView.swift in Sources */,
 				00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */,
+				00ACB1382C2CF4BD00932E44 /* RegisterAlertView.swift in Sources */,
 				00ACB11D2C28785D00932E44 /* NotificationView.swift in Sources */,
 				00C92C522C239C0100358924 /* APIAuth.swift in Sources */,
 				006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */,

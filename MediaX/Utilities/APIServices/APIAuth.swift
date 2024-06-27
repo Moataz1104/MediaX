@@ -96,7 +96,7 @@ class APIAuth {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         
-        var phoneNumber = "01123433" + String(Int.random(in: 100...999))
+        let phoneNumber = "01123433" + String(Int.random(in: 100...999))
         
         let jsonData: [String: Any] = [
             "fullName": userName,
@@ -142,10 +142,8 @@ class APIAuth {
                     }
                 }
                 
-                let decodedMessage = String(data: data, encoding: .utf8)
+                _ = String(data: data, encoding: .utf8)
                 self?.registerSuccessPublisher.accept(())
-                print("Response: \(decodedMessage ?? "sa")")
-                self?.registerErrorStringPublisher.accept(decodedMessage ?? "")
             }
         }.resume()
     }

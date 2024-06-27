@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterAlertView" customModule="MediaX" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iY5-ex-2Ux" id="gJV-Cc-fJf"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="RegisterAlertView" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iY5-ex-2Ux">
+                    <rect key="frame" x="71.666666666666686" y="293.66666666666669" width="250" height="265.00000000000006"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CiN-9Y-0h7">
+                            <rect key="frame" x="37.333333333333329" y="18.333333333333314" width="175" height="228"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up succesful!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TXJ-zg-WoD">
+                                    <rect key="frame" x="0.0" y="0.0" width="175" height="55"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="wnl-p1-idm">
+                                    <rect key="frame" x="46.666666666666657" y="70" width="82" height="82"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="82" id="5Gd-US-3Kb"/>
+                                        <constraint firstAttribute="width" constant="82" id="d3u-iq-tcy"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please verify your new account by Email" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="apJ-zP-Of1">
+                                    <rect key="frame" x="12.666666666666671" y="167" width="150" height="61"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="250" id="5xs-yL-3mU"/>
+                        <constraint firstItem="apJ-zP-Of1" firstAttribute="width" secondItem="iY5-ex-2Ux" secondAttribute="width" multiplier="0.6" id="K2G-JV-JJD"/>
+                        <constraint firstItem="TXJ-zg-WoD" firstAttribute="width" secondItem="iY5-ex-2Ux" secondAttribute="width" multiplier="0.7" id="Yg2-xn-50H"/>
+                        <constraint firstItem="CiN-9Y-0h7" firstAttribute="centerX" secondItem="iY5-ex-2Ux" secondAttribute="centerX" id="bkX-yU-mhT"/>
+                        <constraint firstAttribute="height" constant="265" id="j5e-xB-4st"/>
+                        <constraint firstItem="CiN-9Y-0h7" firstAttribute="centerY" secondItem="iY5-ex-2Ux" secondAttribute="centerY" id="oWY-1x-j8k"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="iY5-ex-2Ux" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="ZSb-Eu-uPb"/>
+                <constraint firstItem="iY5-ex-2Ux" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="hUS-dF-O6q"/>
+            </constraints>
+            <point key="canvasLocation" x="94" y="20"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="profileIcon" width="170.66667175292969" height="170.66667175292969"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
