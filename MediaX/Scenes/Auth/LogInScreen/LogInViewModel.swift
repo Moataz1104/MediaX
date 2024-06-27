@@ -25,7 +25,7 @@ class LogInViewModel {
         self.disposeBag = disposeBag
         
         subscribeToErrorPublisher()
-        subscribeToDataPublisher()
+        subscribeToLogInSuccPublisher()
 
         sendRequest()
     }
@@ -53,16 +53,15 @@ class LogInViewModel {
     
     private func subscribeToErrorPublisher(){
         APIAuth.shared.logInErrorPublisher
-            .subscribe {[weak self] event in
-                print(event.element?.localizedDescription ?? "")
-                self?.errorSubjectMessage.onNext(event.element?.localizedDescription ?? "No Description")
+            .subscribe {[weak self] errorMessage in
+                self?.errorSubjectMessage.onNext(errorMessage)
                 self?.activityIndicatorRelay.accept(false)
             }
             .disposed(by: disposeBag)
     }
     
-    private func subscribeToDataPublisher(){
-        APIAuth.shared.resultDataPublisher
+    private func subscribeToLogInSuccPublisher(){
+        APIAuth.shared.logInSuccessPublisher
             .subscribe { [weak self] event in
                 self?.activityIndicatorRelay.accept(false)
                 self?.coordinator?.delegate?.didLoginSuccessfully()

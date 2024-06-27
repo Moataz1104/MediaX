@@ -71,6 +71,7 @@ class RegisterView: UIViewController {
     //    MARK: - Actions
     
     @IBAction func registerButtonAction(_ sender: Any) {
+        view.endEditing(true)
     }
     @IBAction func signInButtonAction(_ sender: Any) {
         viewModel.popToLogInScreen()
@@ -200,7 +201,7 @@ class RegisterView: UIViewController {
             .errorSubjectMessage
             .observe(on: MainScheduler.instance)
             .subscribe {[weak self] errorMessage in
-                let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+                let alert = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self?.present(alert, animated: true)
             }

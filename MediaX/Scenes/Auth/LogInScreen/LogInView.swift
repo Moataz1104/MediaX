@@ -153,6 +153,7 @@ class LogInView: UIViewController {
         passwordTextField.setAttributedPlaceholder(with: "Enter your Password", image: "pwIcon")
 
     }
+    
 }
 
 

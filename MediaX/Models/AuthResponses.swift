@@ -11,3 +11,6 @@ import Foundation
 struct TokenResponse:Codable{
     let token:String
 }
+struct AuthErrorsMessage : Codable {
+    let message : String
+}

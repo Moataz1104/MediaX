@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import SwiftKeychainWrapper
+import UIKit
 
 
 class APIAuth {
@@ -16,14 +17,13 @@ class APIAuth {
     private init(){}
     
 //    for log in
-    let logInErrorPublisher = PublishRelay<Error>()
-    let resultDataPublisher = PublishSubject<Any>()
-    
+    let logInErrorPublisher = PublishRelay<String>()
+    let logInSuccessPublisher = PublishRelay<Void>()
+
 //    for register
     let registerErrorStringPublisher = PublishRelay<String>()
+    let registerSuccessPublisher = PublishRelay<Void>()
 
-    
-    var accessToken = ""
     
     func logInUser(email: String, password: String){
         let body = [
@@ -36,81 +36,122 @@ class APIAuth {
         request.httpMethod = "POST"
         let jsonData = try? JSONSerialization.data(withJSONObject: body, options: [])
         request.httpBody = jsonData
-
-        APIBaseSession.baseSession( request: request) {[weak self] result in
-            switch result{
-            case .success(let data):
-                if let data = data{
-                    print("Request successful. Response data: \(data)")
-                    do {
-                        let response = try JSONDecoder().decode(TokenResponse.self, from: data)
-                        self?.resultDataPublisher.onNext(response)
-                        self?.accessToken = response.token
-                        let _:Bool = KeychainWrapper.standard.set(response.token, forKey: "token")
-                        UserDefaults.standard.set(Date(), forKey: "loginTimestamp")
-                        print(response.token)
-                    } catch {
-                        print("Error decoding response: \(error)")
-                        self?.logInErrorPublisher.accept(error)
-                    }
-                    
-                }
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-                self?.logInErrorPublisher.accept(error)
+        
+        URLSession.shared.dataTask(with: request){[weak self] data,response,error in
+            
+            if let error = error {
+                self?.logInErrorPublisher.accept(NetworkingErrors.networkError(error).localizedDescription)
+                return
             }
-        }
+            
+            guard let httpResponse = response as? HTTPURLResponse else{
+                self?.logInErrorPublisher.accept(NetworkingErrors.unknownError.localizedDescription)
+                return
+            }
+            guard let data = data else {
+                self?.logInErrorPublisher.accept(NetworkingErrors.noData.localizedDescription)
+                return
+            }
+            
+            if !(200..<300).contains(httpResponse.statusCode) && httpResponse.statusCode != 500{
+                self?.logInErrorPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode).localizedDescription)
+            }
+            
+            if httpResponse.statusCode == 500 {
+                do{
+                    let decodedMessage = try JSONDecoder().decode(AuthErrorsMessage.self, from: data)
+                    self?.logInErrorPublisher.accept(decodedMessage.message)
+                    return
+                }catch{
+                    self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                }
+            }
+
+            
+            
+            
+            print("Request successful. Response data: \(data)")
+            do {
+                let response = try JSONDecoder().decode(TokenResponse.self, from: data)
+                self?.logInSuccessPublisher.accept(())
+                let _:Bool = KeychainWrapper.standard.set(response.token, forKey: "token")
+                UserDefaults.standard.set(Date(), forKey: "loginTimestamp")
+                print(response.token)
+            } catch {
+                print("Error decoding response: \(error)")
+                self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+            }
+            
+            
+
+        }.resume()
+        
+
     }
     
-    func registerUser(userName:String,email: String, password: String){
-        print("Request sent")
-        let body = [
-            "userProfileUpdateDto": [
-                "fullName": userName,
-                "email":email,
-                "password":password,
-                "phoneNumber": "01123433300",
-                "bio": "testtest"
-            ]
-        ]
+    func registerUser(userName: String, email: String, password: String, images: [UIImage] = [UIImage(named:"profileIcon")!]) {
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: apiK.registerURL)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        let jsonData = try? JSONSerialization.data(withJSONObject: body, options: [])
-        request.httpBody = jsonData
+        
+        var phoneNumber = "01123433" + String(Int.random(in: 100...999))
+        
+        let jsonData: [String: Any] = [
+            "fullName": userName,
+            "email": email,
+            "password": password,
+            "phoneNumber":phoneNumber,
+        ]
 
-        APIBaseSession.baseSession(request:request) {[weak self] result in
-            switch result{
-            case .success(let data):
-                if let data = data{
-                    if let responseString = String(data: data, encoding: .utf8) {
-                        print("Response: \(responseString)")
-                        
-                        if responseString.contains("Registration successful") {
-                            print("Registration was successful")
-                            
-                        } else {
-                            print("Unexpected response: \(responseString)")
-                            self?.registerErrorStringPublisher.accept(responseString)
+        
+        let body = MultiPartFile.multipartFormDataBody(boundary, json: jsonData, images: images)
+        
+        request.httpBody = body
 
-                        }
-                    } else {
-                        print("Unable to convert data to string")
-                        self?.registerErrorStringPublisher.accept("Error")
-
-                    }
-
-                    
-                    
+        
+        URLSession.shared.dataTask(with: request) {[weak self] data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error: \(error)")
+                    self?.registerErrorStringPublisher.accept(NetworkingErrors.networkError(error).localizedDescription)
+                    return
                 }
-            case .failure(let error):
-                print("Request failed with error: \(error.localizedDescription)")
-                self?.registerErrorStringPublisher.accept(error.localizedDescription)
+                
+                guard let httpResponse = response as? HTTPURLResponse else{
+                    self?.registerErrorStringPublisher.accept(NetworkingErrors.unknownError.localizedDescription)
+                    return
+                }
+                guard let data = data else {
+                    self?.registerErrorStringPublisher.accept(NetworkingErrors.noData.localizedDescription)
+                    return
+                }
+
+                if !(200..<300).contains(httpResponse.statusCode) && httpResponse.statusCode != 500{
+                    self?.registerErrorStringPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode).localizedDescription)
+                }
+                
+                if httpResponse.statusCode == 500 {
+                    do{
+                        let decodedMessage = try JSONDecoder().decode(AuthErrorsMessage.self, from: data)
+                        self?.registerErrorStringPublisher.accept(decodedMessage.message)
+                        return
+                    }catch{
+                        self?.registerErrorStringPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                    }
+                }
+                
+                let decodedMessage = String(data: data, encoding: .utf8)
+                self?.registerSuccessPublisher.accept(())
+                print("Response: \(decodedMessage ?? "sa")")
+                self?.registerErrorStringPublisher.accept(decodedMessage ?? "")
             }
-        }
+        }.resume()
     }
 
-    
     
     
 }
+
+

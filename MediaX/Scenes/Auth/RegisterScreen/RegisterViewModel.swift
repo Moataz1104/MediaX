@@ -27,7 +27,7 @@ class RegisterViewModel {
         self.disposeBag = disposeBage
         
         subscribeToErrorPublisher()
-        subscribeToDataPublisher()
+        subscribeToRegisterSuccPublisher()
         
         sendRequest()
     }
@@ -79,6 +79,7 @@ class RegisterViewModel {
             .withLatestFrom(combineFields())
             .do {[weak self] userName,email,password in
                 self?.activityIndicatorRelay.accept(true)
+                print(userName,email,password)
                 APIAuth.shared.registerUser(userName: userName, email: email, password: password)
             }
             .subscribe()
@@ -96,8 +97,8 @@ class RegisterViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func subscribeToDataPublisher(){
-        APIAuth.shared.resultDataPublisher
+    private func subscribeToRegisterSuccPublisher(){
+        APIAuth.shared.registerSuccessPublisher
             .subscribe { [weak self] event in
                 self?.activityIndicatorRelay.accept(false)
 
