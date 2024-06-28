@@ -40,9 +40,13 @@
 		00C92C4E2C23992200358924 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4D2C23992200358924 /* APIConstants.swift */; };
 		00C92C522C239C0100358924 /* APIAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C512C239C0100358924 /* APIAuth.swift */; };
 		00C92C542C249F5200358924 /* AuthResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C532C249F5200358924 /* AuthResponses.swift */; };
+		00D827242C2F68A70033B6E4 /* StoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D827222C2F68A70033B6E4 /* StoryCollectionViewCell.swift */; };
+		00D827252C2F68A70033B6E4 /* StoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00D827232C2F68A70033B6E4 /* StoryCollectionViewCell.xib */; };
+		00D827272C2F68E80033B6E4 /* StoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D827262C2F68E80033B6E4 /* StoriesTableViewCell.swift */; };
 		00E8C9ED2C2331F6008A3996 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8C9EB2C2331F6008A3996 /* RegisterView.swift */; };
 		00E8C9EE2C2331F6008A3996 /* RegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00E8C9EC2C2331F6008A3996 /* RegisterView.xib */; };
 		00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */; };
+		00F1EBF52C2E39C900CE0DA5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F1EBF42C2E39C900CE0DA5 /* HomeViewModel.swift */; };
 		E1F5B06D58CC3457AA679DF1 /* Pods_MediaX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */; };
 /* End PBXBuildFile section */
 
@@ -82,9 +86,13 @@
 		00C92C4D2C23992200358924 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		00C92C512C239C0100358924 /* APIAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIAuth.swift; sourceTree = "<group>"; };
 		00C92C532C249F5200358924 /* AuthResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponses.swift; sourceTree = "<group>"; };
+		00D827222C2F68A70033B6E4 /* StoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		00D827232C2F68A70033B6E4 /* StoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		00D827262C2F68E80033B6E4 /* StoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesTableViewCell.swift; sourceTree = "<group>"; };
 		00E8C9EB2C2331F6008A3996 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		00E8C9EC2C2331F6008A3996 /* RegisterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterView.xib; sourceTree = "<group>"; };
 		00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
+		00F1EBF42C2E39C900CE0DA5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		1BF2EB1D77B7F74D198EC9FC /* Pods-MediaX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaX.debug.xcconfig"; path = "Target Support Files/Pods-MediaX/Pods-MediaX.debug.xcconfig"; sourceTree = "<group>"; };
 		A3023D612AD1B91F7229DA2C /* Pods-MediaX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaX.release.xcconfig"; path = "Target Support Files/Pods-MediaX/Pods-MediaX.release.xcconfig"; sourceTree = "<group>"; };
 		F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +156,7 @@
 			children = (
 				006A0C5F2C1F851F00457AD9 /* Auth */,
 				00ACB10B2C28779E00932E44 /* TabBar */,
+				00ACB1322C2CF00400932E44 /* CustomViews */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -155,7 +164,6 @@
 		006A0C592C1F81CC00457AD9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				00ACB1322C2CF00400932E44 /* CustomViews */,
 				00ACB12F2C2CDC5C00932E44 /* HandlingErrors */,
 				00ACB12C2C28F10B00932E44 /* Helpers */,
 				00ACB1272C28E90A00932E44 /* TextFieldsValidation */,
@@ -224,6 +232,7 @@
 			children = (
 				00ACB1232C289B5E00932E44 /* HomeView.swift */,
 				00ACB1242C289B5E00932E44 /* HomeView.xib */,
+				00F1EBF42C2E39C900CE0DA5 /* HomeViewModel.swift */,
 			);
 			path = HomeScreen;
 			sourceTree = "<group>";
@@ -282,6 +291,7 @@
 		00ACB1322C2CF00400932E44 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				00D827212C2F68280033B6E4 /* StoryViews */,
 				00ACB1332C2CF00B00932E44 /* RegisterationAlert */,
 			);
 			path = CustomViews;
@@ -303,6 +313,16 @@
 				00C92C512C239C0100358924 /* APIAuth.swift */,
 			);
 			path = APIServices;
+			sourceTree = "<group>";
+		};
+		00D827212C2F68280033B6E4 /* StoryViews */ = {
+			isa = PBXGroup;
+			children = (
+				00D827222C2F68A70033B6E4 /* StoryCollectionViewCell.swift */,
+				00D827232C2F68A70033B6E4 /* StoryCollectionViewCell.xib */,
+				00D827262C2F68E80033B6E4 /* StoriesTableViewCell.swift */,
+			);
+			path = StoryViews;
 			sourceTree = "<group>";
 		};
 		00E8C9EA2C2331D2008A3996 /* RegisterScreen */ = {
@@ -411,6 +431,7 @@
 				006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */,
 				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
 				00ACB11E2C28785D00932E44 /* NotificationView.xib in Resources */,
+				00D827252C2F68A70033B6E4 /* StoryCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,7 +494,9 @@
 				00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */,
 				00C92C542C249F5200358924 /* AuthResponses.swift in Sources */,
 				00C92C4E2C23992200358924 /* APIConstants.swift in Sources */,
+				00F1EBF52C2E39C900CE0DA5 /* HomeViewModel.swift in Sources */,
 				00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */,
+				00D827242C2F68A70033B6E4 /* StoryCollectionViewCell.swift in Sources */,
 				00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */,
 				006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */,
 				00ACB12B2C28F0DE00932E44 /* DataExtension.swift in Sources */,
@@ -482,6 +505,7 @@
 				00ACB1312C2CDC8A00932E44 /* NetworkingErrors.swift in Sources */,
 				00C92C492C23720400358924 /* LogInViewModel.swift in Sources */,
 				00E8C9ED2C2331F6008A3996 /* RegisterView.swift in Sources */,
+				00D827272C2F68E80033B6E4 /* StoriesTableViewCell.swift in Sources */,
 				00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */,
 				006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */,
 				006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */,

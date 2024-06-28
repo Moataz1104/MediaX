@@ -43,11 +43,7 @@ class MainCoordinator : Coordinator{
     }
     
     func showTabBar() {
-        
-        
-        
         let tabBarController = UITabBarController()
-        
         
         tabBarController.tabBar.barStyle = .black
         tabBarController.tabBar.backgroundColor = .main
@@ -56,15 +52,10 @@ class MainCoordinator : Coordinator{
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .main
         
-        
         appearance.stackedLayoutAppearance.normal.iconColor = .white
-        
         appearance.stackedLayoutAppearance.selected.iconColor = .white
-        
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.clear]
-        
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white , NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .semibold)]
-        
         
         tabBarController.tabBar.standardAppearance = appearance
         
@@ -90,7 +81,6 @@ class MainCoordinator : Coordinator{
             items[0].selectedImage = UIImage(systemName: "house")
             items[0].title = "Home"
             
-            
             items[1].image = UIImage(systemName: "magnifyingglass")
             items[1].selectedImage = UIImage(systemName: "magnifyingglass")
             items[1].title = "Search"
@@ -105,9 +95,8 @@ class MainCoordinator : Coordinator{
         }
         
         navigationController.setViewControllers([tabBarController], animated: true)
-        
     }
-    
+
     
     
     //    MARK: - Handle the access token time

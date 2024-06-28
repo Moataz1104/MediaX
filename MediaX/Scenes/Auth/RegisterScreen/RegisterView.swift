@@ -218,7 +218,7 @@ class RegisterView: UIViewController {
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
                 
-                // Presenting from the current view controller
+                
                 self?.present(vc, animated: true, completion: nil)
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 6){
