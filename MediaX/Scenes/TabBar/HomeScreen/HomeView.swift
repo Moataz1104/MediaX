@@ -61,7 +61,7 @@ class HomeView: UIViewController {
     }
     
     private func registerCells(){
-        tableView.register(StoriesTableViewCell.self, forCellReuseIdentifier: StoriesTableViewCell.identifier)
+        tableView.register(UINib(nibName: StoriesTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: StoriesTableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "NormalCell")
 
     }
@@ -98,7 +98,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 100
+            return 70
         } else {
             return UITableView.automaticDimension
         }
