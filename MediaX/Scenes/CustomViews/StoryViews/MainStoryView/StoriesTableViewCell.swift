@@ -32,8 +32,9 @@ class StoriesTableViewCell: UITableViewCell {
 
         collectionView.collectionViewLayout = layout
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(UINib(nibName: StoryCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: StoryCollectionViewCell.identifier)
         collectionView.register(UINib(nibName: MyStoryCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MyStoryCollectionViewCell.identifier)
+
+        collectionView.register(UINib(nibName: StoryCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: StoryCollectionViewCell.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
     }
