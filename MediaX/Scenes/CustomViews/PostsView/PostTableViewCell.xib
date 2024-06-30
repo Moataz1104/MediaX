@@ -136,9 +136,15 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="commentButton" destination="3zF-9Y-tVy" id="hGG-EN-XmW"/>
+                <outlet property="loveButton" destination="eCd-Hs-gqm" id="hxM-sC-FOI"/>
+                <outlet property="numberOfLikesLabel" destination="VML-FG-ojF" id="0So-j2-R40"/>
                 <outlet property="postContent" destination="UAx-ts-Jz0" id="wCw-CT-NKT"/>
                 <outlet property="postImage" destination="B6N-ha-aJW" id="1Pw-bv-ep0"/>
+                <outlet property="settingButton" destination="anM-wp-7pb" id="oet-MU-DjI"/>
+                <outlet property="userBio" destination="1RM-6R-rp5" id="8Ec-gP-Wj7"/>
                 <outlet property="userImage" destination="WBU-sn-hYM" id="qO8-7w-WsF"/>
+                <outlet property="userName" destination="XHn-Um-Y6y" id="KBg-Wf-Rs0"/>
             </connections>
             <point key="canvasLocation" x="326.71755725190837" y="238.02816901408451"/>
         </tableViewCell>

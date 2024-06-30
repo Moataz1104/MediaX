@@ -60,6 +60,9 @@ class MainCoordinator : Coordinator{
         tabBarController.tabBar.standardAppearance = appearance
         
         let tab1Coordinator = HomeCoordinator(navigationController: UINavigationController())
+        
+        tab1Coordinator.delegate = self
+
         let tab2Coordinator = SearchCoordinator(navigationController: UINavigationController())
         let tab3Coordinator = NotificationCoordinator(navigationController: UINavigationController())
         let tab4Coordinator = ProfileCoordinator(navigationController: UINavigationController())
@@ -96,6 +99,21 @@ class MainCoordinator : Coordinator{
         
         navigationController.setViewControllers([tabBarController], animated: true)
     }
+    
+    private func hideTabBarDuringScrolling() {
+        guard let tabBarController = navigationController.viewControllers.first as? UITabBarController else { return }
+        UIView.animate(withDuration: 0.5) {
+            tabBarController.tabBar.frame.origin.y = UIScreen.main.bounds.height 
+        }
+    }
+
+    private func showTabBarDuringScrolling() {
+        guard let tabBarController = navigationController.viewControllers.first as? UITabBarController else { return }
+        UIView.animate(withDuration: 0.5) {
+            tabBarController.tabBar.frame.origin.y = UIScreen.main.bounds.height - tabBarController.tabBar.frame.height
+        }
+    }
+
 
     
     
@@ -144,6 +162,9 @@ class MainCoordinator : Coordinator{
     
 }
 
+    
+
+
 
 extension MainCoordinator: AuthCoordinatorDelegate {
     func didLoginSuccessfully() {
@@ -151,5 +172,15 @@ extension MainCoordinator: AuthCoordinatorDelegate {
             self?.startSession()
             self?.showTabBar()
         }
+    }
+}
+
+extension MainCoordinator: HomeViewDelegate {
+    func didScrollDown() {
+        hideTabBarDuringScrolling()
+    }
+
+    func didScrollUp() {
+        showTabBarDuringScrolling()
     }
 }

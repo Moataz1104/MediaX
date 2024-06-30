@@ -12,8 +12,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeView" customModule="MediaX" customModuleProvider="target">
             <connections>
+                <outlet property="addPostButton" destination="CNP-yR-lqv" id="QGn-8K-0HI"/>
                 <outlet property="logoStack" destination="ahM-NX-YJx" id="jBy-bZ-lW7"/>
                 <outlet property="logoStackHeightConstraint" destination="ivR-AE-Tgw" id="gfF-fU-Fep"/>
+                <outlet property="notifiButton" destination="Trv-MU-ufw" id="1HP-e2-slw"/>
                 <outlet property="tableView" destination="f69-F5-o6H" id="x9b-sW-15k"/>
                 <outlet property="tableViewTopConstraint" destination="Mpa-eH-BXR" id="Hhn-Gm-D6G"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -60,7 +62,7 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f69-F5-o6H">
-                    <rect key="frame" x="20" y="84" width="353" height="734"/>
+                    <rect key="frame" x="20" y="84" width="353" height="768"/>
                     <color key="backgroundColor" name="BackGroundMain"/>
                     <color key="sectionIndexBackgroundColor" name="BackGroundMain"/>
                 </tableView>
@@ -68,7 +70,7 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="BackGroundMain"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="f69-F5-o6H" secondAttribute="bottom" id="7eO-h9-Ede"/>
+                <constraint firstAttribute="bottom" secondItem="f69-F5-o6H" secondAttribute="bottom" id="7eO-h9-Ede"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ahM-NX-YJx" secondAttribute="trailing" constant="20" id="Dn7-PQ-96J"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="EUW-zT-ITK"/>
                 <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="Mpa-eH-BXR"/>

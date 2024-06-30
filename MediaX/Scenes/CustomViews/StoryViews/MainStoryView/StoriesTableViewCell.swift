@@ -26,7 +26,7 @@ class StoriesTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 15
         
-        let collectionViewHeight: CGFloat = 100
+        let collectionViewHeight: CGFloat = 120
         let itemHeight: CGFloat = collectionViewHeight - layout.minimumLineSpacing * 2
         layout.itemSize = CGSize(width: itemHeight, height: itemHeight)
 

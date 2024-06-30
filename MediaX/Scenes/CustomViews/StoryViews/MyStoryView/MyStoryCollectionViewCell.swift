@@ -11,7 +11,6 @@ class MyStoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "MyStoryCollectionViewCell"
     
     @IBOutlet weak var myImage: UIImageView!
-    @IBOutlet weak var addStoryButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
@@ -19,9 +18,9 @@ class MyStoryCollectionViewCell: UICollectionViewCell {
     }
     
     private func configUi(){
-        addStoryButton.layer.cornerRadius = 3
         myImage.layer.cornerRadius = myImage.bounds.width / 2
         myImage.clipsToBounds = true
+        
 
     }
     

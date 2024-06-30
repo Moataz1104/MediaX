@@ -10,6 +10,13 @@ import RxSwift
 import RxCocoa
 
 
+protocol HomeViewDelegate: AnyObject {
+    func didScrollDown()
+    func didScrollUp()
+}
+
+
+
 class HomeView: UIViewController {
     
 //    MARK: - Attributes
@@ -21,7 +28,11 @@ class HomeView: UIViewController {
     @IBOutlet weak var logoStack: UIStackView!
     @IBOutlet weak var logoStackHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var notifiButton: UIButton!
+    @IBOutlet weak var addPostButton: UIButton!
     
+    weak var delegate : HomeViewDelegate?
+
 
     private var previousScrollOffset: CGFloat = 0.0
     private var isLogoStackHidden = false
@@ -97,7 +108,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 70
+            return 90
         } else {
             return 630
         }
@@ -109,8 +120,10 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
 
         if offsetDifference > 0 && !isLogoStackHidden {
             hideLogoStack()
+            delegate?.didScrollDown()
         } else if offsetDifference < 0 && isLogoStackHidden {
             showLogoStack()
+            delegate?.didScrollUp()
         }
 
         previousScrollOffset = currentOffset

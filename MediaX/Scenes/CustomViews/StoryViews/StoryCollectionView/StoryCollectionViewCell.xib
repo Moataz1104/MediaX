@@ -17,23 +17,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="313" height="230"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="KqJ-hE-cAc">
-                        <rect key="frame" x="126.66666666666669" y="97.666666666666671" width="60" height="60.000000000000014"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="60" id="KSe-DC-bWf"/>
-                            <constraint firstAttribute="width" constant="60" id="gNH-Pe-w00"/>
-                        </constraints>
-                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="iaA-EU-MP6">
+                        <rect key="frame" x="126.66666666666669" y="89.666666666666671" width="60" height="76.000000000000014"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="V7D-Ch-dxc">
+                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Obl-Ro-FLa"/>
+                                    <constraint firstAttribute="width" constant="60" id="Q1S-rr-bOI"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userNmae" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v53-xX-s27">
+                                <rect key="frame" x="4.3333333333333286" y="63.999999999999986" width="51" height="12"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="KqJ-hE-cAc" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="AKP-NR-jru"/>
-                <constraint firstItem="KqJ-hE-cAc" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="LBc-zs-cns"/>
+                <constraint firstItem="iaA-EU-MP6" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="IR8-vW-bVF"/>
+                <constraint firstItem="iaA-EU-MP6" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="Pzu-z4-HkC"/>
             </constraints>
             <size key="customSize" width="313" height="230"/>
             <connections>
-                <outlet property="userStory" destination="KqJ-hE-cAc" id="1ST-fm-fVf"/>
+                <outlet property="userImage" destination="V7D-Ch-dxc" id="23s-HB-S0E"/>
+                <outlet property="userName" destination="v53-xX-s27" id="MIm-5b-DCB"/>
             </connections>
             <point key="canvasLocation" x="156.4885496183206" y="-7.042253521126761"/>
         </collectionViewCell>

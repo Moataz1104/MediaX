@@ -11,11 +11,14 @@ import RxCocoa
 import RxSwift
 
 
+
 class HomeCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
     
     var navigationController: UINavigationController
     
+    weak var delegate: HomeViewDelegate?
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
@@ -25,6 +28,7 @@ class HomeCoordinator:Coordinator{
         let disposeBag = DisposeBag()
         let viewModel = HomeViewModel(disposeBag: disposeBag, coordinator: self)
         let vc = HomeView(disposeBag: disposeBag, viewModel: viewModel)
+        vc.delegate = delegate
         
         navigationController.pushViewController(vc, animated: true)
     }

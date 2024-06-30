@@ -10,7 +10,8 @@ import UIKit
 class StoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "StoryCollectionViewCell"
     
-    @IBOutlet weak var userStory: UIImageView!
+    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var userName: UILabel!
     
     
     override func awakeFromNib() {
@@ -20,8 +21,8 @@ class StoryCollectionViewCell: UICollectionViewCell {
     }
     
     private func configUi(){
-        userStory.layer.cornerRadius = userStory.bounds.width / 2
-        userStory.clipsToBounds = true
+        userImage.layer.cornerRadius = userImage.bounds.width / 2
+        userImage.clipsToBounds = true
 
     }
 }
