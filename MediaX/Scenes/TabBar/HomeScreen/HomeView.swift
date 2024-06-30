@@ -28,8 +28,6 @@ class HomeView: UIViewController {
     @IBOutlet weak var logoStack: UIStackView!
     @IBOutlet weak var logoStackHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var notifiButton: UIButton!
-    @IBOutlet weak var addPostButton: UIButton!
     
     weak var delegate : HomeViewDelegate?
 
@@ -57,7 +55,6 @@ class HomeView: UIViewController {
     }
     
     
-
 //    MARK: - privates
     
     
@@ -141,7 +138,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     private func showLogoStack() {
         UIView.animate(withDuration: 0.5) {
             self.logoStackHeightConstraint.constant = 30
-            self.tableViewTopConstraint.constant = 84
+            self.tableViewTopConstraint.constant = 110
             self.view.layoutIfNeeded()
         }
         isLogoStackHidden = false

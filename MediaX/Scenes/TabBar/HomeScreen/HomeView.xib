@@ -12,10 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeView" customModule="MediaX" customModuleProvider="target">
             <connections>
-                <outlet property="addPostButton" destination="CNP-yR-lqv" id="QGn-8K-0HI"/>
                 <outlet property="logoStack" destination="ahM-NX-YJx" id="jBy-bZ-lW7"/>
                 <outlet property="logoStackHeightConstraint" destination="ivR-AE-Tgw" id="gfF-fU-Fep"/>
-                <outlet property="notifiButton" destination="Trv-MU-ufw" id="1HP-e2-slw"/>
                 <outlet property="tableView" destination="f69-F5-o6H" id="x9b-sW-15k"/>
                 <outlet property="tableViewTopConstraint" destination="Mpa-eH-BXR" id="Hhn-Gm-D6G"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -27,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="ahM-NX-YJx" userLabel="LogoStack">
-                    <rect key="frame" x="20" y="50" width="353" height="30"/>
+                    <rect key="frame" x="20" y="70" width="353" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Media X" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JP-x2-kIN">
                             <rect key="frame" x="0.0" y="0.0" width="94.333333333333329" height="30"/>
@@ -36,22 +34,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dAB-L6-iZN">
-                            <rect key="frame" x="300" y="0.0" width="53" height="30"/>
+                            <rect key="frame" x="353" y="0.0" width="0.0" height="30"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNP-yR-lqv">
-                                    <rect key="frame" x="0.0" y="0.0" width="23" height="30"/>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNP-yR-lqv">
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="22"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal">
                                         <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
-                                    </state>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Trv-MU-ufw">
-                                    <rect key="frame" x="28" y="0.0" width="25" height="30"/>
-                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal">
-                                        <imageReference key="image" image="bell" catalog="system" symbolScale="large"/>
                                     </state>
                                 </button>
                             </subviews>
@@ -62,8 +52,8 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f69-F5-o6H">
-                    <rect key="frame" x="20" y="84" width="353" height="768"/>
-                    <color key="backgroundColor" name="BackGroundMain"/>
+                    <rect key="frame" x="20" y="59" width="353" height="793"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="sectionIndexBackgroundColor" name="BackGroundMain"/>
                 </tableView>
             </subviews>
@@ -72,8 +62,8 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="f69-F5-o6H" secondAttribute="bottom" id="7eO-h9-Ede"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ahM-NX-YJx" secondAttribute="trailing" constant="20" id="Dn7-PQ-96J"/>
-                <constraint firstItem="ahM-NX-YJx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="EUW-zT-ITK"/>
-                <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="Mpa-eH-BXR"/>
+                <constraint firstItem="ahM-NX-YJx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="EUW-zT-ITK"/>
+                <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="Mpa-eH-BXR"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Q0Z-NP-VOj"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="c5s-kn-JFZ"/>
                 <constraint firstItem="f69-F5-o6H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="i14-Na-Jjw"/>
@@ -83,7 +73,6 @@
         </view>
     </objects>
     <resources>
-        <image name="bell" catalog="system" width="125" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <namedColor name="BackGroundMain">
             <color red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -60,24 +60,28 @@ class MainCoordinator : Coordinator{
         tabBarController.tabBar.standardAppearance = appearance
         
         let tab1Coordinator = HomeCoordinator(navigationController: UINavigationController())
-        
         tab1Coordinator.delegate = self
 
         let tab2Coordinator = SearchCoordinator(navigationController: UINavigationController())
-        let tab3Coordinator = NotificationCoordinator(navigationController: UINavigationController())
-        let tab4Coordinator = ProfileCoordinator(navigationController: UINavigationController())
         
-        childCoordinators.append(contentsOf: [tab1Coordinator as Coordinator, tab2Coordinator as Coordinator, tab3Coordinator as Coordinator, tab4Coordinator as Coordinator])
+        let tab3Coordinator = AddPostCoordinator(navigationController: UINavigationController())
+        
+        let tab4Coordinator = NotificationCoordinator(navigationController: UINavigationController())
+        let tab5Coordinator = ProfileCoordinator(navigationController: UINavigationController())
+        
+        childCoordinators.append(contentsOf: [tab1Coordinator as Coordinator, tab2Coordinator as Coordinator,tab3Coordinator as Coordinator, tab4Coordinator as Coordinator, tab5Coordinator as Coordinator])
         
         tab1Coordinator.start()
         tab2Coordinator.start()
         tab3Coordinator.start()
         tab4Coordinator.start()
+        tab5Coordinator.start()
         
         tabBarController.viewControllers = [tab1Coordinator.navigationController,
                                             tab2Coordinator.navigationController,
                                             tab3Coordinator.navigationController,
-                                            tab4Coordinator.navigationController]
+                                            tab4Coordinator.navigationController,
+                                            tab5Coordinator.navigationController]
         
         if let items = tabBarController.tabBar.items {
             items[0].image = UIImage(systemName: "house")
@@ -88,13 +92,18 @@ class MainCoordinator : Coordinator{
             items[1].selectedImage = UIImage(systemName: "magnifyingglass")
             items[1].title = "Search"
             
-            items[2].image = UIImage(systemName: "bell")
-            items[2].selectedImage = UIImage(systemName: "bell")
-            items[2].title = "Notification"
+            items[2].image = UIImage(named: "PlusIcon")
+            items[2].selectedImage = UIImage(named: "PlusIcon")
+            items[2].title = "Post"
+
             
-            items[3].image = UIImage(systemName: "person")
-            items[3].selectedImage = UIImage(systemName: "person")
-            items[3].title = "Profile"
+            items[3].image = UIImage(systemName: "bell")
+            items[3].selectedImage = UIImage(systemName: "bell")
+            items[3].title = "Notification"
+            
+            items[4].image = UIImage(systemName: "person")
+            items[4].selectedImage = UIImage(systemName: "person")
+            items[4].title = "Profile"
         }
         
         navigationController.setViewControllers([tabBarController], animated: true)
