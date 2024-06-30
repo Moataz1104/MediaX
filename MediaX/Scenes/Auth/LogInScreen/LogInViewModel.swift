@@ -63,8 +63,9 @@ class LogInViewModel {
     private func subscribeToLogInSuccPublisher(){
         APIAuth.shared.logInSuccessPublisher
             .subscribe { [weak self] event in
-                self?.activityIndicatorRelay.accept(false)
                 self?.coordinator?.delegate?.didLoginSuccessfully()
+                self?.activityIndicatorRelay.accept(false)
+
             }
             .disposed(by: disposeBag)
     }

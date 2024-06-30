@@ -17,18 +17,22 @@ class HomeView: UIViewController {
     let disposeBag:DisposeBag
     let viewModel:HomeViewModel
     
-    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var logoStack: UIStackView!
+    @IBOutlet weak var logoStackHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
     
 
-    
+    private var previousScrollOffset: CGFloat = 0.0
+    private var isLogoStackHidden = false
+
 //    MARK: - View controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         registerCells()
-
-        configUi()
+        
+        
 
     }
     init(disposeBag:DisposeBag,viewModel:HomeViewModel) {
@@ -45,11 +49,6 @@ class HomeView: UIViewController {
 
 //    MARK: - privates
     
-    private func configUi(){
-        mainView.layer.cornerRadius = 50
-        mainView.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
-
-    }
     
     private func setupTableView(){
         tableView.delegate = self
@@ -57,12 +56,13 @@ class HomeView: UIViewController {
 
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
+        tableView.bounces = false 
 
     }
     
     private func registerCells(){
         tableView.register(UINib(nibName: StoriesTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: StoriesTableViewCell.identifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "NormalCell")
+        tableView.register(UINib(nibName: PostTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: PostTableViewCell.identifier)
 
     }
 
@@ -71,7 +71,7 @@ class HomeView: UIViewController {
 
 
 
-extension HomeView : UITableViewDelegate , UITableViewDataSource{
+extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -91,8 +91,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: StoriesTableViewCell.identifier, for: indexPath) as! StoriesTableViewCell
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NormalCell", for: indexPath)
-            cell.textLabel?.text = "Row \(indexPath.row)"
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
             return cell
         }
     }
@@ -100,10 +99,40 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource{
         if indexPath.section == 0 {
             return 70
         } else {
-            return UITableView.automaticDimension
+            return 630
         }
     }
 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        let offsetDifference = currentOffset - previousScrollOffset
 
-    
+        if offsetDifference > 0 && !isLogoStackHidden {
+            hideLogoStack()
+        } else if offsetDifference < 0 && isLogoStackHidden {
+            showLogoStack()
+        }
+
+        previousScrollOffset = currentOffset
+    }
+
+    private func hideLogoStack() {
+        UIView.animate(withDuration: 0.5) {
+            self.logoStackHeightConstraint.constant = 0
+            self.tableViewTopConstraint.constant = 50
+            self.view.layoutIfNeeded()
+        }
+        isLogoStackHidden = true
+    }
+
+    private func showLogoStack() {
+        UIView.animate(withDuration: 0.5) {
+            self.logoStackHeightConstraint.constant = 30
+            self.tableViewTopConstraint.constant = 84
+            self.view.layoutIfNeeded()
+        }
+        isLogoStackHidden = false
+    }
+
+        
 }

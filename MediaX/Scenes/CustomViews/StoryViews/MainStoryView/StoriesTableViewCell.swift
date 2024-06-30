@@ -17,13 +17,14 @@ class StoriesTableViewCell: UITableViewCell {
         super.awakeFromNib()
         setupCollectionView()
         registerAndSetDelegates()
-
+        collectionView.backgroundColor = .backGroundMain
+        collectionView.bounces = false
     }
         
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
+        layout.minimumLineSpacing = 15
         
         let collectionViewHeight: CGFloat = 100
         let itemHeight: CGFloat = collectionViewHeight - layout.minimumLineSpacing * 2
