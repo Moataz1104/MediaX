@@ -59,4 +59,56 @@ class APIPosts {
                 return .error(error)
             }
     }
+    
+    
+    func handleLikes(for postId:String,method:String, accessToken:String){
+        let url = URL(string: apiK.likeUrlString + postId)
+
+        var request = URLRequest(url: url!)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = method
+        
+        URLSession.shared.dataTask(with: request){[weak self] data,response,error in
+            
+            if let error = error {
+                self?.errorPublisher.accept(NetworkingErrors.networkError(error).localizedDescription)
+                print("1")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else{
+                self?.errorPublisher.accept(NetworkingErrors.unknownError.localizedDescription)
+                print("2")
+                return
+            }
+            guard let data = data else {
+                self?.errorPublisher.accept(NetworkingErrors.noData.localizedDescription)
+                print("3")
+                return
+            }
+            
+            if !(200..<300).contains(httpResponse.statusCode) && httpResponse.statusCode != 500{
+                self?.errorPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode).localizedDescription)
+                print("4")
+            }
+            
+            if httpResponse.statusCode == 500 {
+                print("5")
+                do{
+                    let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                    self?.errorPublisher.accept(decodedMessage.message)
+                    return
+                }catch{
+                    self?.errorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                }
+            }
+            
+            print("succsses")
+
+        }.resume()
+        
+
+
+    }
+    
 }

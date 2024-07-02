@@ -14,13 +14,17 @@ class HomeViewModel {
     let disposeBag: DisposeBag
     let coordinator: HomeCoordinator
     let accessToken: String?
-
-    
-    let errorPublisher = PublishRelay<String>()
-    let postsPublisher = PublishRelay<[PostModel]>()
     
     var posts = [PostModel]()
     var reloadTableViewClosure: (() -> Void)?
+
+    let errorPublisher = PublishRelay<String>()
+    let postsPublisher = PublishRelay<[PostModel]>()
+    let likeButtonSubject = PublishRelay<(String,String)>()
+    let commentButtonSubject = PublishRelay<Void>()
+
+    
+
 
     init(disposeBag: DisposeBag, coordinator: HomeCoordinator) {
         self.disposeBag = disposeBag
@@ -31,6 +35,8 @@ class HomeViewModel {
         
         subscribeToErrorPublisher()
         subscribeToGetPostsPublisher()
+        subscribeToLikeButton()
+        
         fetchAllPosts()
     }
     
@@ -73,6 +79,25 @@ class HomeViewModel {
             })
             .disposed(by: disposeBag)
     }
-    
+//    MARK: - Post Cell subscribers
+
+        private func subscribeToLikeButton(){
+            likeButtonSubject
+                .subscribe {[weak self] id,method in
+                    guard let self = self else {return}
+                    APIPosts.shared.handleLikes(for: id, method: method, accessToken: self.accessToken!)
+                }
+                .disposed(by: disposeBag)
+
+        }
+        private func subscribeToCommentButton(){
+            commentButtonSubject
+                .subscribe { _ in
+                    
+                }
+                .disposed(by: disposeBag)
+        }
+
+
         
 }

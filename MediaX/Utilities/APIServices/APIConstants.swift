@@ -17,5 +17,8 @@ struct apiK{
     URL(string: "https://tumbler.onrender.com/v0/auth/register")!
     
     static let allPostsPaginatedURL = URL(string: "https://tumbler.onrender.com/v0/posts/paginated-posts?page=0&size=15")!
+    static let likeUrlString = "https://tumbler.onrender.com/v0/likes/post/"
+
+    
     
 }

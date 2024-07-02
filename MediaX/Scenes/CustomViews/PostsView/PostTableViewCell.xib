@@ -84,8 +84,11 @@
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <imageReference key="image" image="heart.fill" catalog="system" symbolScale="large"/>
+                                                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="likeButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WPl-Eq-bY3"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zF-9Y-tVy">
                                                         <rect key="frame" x="36.666666666666657" y="0.0" width="29" height="26"/>
@@ -96,6 +99,9 @@
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <imageReference key="image" image="text.bubble" catalog="system" symbolScale="large"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="commentButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="j8e-Dd-GlK"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -143,7 +149,7 @@
             <connections>
                 <outlet property="commentButton" destination="3zF-9Y-tVy" id="hGG-EN-XmW"/>
                 <outlet property="indicator" destination="6XU-x1-lLi" id="v5Z-dW-cTK"/>
-                <outlet property="loveButton" destination="eCd-Hs-gqm" id="hxM-sC-FOI"/>
+                <outlet property="likeButton" destination="eCd-Hs-gqm" id="hxM-sC-FOI"/>
                 <outlet property="numberOfLikesLabel" destination="VML-FG-ojF" id="0So-j2-R40"/>
                 <outlet property="postContent" destination="UAx-ts-Jz0" id="wCw-CT-NKT"/>
                 <outlet property="postImage" destination="B6N-ha-aJW" id="1Pw-bv-ep0"/>
@@ -157,7 +163,7 @@
     </objects>
     <resources>
         <image name="detailImage" width="20" height="20.333333969116211"/>
-        <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
         <image name="me" width="768" height="1024"/>
         <image name="square.and.arrow.up" catalog="system" width="108" height="128"/>
         <image name="text.bubble" catalog="system" width="128" height="110"/>

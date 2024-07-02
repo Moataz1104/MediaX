@@ -108,7 +108,8 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
-            
+            cell.viewModel = viewModel
+            cell.post = viewModel.posts[indexPath.row]
             cell.configureCell(with: viewModel.posts[indexPath.row], accessToken: viewModel.accessToken!)
             
             return cell
