@@ -61,7 +61,7 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="B6N-ha-aJW">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B6N-ha-aJW">
                                 <rect key="frame" x="0.0" y="55" width="340" height="370"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="340" id="EF5-6I-Zui"/>
@@ -127,16 +127,22 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="6XU-x1-lLi">
+                        <rect key="frame" x="293.66666666666669" y="313.66666666666669" width="37" height="37"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="bhU-yT-dtP" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="SE1-eU-46I"/>
                     <constraint firstItem="bhU-yT-dtP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Vqd-7y-wRQ"/>
+                    <constraint firstItem="6XU-x1-lLi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="X1r-WM-xLc"/>
+                    <constraint firstItem="6XU-x1-lLi" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="oDr-qD-xKx"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="commentButton" destination="3zF-9Y-tVy" id="hGG-EN-XmW"/>
+                <outlet property="indicator" destination="6XU-x1-lLi" id="v5Z-dW-cTK"/>
                 <outlet property="loveButton" destination="eCd-Hs-gqm" id="hxM-sC-FOI"/>
                 <outlet property="numberOfLikesLabel" destination="VML-FG-ojF" id="0So-j2-R40"/>
                 <outlet property="postContent" destination="UAx-ts-Jz0" id="wCw-CT-NKT"/>
@@ -150,7 +156,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="2" width="4032" height="3024"/>
         <image name="detailImage" width="20" height="20.333333969116211"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="me" width="768" height="1024"/>

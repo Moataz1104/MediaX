@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0016E7272C33816F007EFADF /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7262C33816F007EFADF /* PostModel.swift */; };
+		0016E7292C3381E8007EFADF /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7282C3381E8007EFADF /* CommentModel.swift */; };
+		0016E72B2C33A1CF007EFADF /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E72A2C33A1CF007EFADF /* UIImageViewExtension.swift */; };
 		006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C402C1F74F600457AD9 /* AppDelegate.swift */; };
 		006A0C432C1F74F600457AD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C422C1F74F600457AD9 /* SceneDelegate.swift */; };
 		006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C492C1F74F700457AD9 /* Assets.xcassets */; };
@@ -40,6 +43,7 @@
 		00BA3A512C3219C8001592B6 /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BA3A4F2C3219C8001592B6 /* AddPostView.swift */; };
 		00BA3A522C3219C8001592B6 /* AddPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00BA3A502C3219C8001592B6 /* AddPostView.xib */; };
 		00BA3A542C321EAC001592B6 /* AddPostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BA3A532C321EAC001592B6 /* AddPostCoordinator.swift */; };
+		00BA3A572C323477001592B6 /* APIPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BA3A562C323477001592B6 /* APIPosts.swift */; };
 		00C92C492C23720400358924 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C482C23720400358924 /* LogInViewModel.swift */; };
 		00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4A2C23721F00358924 /* RegisterViewModel.swift */; };
 		00C92C4E2C23992200358924 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C92C4D2C23992200358924 /* APIConstants.swift */; };
@@ -59,6 +63,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0016E7262C33816F007EFADF /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		0016E7282C3381E8007EFADF /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		0016E72A2C33A1CF007EFADF /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		006A0C3D2C1F74F600457AD9 /* MediaX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006A0C402C1F74F600457AD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		006A0C422C1F74F600457AD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +101,7 @@
 		00BA3A4F2C3219C8001592B6 /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
 		00BA3A502C3219C8001592B6 /* AddPostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddPostView.xib; sourceTree = "<group>"; };
 		00BA3A532C321EAC001592B6 /* AddPostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostCoordinator.swift; sourceTree = "<group>"; };
+		00BA3A562C323477001592B6 /* APIPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPosts.swift; sourceTree = "<group>"; };
 		00C92C482C23720400358924 /* LogInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		00C92C4A2C23721F00358924 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		00C92C4D2C23992200358924 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -163,6 +171,8 @@
 			isa = PBXGroup;
 			children = (
 				00C92C532C249F5200358924 /* AuthResponses.swift */,
+				0016E7262C33816F007EFADF /* PostModel.swift */,
+				0016E7282C3381E8007EFADF /* CommentModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -348,6 +358,7 @@
 			children = (
 				00C92C4D2C23992200358924 /* APIConstants.swift */,
 				00C92C512C239C0100358924 /* APIAuth.swift */,
+				00BA3A562C323477001592B6 /* APIPosts.swift */,
 			);
 			path = APIServices;
 			sourceTree = "<group>";
@@ -404,6 +415,7 @@
 			children = (
 				00E8C9F02C233E61008A3996 /* UITextFieldExtension.swift */,
 				00ACB12A2C28F0DE00932E44 /* DataExtension.swift */,
+				0016E72A2C33A1CF007EFADF /* UIImageViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -556,6 +568,7 @@
 				00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */,
 				00BA3A482C30B2B2001592B6 /* PostTableViewCell.swift in Sources */,
 				00ACB1382C2CF4BD00932E44 /* RegisterAlertView.swift in Sources */,
+				00BA3A572C323477001592B6 /* APIPosts.swift in Sources */,
 				00ACB11D2C28785D00932E44 /* NotificationView.swift in Sources */,
 				00C92C522C239C0100358924 /* APIAuth.swift in Sources */,
 				006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */,
@@ -574,14 +587,17 @@
 				006A0C642C1F855000457AD9 /* LogInView.swift in Sources */,
 				00ACB1292C28E92800932E44 /* FieldsValidation.swift in Sources */,
 				00ACB1312C2CDC8A00932E44 /* NetworkingErrors.swift in Sources */,
+				0016E72B2C33A1CF007EFADF /* UIImageViewExtension.swift in Sources */,
 				00C92C492C23720400358924 /* LogInViewModel.swift in Sources */,
 				00BA3A512C3219C8001592B6 /* AddPostView.swift in Sources */,
+				0016E7292C3381E8007EFADF /* CommentModel.swift in Sources */,
 				00E8C9ED2C2331F6008A3996 /* RegisterView.swift in Sources */,
 				00D8272A2C309DE80033B6E4 /* StoriesTableViewCell.swift in Sources */,
 				00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */,
 				006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */,
 				006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */,
 				00ACB10A2C28777E00932E44 /* ProfileCoordinator.swift in Sources */,
+				0016E7272C33816F007EFADF /* PostModel.swift in Sources */,
 				00ACB12E2C28F13600932E44 /* GenerateMultiPartFile.swift in Sources */,
 				006A0C432C1F74F600457AD9 /* SceneDelegate.swift in Sources */,
 				00ACB1212C28786C00932E44 /* ProfileView.swift in Sources */,

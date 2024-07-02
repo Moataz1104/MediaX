@@ -59,7 +59,7 @@ class APIAuth {
             
             if httpResponse.statusCode == 500 {
                 do{
-                    let decodedMessage = try JSONDecoder().decode(AuthErrorsMessage.self, from: data)
+                    let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
                     self?.logInErrorPublisher.accept(decodedMessage.message)
                     return
                 }catch{
@@ -70,13 +70,12 @@ class APIAuth {
             
             
             
-            print("Request successful. Response data: \(data)")
             do {
                 let response = try JSONDecoder().decode(TokenResponse.self, from: data)
-                self?.logInSuccessPublisher.accept(())
                 let _:Bool = KeychainWrapper.standard.set(response.token, forKey: "token")
+                self?.logInSuccessPublisher.accept(())
                 UserDefaults.standard.set(Date(), forKey: "loginTimestamp")
-                print(response.token)
+                
             } catch {
                 print("Error decoding response: \(error)")
                 self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
@@ -134,7 +133,7 @@ class APIAuth {
                 
                 if httpResponse.statusCode == 500 {
                     do{
-                        let decodedMessage = try JSONDecoder().decode(AuthErrorsMessage.self, from: data)
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
                         self?.registerErrorStringPublisher.accept(decodedMessage.message)
                         return
                     }catch{

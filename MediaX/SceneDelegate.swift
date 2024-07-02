@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftKeychainWrapper
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -19,8 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         coordinator = MainCoordinator(navigationController: navigationController)
+        let accessToken :String? = KeychainWrapper.standard.string(forKey: "token")
         
-        
+        coordinator?.accessToken = accessToken
+//        coordinator?.logOut()
         
         
         if let loginTimestamp = UserDefaults.standard.object(forKey: "loginTimestamp") as? Date {

@@ -41,6 +41,8 @@ class HomeView: UIViewController {
         setupTableView()
         registerCells()
         
+        reloadTableView()
+        
         
 
     }
@@ -73,6 +75,12 @@ class HomeView: UIViewController {
         tableView.register(UINib(nibName: PostTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: PostTableViewCell.identifier)
 
     }
+    
+    func reloadTableView(){
+        viewModel.reloadTableViewClosure = {[weak self] in
+            self?.tableView.reloadData()
+        }
+    }
 
 
 }
@@ -90,7 +98,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         if section == 0 {
             return 1
         } else {
-            return 20
+            return viewModel.posts.count
         }
     }
 
@@ -100,6 +108,9 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+            
+            cell.configureCell(with: viewModel.posts[indexPath.row], accessToken: viewModel.accessToken!)
+            
             return cell
         }
     }

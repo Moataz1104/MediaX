@@ -23,7 +23,7 @@ class MainCoordinator : Coordinator{
     }
     
     
-    let accessToken :String? = KeychainWrapper.standard.string(forKey: "token")
+    var accessToken :String?
     
     
     func start() {
