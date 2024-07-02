@@ -17,15 +17,15 @@ class HomeViewModel {
     
     var posts = [PostModel]()
     var reloadTableViewClosure: (() -> Void)?
-
+    
     let errorPublisher = PublishRelay<String>()
     let postsPublisher = PublishRelay<[PostModel]>()
     let likeButtonSubject = PublishRelay<(String,String)>()
     let commentButtonSubject = PublishRelay<Void>()
-
     
-
-
+    
+    
+    
     init(disposeBag: DisposeBag, coordinator: HomeCoordinator) {
         self.disposeBag = disposeBag
         self.coordinator = coordinator
@@ -72,32 +72,35 @@ class HomeViewModel {
     }
     
     private func subscribeToErrorPublisher() {
-        errorPublisher
+        APIPosts.shared.errorPublisher
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] errorMessage in
                 self?.errorPublisher.accept(errorMessage)
+                print(errorMessage)
             })
             .disposed(by: disposeBag)
     }
-//    MARK: - Post Cell subscribers
-
-        private func subscribeToLikeButton(){
-            likeButtonSubject
-                .subscribe {[weak self] id,method in
-                    guard let self = self else {return}
-                    APIPosts.shared.handleLikes(for: id, method: method, accessToken: self.accessToken!)
-                }
-                .disposed(by: disposeBag)
-
-        }
-        private func subscribeToCommentButton(){
-            commentButtonSubject
-                .subscribe { _ in
-                    
-                }
-                .disposed(by: disposeBag)
-        }
-
-
+    //    MARK: - Post Cell subscribers
+    
+    private func subscribeToLikeButton(){
+        likeButtonSubject
+            .subscribe {[weak self] id,method in
+                guard let self = self else {return}
+                APIPosts.shared.handleLikes(for: id, method: method, accessToken: self.accessToken!)
+                self.fetchAllPosts()
+                
+            }
+            .disposed(by: disposeBag)
         
+    }
+    private func subscribeToCommentButton(){
+        commentButtonSubject
+            .subscribe { _ in
+                
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    
+    
 }
