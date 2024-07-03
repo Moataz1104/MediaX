@@ -17,7 +17,8 @@ class APIPosts {
     }
     
     let errorPublisher = PublishRelay<String>()
-    let dataPublisher = PublishRelay<[PostModel]>()
+    let onePostPublisher = PublishRelay<PostModel>()
+
     
     func getAllPosts(accessToken: String) -> Observable<[PostModel]> {
         print("getallPosts")
@@ -59,6 +60,61 @@ class APIPosts {
                 return .error(error)
             }
     }
+    
+    func getPost(by id : String,accessToken: String) {
+        
+        let url = URL(string:apiK.getOnePostStringUrl + id)!
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        
+        
+        URLSession.shared.dataTask(with: request) {[weak self] data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error: \(error)")
+                    self?.errorPublisher.accept(NetworkingErrors.networkError(error).localizedDescription)
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else{
+                    self?.errorPublisher.accept(NetworkingErrors.unknownError.localizedDescription)
+                    return
+                }
+                guard let data = data else {
+                    self?.errorPublisher.accept(NetworkingErrors.noData.localizedDescription)
+                    return
+                }
+                
+                if !(200..<300).contains(httpResponse.statusCode) && httpResponse.statusCode != 500{
+                    self?.errorPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode).localizedDescription)
+                }
+                
+                if httpResponse.statusCode == 500 {
+                    do{
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        self?.errorPublisher.accept(decodedMessage.message)
+                        return
+                    }catch{
+                        self?.errorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                    }
+                }
+                
+                do{
+                    let decodedPost = try JSONDecoder().decode(PostModel.self, from: data)
+                    
+                    self?.onePostPublisher.accept(decodedPost)
+                    print("One Post :::: \(decodedPost)")
+                }catch{
+                    self?.errorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                }
+            }
+        }.resume()
+        
+    }
+
+
     
     
     func handleLikes(for postId:String, accessToken:String){

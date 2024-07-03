@@ -19,11 +19,10 @@ class HomeViewModel {
     var reloadTableViewClosure: (() -> Void)?
     
     let errorPublisher = PublishRelay<String>()
-    let postsPublisher = PublishRelay<[PostModel]>()
     let likeButtonSubject = PublishRelay<String>()
     let commentButtonSubject = PublishRelay<Void>()
     
-    
+    var postIndex : Int?
     
     
     init(disposeBag: DisposeBag, coordinator: HomeCoordinator) {
@@ -34,7 +33,7 @@ class HomeViewModel {
         
         
         subscribeToErrorPublisher()
-        subscribeToGetPostsPublisher()
+        subscribeToGetOnePostPublisher()
         subscribeToLikeButton()
         
         fetchAllPosts()
@@ -50,7 +49,8 @@ class HomeViewModel {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] posts in
-                    self?.postsPublisher.accept(posts)
+                    self?.posts = posts
+                    self?.reloadTableViewClosure?()
                 },
                 onError: { [weak self] error in
                     self?.errorPublisher.accept(error.localizedDescription)
@@ -59,17 +59,31 @@ class HomeViewModel {
             .disposed(by: disposeBag)
     }
     
+    func fetchOnePost(by id:String,index:Int){
+        guard let accessToken = accessToken else {
+            errorPublisher.accept("Access token is nil")
+            return
+        }
+        APIPosts.shared.getPost(by: id, accessToken: accessToken)
+        postIndex = index
+    }
+    
     // MARK: - API subscribers
     
-    private func subscribeToGetPostsPublisher() {
-        postsPublisher
+    private func subscribeToGetOnePostPublisher() {
+        APIPosts.shared.onePostPublisher
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] posts in
-                self?.posts = posts
-                self?.reloadTableViewClosure?()
+            .subscribe(onNext: { [weak self] post in
+                print("post from view model : \(post)")
+                if let index = self?.postIndex{
+                    self?.posts.remove(at: index)
+                    self?.posts.insert(post, at: index)
+                    self?.reloadTableViewClosure?()
+                }
             })
             .disposed(by: disposeBag)
     }
+    
     
     private func subscribeToErrorPublisher() {
         APIPosts.shared.errorPublisher

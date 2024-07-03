@@ -26,6 +26,8 @@ class PostTableViewCell: UITableViewCell {
     var userImageLoadDisposable: Disposable?
     var viewModel:HomeViewModel?
     var post:PostModel?
+    
+    var postIndex:Int?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,6 +50,8 @@ class PostTableViewCell: UITableViewCell {
         userImageLoadDisposable?.dispose()
         userImage.image = nil
 
+        
+        postIndex = nil
 
     }
 
@@ -59,9 +63,12 @@ class PostTableViewCell: UITableViewCell {
     
     @IBAction func likeButtonAction(_ sender: Any) {
         
-        if let post = post{
+        if let post = post , let postIndex = postIndex{
             let id = String(describing: post.id!)
             viewModel?.likeButtonSubject.accept(id)
+            viewModel?.fetchOnePost(by: "\(id)", index: postIndex)
+            
+            
         }
     }
     @IBAction func commentButtonAction(_ sender: Any) {
@@ -88,6 +95,9 @@ class PostTableViewCell: UITableViewCell {
         postTime.text = post.timeAgo ?? ""
         if post.liked!{
             likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
+
+        }else{ 
+            likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
 
         }
     }
