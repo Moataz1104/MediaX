@@ -61,12 +61,12 @@ class APIPosts {
     }
     
     
-    func handleLikes(for postId:String,method:String, accessToken:String){
+    func handleLikes(for postId:String, accessToken:String){
         let url = URL(string: apiK.likeUrlString + postId)
 
         var request = URLRequest(url: url!)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = method
+        request.httpMethod = "POST"
         
         URLSession.shared.dataTask(with: request){[weak self] data,response,error in
             

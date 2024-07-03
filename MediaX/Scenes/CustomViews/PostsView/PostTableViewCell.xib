@@ -19,34 +19,34 @@
                 <rect key="frame" x="0.0" y="0.0" width="624" height="664"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-yT-dtP" userLabel="mainStack">
-                        <rect key="frame" x="142" y="57.666666666666686" width="340" height="548.66666666666652"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-yT-dtP" userLabel="mainStack">
+                        <rect key="frame" x="142" y="54.666666666666686" width="340" height="554.66666666666652"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="GDn-i3-5sU">
                                 <rect key="frame" x="0.0" y="0.0" width="340" height="40"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xNX-FC-L7g">
-                                        <rect key="frame" x="0.0" y="0.0" width="169" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="116.66666666666667" height="40"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="WBU-sn-hYM">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="WBU-sn-hYM">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="40" id="1ka-5N-Y15"/>
                                                     <constraint firstAttribute="height" constant="40" id="zcF-uE-0tN"/>
                                                 </constraints>
                                             </imageView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vlc-Q5-WMJ">
-                                                <rect key="frame" x="60" y="0.0" width="109" height="40"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vlc-Q5-WMJ">
+                                                <rect key="frame" x="60" y="0.0" width="56.666666666666657" height="40"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Moataz" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHn-Um-Y6y">
-                                                        <rect key="frame" x="0.0" y="0.0" width="109" height="20.333333333333332"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Moataz" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHn-Um-Y6y">
+                                                        <rect key="frame" x="0.0" y="0.0" width="56.666666666666664" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="iOS Developer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RM-6R-rp5">
-                                                        <rect key="frame" x="0.0" y="25.333333333333339" width="109" height="14.666666666666668"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="5 min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RM-6R-rp5">
+                                                        <rect key="frame" x="0.0" y="22.000000000000007" width="56.666666666666664" height="18"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" name="sublabel"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -62,14 +62,14 @@
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B6N-ha-aJW">
-                                <rect key="frame" x="0.0" y="55" width="340" height="370"/>
+                                <rect key="frame" x="0.0" y="57" width="340" height="370"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="340" id="EF5-6I-Zui"/>
                                     <constraint firstAttribute="height" constant="370" id="qOT-dr-zff"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="RWs-Gy-1Vd">
-                                <rect key="frame" x="0.0" y="440" width="340" height="53"/>
+                                <rect key="frame" x="0.0" y="444" width="340" height="53"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="G92-9F-290">
                                         <rect key="frame" x="0.0" y="0.0" width="340" height="29.666666666666668"/>
@@ -126,7 +126,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello this is the first post just checking the cell height and the text height Thanks" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAx-ts-Jz0">
-                                <rect key="frame" x="0.0" y="507.99999999999994" width="340" height="40.666666666666686"/>
+                                <rect key="frame" x="0.0" y="514" width="340" height="40.666666666666629"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -153,8 +153,8 @@
                 <outlet property="numberOfLikesLabel" destination="VML-FG-ojF" id="0So-j2-R40"/>
                 <outlet property="postContent" destination="UAx-ts-Jz0" id="wCw-CT-NKT"/>
                 <outlet property="postImage" destination="B6N-ha-aJW" id="1Pw-bv-ep0"/>
+                <outlet property="postTime" destination="1RM-6R-rp5" id="8Ec-gP-Wj7"/>
                 <outlet property="settingButton" destination="anM-wp-7pb" id="oet-MU-DjI"/>
-                <outlet property="userBio" destination="1RM-6R-rp5" id="8Ec-gP-Wj7"/>
                 <outlet property="userImage" destination="WBU-sn-hYM" id="qO8-7w-WsF"/>
                 <outlet property="userName" destination="XHn-Um-Y6y" id="KBg-Wf-Rs0"/>
             </connections>
@@ -164,7 +164,7 @@
     <resources>
         <image name="detailImage" width="20" height="20.333333969116211"/>
         <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="me" width="768" height="1024"/>
+        <image name="profileIcon" width="170.66667175292969" height="170.66667175292969"/>
         <image name="square.and.arrow.up" catalog="system" width="108" height="128"/>
         <image name="text.bubble" catalog="system" width="128" height="110"/>
         <namedColor name="sublabel">

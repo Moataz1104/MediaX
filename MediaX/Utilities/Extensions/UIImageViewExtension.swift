@@ -12,15 +12,15 @@ import RxCocoa
 
 extension UIImageView {
     
-    func loadImage(url: URL, accessToken: String,indicator:UIActivityIndicatorView) -> Disposable {
-        indicator.isHidden = false
-        indicator.startAnimating()
+    func loadImage(url: URL, accessToken: String,indicator:UIActivityIndicatorView?) -> Disposable {
+        indicator?.isHidden = false
+        indicator?.startAnimating()
         
         if let cachedImage = ImageCache.shared.object(forKey: url.absoluteString as NSString) {
             DispatchQueue.main.async { [weak self] in
                 self?.image = cachedImage
-                indicator.isHidden = true
-                indicator.stopAnimating()
+                indicator?.isHidden = true
+                indicator?.stopAnimating()
 
             }
             return Disposables.create()
@@ -43,8 +43,8 @@ extension UIImageView {
                         ImageCache.shared.setObject(image, forKey: url.absoluteString as NSString)
                         DispatchQueue.main.async {
                             self?.image = image
-                            indicator.isHidden = true
-                            indicator.stopAnimating()
+                            indicator?.isHidden = true
+                            indicator?.stopAnimating()
 
                         }
                     } else {

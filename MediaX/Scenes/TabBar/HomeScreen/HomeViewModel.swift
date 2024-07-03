@@ -20,7 +20,7 @@ class HomeViewModel {
     
     let errorPublisher = PublishRelay<String>()
     let postsPublisher = PublishRelay<[PostModel]>()
-    let likeButtonSubject = PublishRelay<(String,String)>()
+    let likeButtonSubject = PublishRelay<String>()
     let commentButtonSubject = PublishRelay<Void>()
     
     
@@ -65,7 +65,7 @@ class HomeViewModel {
         postsPublisher
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] posts in
-                self?.posts = Array(posts[5...])
+                self?.posts = posts
                 self?.reloadTableViewClosure?()
             })
             .disposed(by: disposeBag)
@@ -84,9 +84,9 @@ class HomeViewModel {
     
     private func subscribeToLikeButton(){
         likeButtonSubject
-            .subscribe {[weak self] id,method in
+            .subscribe {[weak self] id in
                 guard let self = self else {return}
-                APIPosts.shared.handleLikes(for: id, method: method, accessToken: self.accessToken!)
+                APIPosts.shared.handleLikes(for: id, accessToken: self.accessToken!)
                 self.fetchAllPosts()
                 
             }

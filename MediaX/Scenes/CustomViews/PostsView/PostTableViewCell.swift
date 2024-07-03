@@ -12,7 +12,7 @@ class PostTableViewCell: UITableViewCell {
     static let identifier = "PostTableViewCell"
 
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var userBio: UILabel!
+    @IBOutlet weak var postTime: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var postContent: UILabel!
@@ -23,6 +23,7 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     var imageLoadDisposable: Disposable?
+    var userImageLoadDisposable: Disposable?
     var viewModel:HomeViewModel?
     var post:PostModel?
 
@@ -43,6 +44,10 @@ class PostTableViewCell: UITableViewCell {
         super.prepareForReuse()
         imageLoadDisposable?.dispose()
         postImage.image = nil
+        
+        userImageLoadDisposable?.dispose()
+        userImage.image = nil
+
 
     }
 
@@ -55,10 +60,8 @@ class PostTableViewCell: UITableViewCell {
     @IBAction func likeButtonAction(_ sender: Any) {
         
         if let post = post{
-            likeButton.setImage(UIImage.systemImage(named: post.liked! ? "heart" : "heart.fill", withSymbolConfiguration: .large), for: .normal)
             let id = String(describing: post.id!)
-            let method = post.liked! ? "DELETE" : "POST"
-            viewModel?.likeButtonSubject.accept((id,method))
+            viewModel?.likeButtonSubject.accept(id)
         }
     }
     @IBAction func commentButtonAction(_ sender: Any) {
@@ -68,15 +71,21 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func configureCell(with post: PostModel, accessToken: String) {
-        if let imageUrlString = post.imageUrlString, let url = URL(string: imageUrlString) {
+        if let imageUrlString = post.image, let url = URL(string: imageUrlString) {
             imageLoadDisposable = postImage.loadImage(url: url, accessToken: accessToken,indicator:indicator)
             
         }
         
+        if let userImageString = post.userImage, let url = URL(string: userImageString) {
+            userImageLoadDisposable = userImage.loadImage(url: url, accessToken: accessToken, indicator: nil)
+            
+        }
+
+        
         userName.text = post.username ?? "No user name"
         postContent.text = post.content ?? "No Content"
         numberOfLikesLabel.text = "Liked by \(post.numberOfLikes ?? -1)"
-        
+        postTime.text = post.timeAgo ?? ""
         if post.liked!{
             likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
 

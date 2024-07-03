@@ -9,15 +9,12 @@ import Foundation
 
 struct PostModel:Codable {
     let id: Int?
-    let content, image, username: String?
+    let content: String?
+    let image: String?
+    let username: String?
+    let userImage: String?
+    let timeAgo: String?
     let numberOfLikes, numberOfComments: Int?
     let comments: [CommentModel]?
     let liked: Bool?
-    
-    
-    var imageUrlString : String? {
-        guard let image = image else{print("from post model no image"); return nil}
-        let baseUrlString = "https://tumbler.onrender.com"
-        return baseUrlString + image
-    }
 }
