@@ -60,7 +60,7 @@ class HomeViewModel {
         likeButtonSubject
             .flatMapLatest { [weak self] id -> Observable<String> in
                 guard let self = self else { return .empty() }
-                return APIPosts.shared.handleLikes(for: id, accessToken: self.accessToken!)
+                return APIInterActions.shared.handleLikes(for: id, accessToken: self.accessToken!)
                     .map { id }
                     .catch { error in
                         self.errorPublisher.accept(error.localizedDescription)
@@ -98,8 +98,8 @@ class HomeViewModel {
     
 //    MARK: - Navigation
     
-    func showCommentsScreen(){
-        coordinator.showCommentsScreen()
+    func showCommentsScreen(post:PostModel){
+        coordinator.showCommentsScreen(post:post)
     }
     
 }

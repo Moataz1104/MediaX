@@ -16,8 +16,11 @@ class CommentsView: UIViewController, CommentCellDelegate {
     
     let viewModel:CommentsViewModel
     let disposeBag:DisposeBag
+    let post:PostModel
     var commentsCellHeights: [IndexPath: CGFloat] = [:]
 
+    
+    
     @IBOutlet weak var upperView: UIView!
     
     @IBOutlet weak var commentTextField: UITextField!
@@ -39,17 +42,23 @@ class CommentsView: UIViewController, CommentCellDelegate {
         keyBoardWillDisappear()
         setUpTextView()
 
+        bindSendButton()
+        bindTextView()
+        
         registerCells()
         tableView.dataSource = self
         tableView.delegate = self
         
+        subscribeToAddCommentPublisher()
 
+        
     }
     
     
-    init(viewModel: CommentsViewModel, disposeBag: DisposeBag) {
+    init(viewModel: CommentsViewModel, disposeBag: DisposeBag,post:PostModel) {
         self.viewModel = viewModel
         self.disposeBag = disposeBag
+        self.post = post
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -69,6 +78,28 @@ class CommentsView: UIViewController, CommentCellDelegate {
         view.endEditing(true)
     }
     
+//    MARK: - Binders
+    func bindSendButton(){
+        sendButton.rx.tap.bind(to: viewModel.sendButtonRelay)
+            .disposed(by: disposeBag)
+    }
+    func bindTextView(){
+        commentTextView.rx.text.orEmpty.bind(to: viewModel.contentRelay)
+            .disposed(by: disposeBag)
+    }
+    
+    private func subscribeToAddCommentPublisher(){
+        viewModel.commentAddedPublisher
+            .subscribe {[weak self] _ in
+                self?.textViewisEmpty()
+                self?.commentTextView.text = "Add Comment For \(self?.post.username ?? "")"
+                self?.commentTextView.textColor = UIColor.lightGray
+                self?.view.endEditing(true)
+
+            }
+            .disposed(by: disposeBag)
+
+    }
     
     
     //    MARK: - Private functions
@@ -77,7 +108,7 @@ class CommentsView: UIViewController, CommentCellDelegate {
         commentTextView.delegate = self
         commentTextView.textContainerInset = UIEdgeInsets(top: commentTextView.frame.height/2 - 20, left: 8, bottom: 0, right: 40)
         commentTextView.textContainer.lineFragmentPadding = 10
-        commentTextView.text = "Add Comment For {}"
+        commentTextView.text = "Add Comment For \(post.username ?? "")"
         commentTextView.textColor = UIColor.lightGray
 
     }
@@ -112,6 +143,16 @@ class CommentsView: UIViewController, CommentCellDelegate {
             self?.view.layoutIfNeeded()
         }
     }
+    
+    private func textViewisEmpty(){
+        sendButton.setImage(UIImage(named: "disableButton"), for: .normal)
+        sendButton.isEnabled = false
+    }
+    private func textViewNotEmpty(){
+        sendButton.setImage(UIImage(named: "enableButton"), for: .normal)
+        sendButton.isEnabled = true
+    }
+
     
     func commentCellHeightDidChange(_ height: CGFloat, at indexPath: IndexPath) {
         commentsCellHeights[indexPath] = height
@@ -152,16 +193,11 @@ extension CommentsView:UITextViewDelegate{
     func textViewDidChange(_ textView: UITextView) {
         if textView.text == "Add Comment For {}" || textView.text == ""{
             UIView.animate(withDuration: 0.3) {[weak self] in
-
-                self?.sendButton.setImage(UIImage(named: "disableButton"), for: .normal)
-                self?.sendButton.isEnabled = false
+                self?.textViewisEmpty()
             }
         }else{
             UIView.animate(withDuration: 0.3) {[weak self] in
-
-                self?.sendButton.setImage(UIImage(named: "enableButton"), for: .normal)
-
-                self?.sendButton.isEnabled = true
+                self?.textViewNotEmpty()
             }
 
         }
@@ -169,25 +205,23 @@ extension CommentsView:UITextViewDelegate{
     }
     
     
+
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Add Comment For {}" {
+        if textView.text == "Add Comment For \(post.username ?? "")" {
             textView.text = ""
             textView.textColor = UIColor.black
         }
         
-        if textView.text == "Add Comment For {}" || textView.text == ""{
+        if textView.text == "Add Comment For \(post.username ?? "")" || textView.text == ""{
             UIView.animate(withDuration: 0.3) {[weak self] in
 
-                self?.sendButton.setImage(UIImage(named: "disableButton"), for: .normal)
-
-                self?.sendButton.isEnabled = false
+                self?.textViewisEmpty()
             }
         }else{
             UIView.animate(withDuration: 0.3) {[weak self] in
 
-                self?.sendButton.setImage(UIImage(named: "enableButton"), for: .normal)
-
-                self?.sendButton.isEnabled = true
+                self?.textViewNotEmpty()
+                
             }
 
         }
@@ -195,22 +229,16 @@ extension CommentsView:UITextViewDelegate{
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Add Comment For {}"
+            textView.text = "Add Comment For \(post.username ?? "")"
             textView.textColor = UIColor.lightGray
         }
         if textView.text == "Add Comment For {}" || textView.text == ""{
             UIView.animate(withDuration: 0.3) {[weak self] in
-
-                self?.sendButton.setImage(UIImage(named: "disableButton"), for: .normal)
-
-                self?.sendButton.isEnabled = false
+                self?.textViewisEmpty()
             }
         }else{
             UIView.animate(withDuration: 0.3) {[weak self] in
-
-                self?.sendButton.setImage(UIImage(named: "enableButton"), for: .normal)
-
-                self?.sendButton.isEnabled = true
+                self?.textViewNotEmpty()
             }
 
         }

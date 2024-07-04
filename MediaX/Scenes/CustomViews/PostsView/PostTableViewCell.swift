@@ -67,7 +67,9 @@ class PostTableViewCell: UITableViewCell {
         
     }
     @IBAction func commentButtonAction(_ sender: Any) {
-        viewModel?.showCommentsScreen()
+        if let post = post{
+            viewModel?.showCommentsScreen(post:post)
+        }
         
 
     }

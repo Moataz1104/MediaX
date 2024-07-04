@@ -34,10 +34,10 @@ class HomeCoordinator:Coordinator{
     }
     
     
-    func showCommentsScreen(){
+    func showCommentsScreen(post:PostModel){
         let disposeBag = DisposeBag()
-        let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self)
-        let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag)
+        let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
+        let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag,post:post)
         
         vc.modalPresentationStyle = .pageSheet
         let multiplier = 0.65

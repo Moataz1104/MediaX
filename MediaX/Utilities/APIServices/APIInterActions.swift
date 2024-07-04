@@ -1,72 +1,33 @@
 //
-//  APIPosts.swift
+//  APIInterActions.swift
 //  MediaX
 //
-//  Created by Moataz Mohamed on 01/07/2024.
+//  Created by Moataz Mohamed on 04/07/2024.
 //
 
 import Foundation
-import SwiftKeychainWrapper
-import RxRelay
 import RxSwift
+import RxCocoa
 
-class APIPosts {
-    static let shared = APIPosts()
-    private init() {
-        print("apiPosts init")
-    }
+class APIInterActions{
+    static let shared = APIInterActions()
+    private init(){}
     
-
     
-    func getAllPosts(accessToken: String) -> Observable<[PostModel]> {
-        print("getallPosts")
-        print(accessToken)
-        
-        var request = URLRequest(url: apiK.allPostsPaginatedURL)
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
-        
-        return URLSession.shared.rx.response(request: request)
-            .flatMap { response, data -> Observable<[PostModel]> in
-                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
-                    return .error(NetworkingErrors.serverError(response.statusCode))
-                }
-                
-                if response.statusCode == 500 {
-                    do {
-                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500,userInfo: [NSLocalizedDescriptionKey:decodedMessage.message]))
-                    } catch {
-                        return .error(NetworkingErrors.decodingError(error))
-                    }
-                }
-                
-                do {
-                    let decodedData = try JSONDecoder().decode([PostModel].self, from: data)
-                    
-                    return .just(decodedData)
-                } catch {
-                    return .error(NetworkingErrors.decodingError(error))
-                }
-            }
-            .catch { error in
-                return .error(error)
-            }
-    }
     
-    func getPost(by id: String, accessToken: String) -> Observable<PostModel> {
-        let url = URL(string: apiK.getOnePostStringUrl + id)!
+    func handleLikes(for postId: String, accessToken: String) -> Observable<Void> {
+        let url = URL(string: apiK.likeUrlString + postId)!
 
         var request = URLRequest(url: url)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
         
         return URLSession.shared.rx.response(request: request)
-            .flatMap { response, data -> Observable<PostModel> in
+            .flatMap{ response,data -> Observable<Void> in
+                
                 if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
                     return .error(NetworkingErrors.serverError(response.statusCode))
                 }
-                
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
@@ -75,16 +36,48 @@ class APIPosts {
                         return .error(NetworkingErrors.decodingError(error))
                     }
                 }
-                
-                do {
-                    let decodedPost = try JSONDecoder().decode(PostModel.self, from: data)
-                    return .just(decodedPost)
-                } catch {
-                    return .error(NetworkingErrors.decodingError(error))
-                }
+
+                return .just(())
+
             }
             .catch { error in
+                    .error(NetworkingErrors.networkError(error))
+            }
+        }
+    
+    func addComment(for id :Int , content:String , accessToken:String)-> Observable<Void>{
+        let body = [
+            "content":content
+        ]
+        let jsonBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        let url = apiK.addCommentStringUrl + "\(id)"
+        
+        var request = URLRequest(url: URL(string: url)!)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonBody
+
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMap { response,data ->Observable<Void> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+                return .just(())
+            }
+            .catch{error in
                 .error(NetworkingErrors.networkError(error))
             }
     }
+
 }
