@@ -191,7 +191,7 @@ extension CommentsView:UITextViewDelegate{
 
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text == "Add Comment For {}" || textView.text == ""{
+        if textView.text == "Add Comment For \(post.username ?? "")" || textView.text == ""{
             UIView.animate(withDuration: 0.3) {[weak self] in
                 self?.textViewisEmpty()
             }
@@ -232,7 +232,7 @@ extension CommentsView:UITextViewDelegate{
             textView.text = "Add Comment For \(post.username ?? "")"
             textView.textColor = UIColor.lightGray
         }
-        if textView.text == "Add Comment For {}" || textView.text == ""{
+        if textView.text == "Add Comment For \(post.username ?? "")" || textView.text == ""{
             UIView.animate(withDuration: 0.3) {[weak self] in
                 self?.textViewisEmpty()
             }
