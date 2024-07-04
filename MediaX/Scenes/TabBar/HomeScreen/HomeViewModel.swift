@@ -22,18 +22,12 @@ class HomeViewModel {
     let likeButtonSubject = PublishRelay<String>()
     let commentButtonSubject = PublishRelay<Void>()
     
-    var postIndex : Int?
-    
     
     init(disposeBag: DisposeBag, coordinator: HomeCoordinator) {
         self.disposeBag = disposeBag
         self.coordinator = coordinator
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
-        
-        
-        
-        subscribeToErrorPublisher()
-        subscribeToGetOnePostPublisher()
+
         subscribeToLikeButton()
         
         fetchAllPosts()
@@ -59,53 +53,37 @@ class HomeViewModel {
             .disposed(by: disposeBag)
     }
     
-    func fetchOnePost(by id:String,index:Int){
-        guard let accessToken = accessToken else {
-            errorPublisher.accept("Access token is nil")
-            return
-        }
-        APIPosts.shared.getPost(by: id, accessToken: accessToken)
-        postIndex = index
-    }
     
-    // MARK: - API subscribers
+    //    MARK: - Post Cell subscribers
     
-    private func subscribeToGetOnePostPublisher() {
-        APIPosts.shared.onePostPublisher
+    private func subscribeToLikeButton() {
+        likeButtonSubject
+            .flatMapLatest { [weak self] id -> Observable<String> in
+                guard let self = self else { return .empty() }
+                return APIPosts.shared.handleLikes(for: id, accessToken: self.accessToken!)
+                    .map { id }
+                    .catch { error in
+                        self.errorPublisher.accept(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .flatMapLatest { [weak self] id -> Observable<PostModel> in
+                guard let self = self else { return .empty() }
+                return APIPosts.shared.getPost(by: id, accessToken: self.accessToken!)
+                    .catch { error in
+                        self.errorPublisher.accept(error.localizedDescription)
+                        return .empty()
+                    }
+            }
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] post in
-                print("post from view model : \(post)")
-                if let index = self?.postIndex{
-                    self?.posts.remove(at: index)
-                    self?.posts.insert(post, at: index)
-                    self?.reloadTableViewClosure?()
+                guard let self = self else { return }
+                if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
+                    self.posts[index] = post
+                    self.reloadTableViewClosure?()
                 }
             })
             .disposed(by: disposeBag)
-    }
-    
-    
-    private func subscribeToErrorPublisher() {
-        APIPosts.shared.errorPublisher
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] errorMessage in
-                self?.errorPublisher.accept(errorMessage)
-                print(errorMessage)
-            })
-            .disposed(by: disposeBag)
-    }
-    //    MARK: - Post Cell subscribers
-    
-    private func subscribeToLikeButton(){
-        likeButtonSubject
-            .subscribe {[weak self] id in
-                guard let self = self else {return}
-                APIPosts.shared.handleLikes(for: id, accessToken: self.accessToken!)
-                self.fetchAllPosts()
-                
-            }
-            .disposed(by: disposeBag)
-        
     }
     private func subscribeToCommentButton(){
         commentButtonSubject
@@ -116,5 +94,12 @@ class HomeViewModel {
     }
     
     
+    
+    
+//    MARK: - Navigation
+    
+    func showCommentsScreen(){
+        coordinator.showCommentsScreen()
+    }
     
 }

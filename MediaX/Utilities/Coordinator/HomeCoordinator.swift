@@ -33,6 +33,17 @@ class HomeCoordinator:Coordinator{
         navigationController.pushViewController(vc, animated: true)
     }
     
+    
+    func showCommentsScreen(){
+        let disposeBag = DisposeBag()
+        let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self)
+        let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag)
+        
+        vc.modalPresentationStyle = .pageSheet
+        
+        navigationController.present(vc, animated: true)
+    }
+    
         
     
 }

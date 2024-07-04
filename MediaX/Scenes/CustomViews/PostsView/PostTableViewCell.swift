@@ -27,7 +27,6 @@ class PostTableViewCell: UITableViewCell {
     var viewModel:HomeViewModel?
     var post:PostModel?
     
-    var postIndex:Int?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,9 +49,7 @@ class PostTableViewCell: UITableViewCell {
         userImageLoadDisposable?.dispose()
         userImage.image = nil
 
-        
-        postIndex = nil
-
+                
     }
 
     override func layoutSubviews() {
@@ -62,17 +59,15 @@ class PostTableViewCell: UITableViewCell {
 //    MARK: - Actions
     
     @IBAction func likeButtonAction(_ sender: Any) {
-        
-        if let post = post , let postIndex = postIndex{
+                
+        if let post = post{
             let id = String(describing: post.id!)
             viewModel?.likeButtonSubject.accept(id)
-            viewModel?.fetchOnePost(by: "\(id)", index: postIndex)
-            
-            
         }
+        
     }
     @IBAction func commentButtonAction(_ sender: Any) {
-        print("comment Button")
+        viewModel?.showCommentsScreen()
         
 
     }
@@ -100,6 +95,7 @@ class PostTableViewCell: UITableViewCell {
             likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
 
         }
+        
     }
 }
 

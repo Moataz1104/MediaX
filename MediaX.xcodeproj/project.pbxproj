@@ -11,6 +11,11 @@
 		0016E7292C3381E8007EFADF /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7282C3381E8007EFADF /* CommentModel.swift */; };
 		0016E72B2C33A1CF007EFADF /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E72A2C33A1CF007EFADF /* UIImageViewExtension.swift */; };
 		0016E72D2C33C558007EFADF /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E72C2C33C558007EFADF /* UIImageExtension.swift */; };
+		0016E7312C351155007EFADF /* CommentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0016E7302C351155007EFADF /* CommentsView.xib */; };
+		0016E7322C351155007EFADF /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E72F2C351155007EFADF /* CommentsView.swift */; };
+		0016E7342C3511E2007EFADF /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7332C3511E2007EFADF /* CommentsViewModel.swift */; };
+		0016E7382C352801007EFADF /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0016E7372C352801007EFADF /* CommentTableViewCell.xib */; };
+		0016E7392C352801007EFADF /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7362C352801007EFADF /* CommentTableViewCell.swift */; };
 		006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C402C1F74F600457AD9 /* AppDelegate.swift */; };
 		006A0C432C1F74F600457AD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C422C1F74F600457AD9 /* SceneDelegate.swift */; };
 		006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C492C1F74F700457AD9 /* Assets.xcassets */; };
@@ -68,6 +73,11 @@
 		0016E7282C3381E8007EFADF /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		0016E72A2C33A1CF007EFADF /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		0016E72C2C33C558007EFADF /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		0016E72F2C351155007EFADF /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
+		0016E7302C351155007EFADF /* CommentsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentsView.xib; sourceTree = "<group>"; };
+		0016E7332C3511E2007EFADF /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
+		0016E7362C352801007EFADF /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		0016E7372C352801007EFADF /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		006A0C3D2C1F74F600457AD9 /* MediaX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006A0C402C1F74F600457AD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		006A0C422C1F74F600457AD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +146,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0016E72E2C351135007EFADF /* CommentsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				0016E72F2C351155007EFADF /* CommentsView.swift */,
+				0016E7302C351155007EFADF /* CommentsView.xib */,
+				0016E7332C3511E2007EFADF /* CommentsViewModel.swift */,
+			);
+			path = CommentsScreen;
+			sourceTree = "<group>";
+		};
+		0016E7352C3527DA007EFADF /* CommentCell */ = {
+			isa = PBXGroup;
+			children = (
+				0016E7362C352801007EFADF /* CommentTableViewCell.swift */,
+				0016E7372C352801007EFADF /* CommentTableViewCell.xib */,
+			);
+			path = CommentCell;
+			sourceTree = "<group>";
+		};
 		006A0C342C1F74F600457AD9 = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +279,7 @@
 			children = (
 				00ACB10F2C2877DD00932E44 /* HomeScreen */,
 				00ACB1102C28780700932E44 /* SearchScreen */,
+				00BA3A4A2C32149B001592B6 /* AddPostScreen */,
 				00ACB1112C28781300932E44 /* NotificationScreen */,
 				00ACB1122C28781D00932E44 /* ProfileScreen */,
 			);
@@ -262,7 +292,7 @@
 				00ACB1232C289B5E00932E44 /* HomeView.swift */,
 				00ACB1242C289B5E00932E44 /* HomeView.xib */,
 				00F1EBF42C2E39C900CE0DA5 /* HomeViewModel.swift */,
-				00BA3A4A2C32149B001592B6 /* AddPostScreen */,
+				0016E72E2C351135007EFADF /* CommentsScreen */,
 			);
 			path = HomeScreen;
 			sourceTree = "<group>";
@@ -323,6 +353,7 @@
 			children = (
 				00BA3A452C30B27D001592B6 /* PostsView */,
 				00D827212C2F68280033B6E4 /* StoryViews */,
+				0016E7352C3527DA007EFADF /* CommentCell */,
 				00ACB1332C2CF00B00932E44 /* RegisterationAlert */,
 			);
 			path = CustomViews;
@@ -502,6 +533,7 @@
 			files = (
 				006A0C5E2C1F84B500457AD9 /* Colors.xcassets in Resources */,
 				00ACB11A2C28784D00932E44 /* SearchView.xib in Resources */,
+				0016E7312C351155007EFADF /* CommentsView.xib in Resources */,
 				00BA3A522C3219C8001592B6 /* AddPostView.xib in Resources */,
 				00ACB1262C289B5E00932E44 /* HomeView.xib in Resources */,
 				00E8C9EE2C2331F6008A3996 /* RegisterView.xib in Resources */,
@@ -510,6 +542,7 @@
 				006A0C632C1F855000457AD9 /* LogInView.xib in Resources */,
 				00ACB1222C28786C00932E44 /* ProfileView.xib in Resources */,
 				006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */,
+				0016E7382C352801007EFADF /* CommentTableViewCell.xib in Resources */,
 				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
 				00ACB11E2C28785D00932E44 /* NotificationView.xib in Resources */,
 				00BA3A492C30B2B2001592B6 /* PostTableViewCell.xib in Resources */,
@@ -587,9 +620,12 @@
 				006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */,
 				00ACB12B2C28F0DE00932E44 /* DataExtension.swift in Sources */,
 				00D827312C30A6BB0033B6E4 /* MyStoryCollectionViewCell.swift in Sources */,
+				0016E7342C3511E2007EFADF /* CommentsViewModel.swift in Sources */,
 				00BA3A542C321EAC001592B6 /* AddPostCoordinator.swift in Sources */,
 				006A0C642C1F855000457AD9 /* LogInView.swift in Sources */,
 				00ACB1292C28E92800932E44 /* FieldsValidation.swift in Sources */,
+				0016E7322C351155007EFADF /* CommentsView.swift in Sources */,
+				0016E7392C352801007EFADF /* CommentTableViewCell.swift in Sources */,
 				00ACB1312C2CDC8A00932E44 /* NetworkingErrors.swift in Sources */,
 				0016E72B2C33A1CF007EFADF /* UIImageViewExtension.swift in Sources */,
 				00C92C492C23720400358924 /* LogInViewModel.swift in Sources */,

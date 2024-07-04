@@ -52,7 +52,7 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f69-F5-o6H">
-                    <rect key="frame" x="20" y="59" width="353" height="793"/>
+                    <rect key="frame" x="10" y="59" width="373" height="793"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="sectionIndexBackgroundColor" name="BackGroundMain"/>
                 </tableView>
@@ -66,8 +66,8 @@
                 <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="Mpa-eH-BXR"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Q0Z-NP-VOj"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="c5s-kn-JFZ"/>
-                <constraint firstItem="f69-F5-o6H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="i14-Na-Jjw"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f69-F5-o6H" secondAttribute="trailing" constant="20" id="jUj-hc-dd7"/>
+                <constraint firstItem="f69-F5-o6H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="i14-Na-Jjw"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f69-F5-o6H" secondAttribute="trailing" constant="10" id="jUj-hc-dd7"/>
             </constraints>
             <point key="canvasLocation" x="75.572519083969468" y="20.422535211267608"/>
         </view>

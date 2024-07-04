@@ -50,6 +50,9 @@ extension UIImageView {
                     } else {
                         DispatchQueue.main.async {
                             self?.image = UIImage(systemName: "photo.artframe")
+                            indicator?.isHidden = true
+                            indicator?.stopAnimating()
+
                         }
                     }
                 case .error(let error):
