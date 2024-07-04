@@ -8,14 +8,16 @@
 import UIKit
 import RxSwift
 import RxCocoa
-class CommentsView: UIViewController {
-    
+
+
+class CommentsView: UIViewController, CommentCellDelegate {
     
     //    MARK: - Attributes
     
     let viewModel:CommentsViewModel
     let disposeBag:DisposeBag
-    
+    var commentsCellHeights: [IndexPath: CGFloat] = [:]
+
     @IBOutlet weak var upperView: UIView!
     
     @IBOutlet weak var commentTextField: UITextField!
@@ -37,6 +39,7 @@ class CommentsView: UIViewController {
         keyBoardWillDisappear()
         setUpTextView()
 
+        registerCells()
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -79,6 +82,10 @@ class CommentsView: UIViewController {
 
     }
     
+    private func registerCells(){
+        tableView.register(UINib(nibName: CommentTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: CommentTableViewCell.identifier)
+    }
+    
     
     
     private func keyBoardWillAppear() {
@@ -106,15 +113,35 @@ class CommentsView: UIViewController {
         }
     }
     
+    func commentCellHeightDidChange(_ height: CGFloat, at indexPath: IndexPath) {
+        commentsCellHeights[indexPath] = height
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        
+
+    }
+
+    
 }
 
 
 extension CommentsView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        20
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as! CommentTableViewCell
+        cell.indexPath = indexPath
+        cell.delegate = self
+        if indexPath.row == 0{
+            cell.content.text = "test test test test test test test test test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test test"
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        commentsCellHeights[indexPath] ?? 100
     }
 }
 
