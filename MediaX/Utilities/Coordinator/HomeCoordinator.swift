@@ -40,7 +40,18 @@ class HomeCoordinator:Coordinator{
         let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag)
         
         vc.modalPresentationStyle = .pageSheet
-        
+        let multiplier = 0.65
+        let fraction = UISheetPresentationController.Detent.custom { context in
+            UIScreen.main.bounds.height * multiplier
+            
+        }
+
+        vc.sheetPresentationController?.detents = [
+            fraction,
+            .large(),
+            
+        ]
+
         navigationController.present(vc, animated: true)
     }
     

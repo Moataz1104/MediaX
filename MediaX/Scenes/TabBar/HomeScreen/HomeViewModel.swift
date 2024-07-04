@@ -33,7 +33,7 @@ class HomeViewModel {
         fetchAllPosts()
     }
     
-    private func fetchAllPosts() {
+    func fetchAllPosts() {
         guard let accessToken = accessToken else {
             errorPublisher.accept("Access token is nil")
             return

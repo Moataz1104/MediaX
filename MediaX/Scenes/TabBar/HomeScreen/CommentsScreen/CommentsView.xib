@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,9 +12,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommentsView" customModule="MediaX" customModuleProvider="target">
             <connections>
-                <outlet property="commentTextField" destination="NAl-Mu-oKe" id="k6Q-Kx-K3m"/>
+                <outlet property="commentTextView" destination="wfc-7z-i82" id="IHF-KC-nKP"/>
+                <outlet property="sendButton" destination="mW4-59-F7J" id="aHn-pz-duJ"/>
                 <outlet property="tableView" destination="FGP-qA-DT3" id="9uu-Uu-CUr"/>
-                <outlet property="textFieldBottomCons" destination="fwT-4V-7hS" id="Yd3-fN-ulR"/>
+                <outlet property="textViewBottomCons" destination="akd-ZY-AMZ" id="knf-vY-k14"/>
+                <outlet property="textViewHeightCons" destination="fRA-mK-SwY" id="w5X-b9-Q7s"/>
+                <outlet property="upperView" destination="8GX-cS-SWn" id="qJd-S4-xtE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,34 +26,88 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Share your thoughts here..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NAl-Mu-oKe">
-                    <rect key="frame" x="0.0" y="758" width="393" height="60"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="60" id="yk9-Qc-Eke"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" returnKeyType="send"/>
-                </textField>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FGP-qA-DT3">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="758"/>
+                    <rect key="frame" x="0.0" y="149.33333333333331" width="393" height="668.66666666666674"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="5C3-Mp-Ko4">
+                    <rect key="frame" x="0.0" y="79" width="393" height="68.333333333333314"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8GX-cS-SWn">
+                            <rect key="frame" x="171.66666666666666" y="0.0" width="50" height="7"/>
+                            <color key="backgroundColor" white="0.51589073129251706" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="7" id="N8f-UH-8jT"/>
+                                <constraint firstAttribute="width" constant="50" id="m3a-ko-pn9"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiM-8M-N8U">
+                            <rect key="frame" x="152" y="27" width="89" height="20.333333333333329"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEE-eU-77z">
+                            <rect key="frame" x="0.0" y="67.333333333333343" width="393" height="1"/>
+                            <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="gJz-F5-pVB"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wfc-7z-i82">
+                    <rect key="frame" x="0.0" y="782" width="393" height="60"/>
+                    <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="fRA-mK-SwY"/>
+                    </constraints>
+                    <color key="textColor" systemColor="labelColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mW4-59-F7J">
+                    <rect key="frame" x="353" y="798" width="30" height="28"/>
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal">
+                        <imageReference key="image" image="disableButton" symbolScale="large"/>
+                    </state>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <gestureRecognizers/>
             <constraints>
+                <constraint firstItem="mW4-59-F7J" firstAttribute="centerY" secondItem="wfc-7z-i82" secondAttribute="centerY" id="1gO-9q-wZA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FGP-qA-DT3" secondAttribute="trailing" id="7gq-6c-vQ0"/>
+                <constraint firstItem="wfc-7z-i82" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9ea-bE-kZH"/>
+                <constraint firstItem="FGP-qA-DT3" firstAttribute="top" secondItem="5C3-Mp-Ko4" secondAttribute="bottom" constant="2" id="EVt-Np-6WN"/>
+                <constraint firstItem="5C3-Mp-Ko4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="KJE-QT-IqC"/>
+                <constraint firstItem="mW4-59-F7J" firstAttribute="trailing" secondItem="wfc-7z-i82" secondAttribute="trailing" constant="-10" id="Qbw-Re-dHG"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="FGP-qA-DT3" secondAttribute="bottom" id="WgW-ov-ZeZ"/>
                 <constraint firstItem="FGP-qA-DT3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="XTx-N3-VlF"/>
-                <constraint firstItem="NAl-Mu-oKe" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="fwT-4V-7hS"/>
-                <constraint firstItem="NAl-Mu-oKe" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="qag-VB-4gu"/>
-                <constraint firstItem="NAl-Mu-oKe" firstAttribute="top" secondItem="FGP-qA-DT3" secondAttribute="bottom" id="sHt-Pv-R8p"/>
-                <constraint firstItem="NAl-Mu-oKe" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="xOy-7n-o3m"/>
-                <constraint firstItem="FGP-qA-DT3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ysS-Fo-lLg"/>
+                <constraint firstItem="5C3-Mp-Ko4" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YjX-hM-C2u"/>
+                <constraint firstItem="EEE-eU-77z" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Z8d-ub-f18"/>
+                <constraint firstAttribute="bottom" secondItem="wfc-7z-i82" secondAttribute="bottom" constant="10" id="akd-ZY-AMZ"/>
+                <constraint firstItem="wfc-7z-i82" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="fip-Xj-JoE"/>
             </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="l7O-v1-9bC" appends="YES" id="F8P-Ps-N6a"/>
+            </connections>
             <point key="canvasLocation" x="132" y="20"/>
         </view>
+        <tapGestureRecognizer id="l7O-v1-9bC">
+            <connections>
+                <action selector="viewTapGesture:" destination="-1" id="kUn-yD-7l0"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
+        <image name="disableButton" width="30" height="28"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

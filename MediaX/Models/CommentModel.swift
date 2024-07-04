@@ -8,5 +8,12 @@
 import Foundation
 
 struct CommentModel:Codable{
-    
+    let id: Int?
+    let content: String?
+    let userID: Int?
+    let username: String?
+    let userImage: String?
+    let timeAgo: String?
+    let liked: Bool?
+
 }
