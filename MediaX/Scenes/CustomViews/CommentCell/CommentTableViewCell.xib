@@ -20,9 +20,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MFV-Ev-ZtH">
-                        <rect key="frame" x="5" y="5" width="417" height="69.333333333333329"/>
+                        <rect key="frame" x="5" y="5" width="417" height="49.333333333333336"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="1LH-rm-b2u">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="1LH-rm-b2u">
                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="D6q-Wt-hYd"/>
@@ -30,7 +30,7 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Rol-Yg-tRB">
-                                <rect key="frame" x="50" y="0.0" width="367" height="69.333333333333329"/>
+                                <rect key="frame" x="50" y="0.0" width="367" height="49.333333333333336"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2rW-PK-XgQ">
                                         <rect key="frame" x="0.0" y="0.0" width="124" height="14.333333333333334"/>
@@ -50,20 +50,20 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="gLK-uo-RUr">
-                                        <rect key="frame" x="0.0" y="19.333333333333329" width="363" height="50"/>
+                                        <rect key="frame" x="0.0" y="19.333333333333329" width="354.33333333333331" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mmmmsa asmdasd sdjads asdjcd dfavfv afdvafv ad " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ia9-Wk-r7N" customClass="TopAlignedLabel" customModule="MediaX" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="326" height="30"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="MOP-fT-bOO"/>
+                                                    <constraint firstAttribute="height" constant="30" id="MOP-fT-bOO"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="css-Ha-Dal">
-                                                <rect key="frame" x="342.33333333333331" y="0.0" width="20.666666666666686" height="22"/>
+                                                <rect key="frame" x="333.66666666666669" y="0.0" width="20.666666666666686" height="22"/>
                                                 <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal">
@@ -84,7 +84,7 @@
                     <constraint firstItem="MFV-Ev-ZtH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="SXO-6H-m6d"/>
                     <constraint firstItem="MFV-Ev-ZtH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="X5b-EW-6xz"/>
                     <constraint firstItem="MFV-Ev-ZtH" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="dwS-o4-WaI"/>
-                    <constraint firstItem="gLK-uo-RUr" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.85" id="ybY-QZ-HQL"/>
+                    <constraint firstItem="gLK-uo-RUr" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.83" id="ybY-QZ-HQL"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -101,7 +101,7 @@
     </objects>
     <resources>
         <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="me" width="768" height="1024"/>
+        <image name="profileIcon" width="170.66667175292969" height="170.66667175292969"/>
         <namedColor name="sublabel">
             <color red="0.53725490196078429" green="0.54117647058823526" blue="0.51372549019607838" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

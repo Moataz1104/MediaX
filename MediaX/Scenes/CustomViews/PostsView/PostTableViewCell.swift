@@ -81,8 +81,13 @@ class PostTableViewCell: UITableViewCell {
         }
         
         if let userImageString = post.userImage, let url = URL(string: userImageString) {
-            userImageLoadDisposable = userImage.loadImage(url: url, accessToken: accessToken, indicator: nil)
-            
+            DispatchQueue.main.async{[weak self] in
+                UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.5,options: .transitionCrossDissolve) {
+                    self?.imageLoadDisposable = self?.userImage.loadImage(url: URL(string:post.userImage!)!, accessToken: accessToken, indicator: nil)
+                        
+                }
+            }
+
         }
 
         
@@ -90,11 +95,18 @@ class PostTableViewCell: UITableViewCell {
         postContent.text = post.content ?? "No Content"
         numberOfLikesLabel.text = "Liked by \(post.numberOfLikes ?? -1)"
         postTime.text = post.timeAgo ?? ""
+        
         if post.liked!{
-            likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
+
+            }
 
         }else{ 
-            likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
+
+            }
 
         }
         

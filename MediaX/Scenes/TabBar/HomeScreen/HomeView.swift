@@ -139,19 +139,19 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     }
 
     private func hideLogoStack() {
-        UIView.animate(withDuration: 0.5) {
-            self.logoStackHeightConstraint.constant = 0
-            self.tableViewTopConstraint.constant = 50
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5) {[weak self] in
+            self?.logoStackHeightConstraint.constant = 0
+            self?.tableViewTopConstraint.constant = 50
+            self?.view.layoutIfNeeded()
         }
         isLogoStackHidden = true
     }
 
     private func showLogoStack() {
-        UIView.animate(withDuration: 0.5) {
-            self.logoStackHeightConstraint.constant = 30
-            self.tableViewTopConstraint.constant = 110
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5) {[weak self] in
+            self?.logoStackHeightConstraint.constant = 30
+            self?.tableViewTopConstraint.constant = 110
+            self?.view.layoutIfNeeded()
         }
         isLogoStackHidden = false
     }

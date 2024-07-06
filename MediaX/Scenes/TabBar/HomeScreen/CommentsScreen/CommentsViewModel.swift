@@ -16,12 +16,14 @@ class CommentsViewModel{
 
     let sendButtonRelay = PublishRelay<Void>()
     let contentRelay = PublishRelay<String>()
-    let post:PostModel
-    
     let commentAddedPublisher = PublishRelay<Void>()
     
     
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
+    let post:PostModel
+    var comments = [CommentModel]()
+    var reloadTableClosure : (()-> Void)?
+    
     
     init(disposeBag: DisposeBag, coordinator: HomeCoordinator,post:PostModel) {
         self.disposeBag = disposeBag
@@ -29,6 +31,7 @@ class CommentsViewModel{
         self.post = post
         
         addComment()
+        getAllComments()
     }
     
     
@@ -55,5 +58,19 @@ class CommentsViewModel{
                 }
             }
             .disposed(by: disposeBag)
+    }
+    
+    func getAllComments(){
+        APIInterActions.shared.getAllComments(by: "\(post.id!)", accessToken: accessToken!)
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
+            .subscribe {[weak self] comments in
+                self?.comments = comments.reversed()
+                self?.reloadTableClosure?()
+            }onError: { error in
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+            
     }
 }

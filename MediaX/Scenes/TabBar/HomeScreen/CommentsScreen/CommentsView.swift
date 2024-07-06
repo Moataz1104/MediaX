@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 
-class CommentsView: UIViewController, CommentCellDelegate {
+class CommentsView: UIViewController {
     
     //    MARK: - Attributes
     
@@ -35,7 +35,8 @@ class CommentsView: UIViewController, CommentCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
-        
+        tableView.dataSource = self
+        tableView.delegate = self
         upperView.layer.cornerRadius = 3
         
         keyBoardWillAppear()
@@ -46,12 +47,12 @@ class CommentsView: UIViewController, CommentCellDelegate {
         bindTextView()
         
         registerCells()
-        tableView.dataSource = self
-        tableView.delegate = self
         
         subscribeToAddCommentPublisher()
 
+        reloadTableView()
         
+
     }
     
     
@@ -153,37 +154,38 @@ class CommentsView: UIViewController, CommentCellDelegate {
         sendButton.isEnabled = true
     }
 
-    
-    func commentCellHeightDidChange(_ height: CGFloat, at indexPath: IndexPath) {
-        commentsCellHeights[indexPath] = height
-        tableView.beginUpdates()
-        tableView.endUpdates()
-        
-
+    private func reloadTableView() {
+        viewModel.reloadTableClosure = { [weak self] in
+            guard let self = self else { return }
+            
+            let range = NSRange(location: 0, length: self.tableView.numberOfSections)
+            let sections = IndexSet(integersIn: Range(range) ?? 0..<0)
+            self.tableView.reloadSections(sections, with: .fade)
+        }
     }
-
-    
 }
 
 
 extension CommentsView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20
+        viewModel.comments.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as! CommentTableViewCell
         cell.indexPath = indexPath
+        cell.viewModel = viewModel
         cell.delegate = self
-        if indexPath.row == 0{
-            cell.content.text = "test test test test test test test test test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test testtest test test test test test test"
-        }
+        cell.configureCell(with: viewModel.comments[indexPath.row])
+            
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        commentsCellHeights[indexPath] ?? 100
+        commentsCellHeights[indexPath] ?? 90
     }
+    
+    
 }
 
 
@@ -250,3 +252,12 @@ extension CommentsView:UITextViewDelegate{
 }
 
 
+
+extension CommentsView : CommentCellDelegate{
+    func commentCellHeightDidChange(_ height: CGFloat, at indexPath: IndexPath) {
+        commentsCellHeights[indexPath] = height
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+
+}
