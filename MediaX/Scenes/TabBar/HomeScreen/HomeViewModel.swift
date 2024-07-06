@@ -30,7 +30,6 @@ class HomeViewModel {
 
         subscribeToLikeButton()
         
-        fetchAllPosts()
     }
     
     func fetchAllPosts() {

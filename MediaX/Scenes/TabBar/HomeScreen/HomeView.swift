@@ -43,7 +43,10 @@ class HomeView: UIViewController {
         
         reloadTableView()
         subscribeToErrorPublisher()
-        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchAllPosts()
 
     }
     init(disposeBag:DisposeBag,viewModel:HomeViewModel) {

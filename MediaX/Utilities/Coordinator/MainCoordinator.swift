@@ -14,7 +14,7 @@ class MainCoordinator : Coordinator{
     var navigationController : UINavigationController
     var logoutTimer: Timer?
     let sessionDuration: TimeInterval = 24 * 60 * 59
-    
+    var tabBarController: UITabBarController!
     
     
     init(navigationController: UINavigationController) {
@@ -43,7 +43,7 @@ class MainCoordinator : Coordinator{
     }
     
     func showTabBar() {
-        let tabBarController = UITabBarController()
+        tabBarController = UITabBarController()
         
         tabBarController.tabBar.barStyle = .black
         tabBarController.tabBar.backgroundColor = .main
@@ -65,6 +65,8 @@ class MainCoordinator : Coordinator{
         let tab2Coordinator = SearchCoordinator(navigationController: UINavigationController())
         
         let tab3Coordinator = AddPostCoordinator(navigationController: UINavigationController())
+        tab3Coordinator.delegate = self
+        
         
         let tab4Coordinator = NotificationCoordinator(navigationController: UINavigationController())
         let tab5Coordinator = ProfileCoordinator(navigationController: UINavigationController())
@@ -192,4 +194,15 @@ extension MainCoordinator: HomeViewDelegate {
     func didScrollUp() {
         showTabBarDuringScrolling()
     }
+}
+
+extension MainCoordinator:addPostDelegate{
+    func didDismissPhotoLibrary() {
+        guard let tabBarController = tabBarController else {print("No controller"); return }
+        
+        tabBarController.selectedIndex = 0
+
+    }
+    
+    
 }

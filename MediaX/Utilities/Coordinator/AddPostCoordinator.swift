@@ -12,14 +12,14 @@ class AddPostCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
     
     var navigationController: UINavigationController
-    
+    weak var delegate:addPostDelegate?
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
         let vc = AddPostView()
-        
+        vc.delegate = delegate
         navigationController.pushViewController(vc, animated: true)
     }
     
