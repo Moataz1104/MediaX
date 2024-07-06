@@ -112,4 +112,33 @@ class APIInterActions{
                 return .error(NetworkingErrors.networkError(error))
             }
     }
+    
+    func addLikeToComment(by id :String, accessToken:String)-> Observable<Void>{
+        let urlString = apiK.commentsStringUrl + id + "/like"
+        
+        var request = URLRequest(url: URL(string: urlString)!)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        return URLSession.shared.rx.response(request: request)
+            .flatMap{response,data -> Observable<Void> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+                
+                return .just(())
+
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+    }
 }

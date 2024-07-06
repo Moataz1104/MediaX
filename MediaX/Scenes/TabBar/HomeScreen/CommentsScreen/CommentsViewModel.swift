@@ -17,12 +17,13 @@ class CommentsViewModel{
     let sendButtonRelay = PublishRelay<Void>()
     let contentRelay = PublishRelay<String>()
     let commentAddedPublisher = PublishRelay<Void>()
+    let likeButtonRelay = PublishRelay<(String,IndexPath)>()
     
     
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
     let post:PostModel
     var comments = [CommentModel]()
-    var reloadTableClosure : (()-> Void)?
+    var reloadTableClosure : ((_ animated:Bool , IndexPath?)-> Void)?
     
     
     init(disposeBag: DisposeBag, coordinator: HomeCoordinator,post:PostModel) {
@@ -32,32 +33,42 @@ class CommentsViewModel{
         
         addComment()
         getAllComments()
+        addLikeToComment()
     }
-    
-    
     
     
     func addComment(){
         guard let token = accessToken else {print("No token"); return}
+
         sendButtonRelay
             .withLatestFrom(contentRelay)
-            .subscribe{[weak self] content in
-                guard let self = self else{return}
-                if let content = content.element{
-                    APIInterActions.shared.addComment(for: self.post.id!, content: content, accessToken: token)
-                        .observe(on: MainScheduler.instance)
-                        .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
-                        .subscribe { _ in
-                            print("Comment Added ")
-                        }onError: { error in
-                            print(error.localizedDescription)
-                        }
-                        .disposed(by: disposeBag)
-                    
-                    commentAddedPublisher.accept(())
-                }
+            .flatMapLatest {[weak self] content -> Observable<Void> in
+                guard let self = self else{return .empty()}
+                self.commentAddedPublisher.accept(())
+
+                return APIInterActions.shared.addComment(for: self.post.id!, content: content, accessToken: token)
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .flatMapLatest {[weak self] _ -> Observable<[CommentModel]> in
+                guard let self = self else{return .empty()}
+                return APIInterActions.shared.getAllComments(by: "\(self.post.id!)", accessToken: token)
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
+            .subscribe {[weak self] comments in
+                self?.comments = comments.reversed()
+                self?.reloadTableClosure?(true,nil)
             }
             .disposed(by: disposeBag)
+
+
     }
     
     func getAllComments(){
@@ -66,11 +77,42 @@ class CommentsViewModel{
             .observe(on: MainScheduler.instance)
             .subscribe {[weak self] comments in
                 self?.comments = comments.reversed()
-                self?.reloadTableClosure?()
+                self?.reloadTableClosure?(true, nil)
             }onError: { error in
                 print(error.localizedDescription)
             }
             .disposed(by: disposeBag)
+            
+    }
+    
+    func addLikeToComment(){
+        likeButtonRelay
+            .flatMapLatest {[weak self] id , indexPath -> Observable<IndexPath> in
+                guard let self = self else{return .empty()}
+                return APIInterActions.shared.addLikeToComment(by: id, accessToken: self.accessToken!)
+                    .map{indexPath}
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .flatMapLatest {[weak self] indexPath -> Observable<([CommentModel],IndexPath)> in
+                guard let self = self else{return .empty()}
+                return APIInterActions.shared.getAllComments(by: "\(post.id!)", accessToken: self.accessToken!)
+                    .map { comments in (comments.reversed(), indexPath) }
+            }
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] result in
+                guard let self = self else { return }
+                let (comments, indexPath) = result
+                self.comments = comments
+                self.reloadTableClosure?(false, indexPath)
+            } onError: { error in
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+
             
     }
 }

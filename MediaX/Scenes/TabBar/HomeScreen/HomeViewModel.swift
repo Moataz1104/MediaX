@@ -82,6 +82,8 @@ class HomeViewModel {
                     self.posts[index] = post
                     self.reloadTableViewClosure?()
                 }
+            },onError: { error in
+                print(error.localizedDescription)
             })
             .disposed(by: disposeBag)
     }

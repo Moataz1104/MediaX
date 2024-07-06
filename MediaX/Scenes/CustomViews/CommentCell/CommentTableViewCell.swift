@@ -20,6 +20,10 @@ class CommentTableViewCell: UITableViewCell {
 //    MARK: - Attributs
     weak var delegate : CommentCellDelegate?
     var indexPath : IndexPath?
+    var isShrink = false
+    var userImageDisposable : Disposable?
+    var viewModel : CommentsViewModel?
+    var comment:CommentModel?
 
     
     @IBOutlet weak var userName: UILabel!
@@ -28,10 +32,6 @@ class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var content: TopAlignedLabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var contentLabelHeightCons: NSLayoutConstraint!
-    
-    var isShrink = false
-    var userImageDisposable : Disposable?
-    var viewModel : CommentsViewModel?
     
 //    MARK: - Cell life cycle
     override func awakeFromNib() {
@@ -60,6 +60,12 @@ class CommentTableViewCell: UITableViewCell {
     
     @objc private func contentLabelTapped() {
         calculateTextHeight(text: content.text!, width: content.bounds.width)
+    }
+    
+    @IBAction func likeButtonAction(_ sender: Any) {
+        if let comment = comment , let indexPath = indexPath{
+            viewModel?.likeButtonRelay.accept(("\(comment.id!)",indexPath))
+        }
     }
     
     
@@ -105,7 +111,7 @@ class CommentTableViewCell: UITableViewCell {
         if let viewModel = viewModel{
             DispatchQueue.main.async{[weak self] in
                 
-                UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.5,options: .transitionCrossDissolve) {
+                UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
                     self?.userImageDisposable = self?.userImage.loadImage(url: URL(string:comment.userImage!)!, accessToken: viewModel.accessToken!, indicator: nil)
                         
                 }

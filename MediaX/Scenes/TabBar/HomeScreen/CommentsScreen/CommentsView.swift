@@ -155,17 +155,26 @@ class CommentsView: UIViewController {
     }
 
     private func reloadTableView() {
-        viewModel.reloadTableClosure = { [weak self] in
+        viewModel.reloadTableClosure = { [weak self] isAnimated , indexPath in
             guard let self = self else { return }
             
-            let range = NSRange(location: 0, length: self.tableView.numberOfSections)
-            let sections = IndexSet(integersIn: Range(range) ?? 0..<0)
-            self.tableView.reloadSections(sections, with: .fade)
+            if isAnimated{
+                let range = NSRange(location: 0, length: self.tableView.numberOfSections)
+                let sections = IndexSet(integersIn: Range(range) ?? 0..<0)
+                self.tableView.reloadSections(sections, with: .fade)
+                
+            }else{
+                if let indexPath = indexPath{
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+                
+            }
         }
     }
 }
 
 
+// MARK: - Table View delegate
 extension CommentsView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.comments.count
@@ -174,6 +183,7 @@ extension CommentsView:UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as! CommentTableViewCell
         cell.indexPath = indexPath
         cell.viewModel = viewModel
+        cell.comment = viewModel.comments[indexPath.row]
         cell.delegate = self
         cell.configureCell(with: viewModel.comments[indexPath.row])
             
@@ -189,6 +199,7 @@ extension CommentsView:UITableViewDelegate,UITableViewDataSource{
 }
 
 
+// MARK: - Text View Delegat
 extension CommentsView:UITextViewDelegate{
 
     
@@ -252,7 +263,7 @@ extension CommentsView:UITextViewDelegate{
 }
 
 
-
+// MARK: - Comment Cell Delegate
 extension CommentsView : CommentCellDelegate{
     func commentCellHeightDidChange(_ height: CGFloat, at indexPath: IndexPath) {
         commentsCellHeights[indexPath] = height

@@ -69,6 +69,9 @@
                                                 <state key="normal">
                                                     <imageReference key="image" image="heart" catalog="system" symbolScale="medium"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="likeButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7l5-Pa-IFh"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
