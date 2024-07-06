@@ -42,7 +42,7 @@ class HomeView: UIViewController {
         registerCells()
         
         reloadTableView()
-        
+        subscribeToErrorPublisher()
         
 
     }
@@ -58,6 +58,35 @@ class HomeView: UIViewController {
     
     
 //    MARK: - privates
+    
+    private func subscribeToErrorPublisher() {
+        viewModel.errorPublisher
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] event in
+                guard let error = event.element else {
+                    print("Error element is nil")
+                    return
+                }
+                let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+
+                if let networkingError = error as? NetworkingErrors {
+                    DispatchQueue.main.async {
+                        vc.errorTitle.text = networkingError.title
+                        vc.errorMessage.text = networkingError.localizedDescription
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        vc.errorMessage.text = error.localizedDescription
+                    }
+                }
+
+                self?.present(vc, animated: true, completion: nil)
+            }
+            .disposed(by: disposeBag)
+    }
+
     
     
     private func setupTableView(){

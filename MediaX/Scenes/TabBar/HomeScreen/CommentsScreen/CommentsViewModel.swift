@@ -19,7 +19,6 @@ class CommentsViewModel{
     let commentAddedPublisher = PublishRelay<Void>()
     let likeButtonRelay = PublishRelay<(String,IndexPath)>()
     
-    
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
     let post:PostModel
     var comments = [CommentModel]()
@@ -48,7 +47,7 @@ class CommentsViewModel{
 
                 return APIInterActions.shared.addComment(for: self.post.id!, content: content, accessToken: token)
                     .catch { error in
-                        print(error.localizedDescription)
+                        self.coordinator.showErrorInCommentScreen(error)
                         return .empty()
                     }
             }
@@ -56,7 +55,7 @@ class CommentsViewModel{
                 guard let self = self else{return .empty()}
                 return APIInterActions.shared.getAllComments(by: "\(self.post.id!)", accessToken: token)
                     .catch { error in
-                        print(error.localizedDescription)
+                        self.coordinator.showErrorInCommentScreen(error)
                         return .empty()
                     }
             }
@@ -78,8 +77,8 @@ class CommentsViewModel{
             .subscribe {[weak self] comments in
                 self?.comments = comments.reversed()
                 self?.reloadTableClosure?(true, nil)
-            }onError: { error in
-                print(error.localizedDescription)
+            }onError: {[weak self] error in
+                self?.coordinator.showErrorInCommentScreen(error)
             }
             .disposed(by: disposeBag)
             
@@ -92,7 +91,7 @@ class CommentsViewModel{
                 return APIInterActions.shared.addLikeToComment(by: id, accessToken: self.accessToken!)
                     .map{indexPath}
                     .catch { error in
-                        print(error.localizedDescription)
+                        self.coordinator.showErrorInCommentScreen(error)
                         return .empty()
                     }
             }
@@ -108,8 +107,8 @@ class CommentsViewModel{
                 let (comments, indexPath) = result
                 self.comments = comments
                 self.reloadTableClosure?(false, indexPath)
-            } onError: { error in
-                print(error.localizedDescription)
+            } onError: {[weak self] error in
+                self?.coordinator.showErrorInCommentScreen(error)
             }
             .disposed(by: disposeBag)
 

@@ -15,7 +15,7 @@ class LogInViewModel {
     
     let emailSubject = PublishSubject<String>()
     let passwordSubject = PublishSubject<String>()
-    let errorSubjectMessage = PublishSubject<String>()
+    let errorPublisher = PublishSubject<Error>()
     let mainButtonSubject = PublishRelay<Void>()
     let activityIndicatorRelay = BehaviorRelay(value: false)
     
@@ -53,8 +53,8 @@ class LogInViewModel {
     
     private func subscribeToErrorPublisher(){
         APIAuth.shared.logInErrorPublisher
-            .subscribe {[weak self] errorMessage in
-                self?.errorSubjectMessage.onNext(errorMessage)
+            .subscribe {[weak self] error in
+                self?.errorPublisher.onNext(error)
                 self?.activityIndicatorRelay.accept(false)
             }
             .disposed(by: disposeBag)

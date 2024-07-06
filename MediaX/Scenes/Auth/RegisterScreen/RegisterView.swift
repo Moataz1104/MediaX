@@ -48,7 +48,7 @@ class RegisterView: UIViewController {
         confirmingPasswords()
         
         //Networking
-        showingNetworkErrorAlert()
+        subscribeToErrorPublisher()
         showingRegisterAlert()
         
         activityIndicator.isHidden = true
@@ -108,7 +108,7 @@ class RegisterView: UIViewController {
             .map { [weak self] in
                 self?.confirmPwTextField.text ?? ""
             }
-            .filter { !$0.isEmpty } // Filter out empty strings
+            .filter { !$0.isEmpty }
             .subscribe(onNext: { [weak self] text in
                 self?.viewModel.confirmPasswordSubject.onNext(text)
             })
@@ -196,18 +196,34 @@ class RegisterView: UIViewController {
     
     
     //    MARK: - Networking Functions
-    private func showingNetworkErrorAlert(){
-        viewModel
-            .errorSubjectMessage
+    private func subscribeToErrorPublisher() {
+        viewModel.errorPublisher
             .observe(on: MainScheduler.instance)
-            .subscribe {[weak self] errorMessage in
-                let alert = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self?.present(alert, animated: true)
+            .subscribe { [weak self] event in
+                guard let error = event.element else {
+                    print("Error element is nil")
+                    return
+                }
+                let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+
+                if let networkingError = error as? NetworkingErrors {
+                    DispatchQueue.main.async {
+                        vc.errorTitle.text = networkingError.title
+                        vc.errorMessage.text = networkingError.localizedDescription
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        vc.errorMessage.text = error.localizedDescription
+                    }
+                }
+
+                self?.present(vc, animated: true, completion: nil)
             }
             .disposed(by: disposeBag)
     }
-    
+
     private func showingRegisterAlert(){
         viewModel
             .showRegisterAlertSubject

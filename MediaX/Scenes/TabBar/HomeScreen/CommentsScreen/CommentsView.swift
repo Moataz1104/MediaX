@@ -51,7 +51,6 @@ class CommentsView: UIViewController {
         subscribeToAddCommentPublisher()
 
         reloadTableView()
-        
 
     }
     
@@ -101,6 +100,9 @@ class CommentsView: UIViewController {
             .disposed(by: disposeBag)
 
     }
+    
+
+
     
     
     //    MARK: - Private functions

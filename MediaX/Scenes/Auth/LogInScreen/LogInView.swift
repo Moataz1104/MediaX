@@ -36,7 +36,7 @@ class LogInView: UIViewController {
         activityIndicator.isHidden = true
         subscribeToActivityIndicator()
         
-        showingNetworkErrorAlert()
+        subscribeToErrorPublisher()
 
     }
     
@@ -121,14 +121,30 @@ class LogInView: UIViewController {
 
     //MARK: - Networking
     
-    private func showingNetworkErrorAlert(){
-        viewModel
-            .errorSubjectMessage
+    private func subscribeToErrorPublisher() {
+        viewModel.errorPublisher
             .observe(on: MainScheduler.instance)
-            .subscribe {[weak self] errorMessage in
-                let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self?.present(alert, animated: true)
+            .subscribe { [weak self] event in
+                guard let error = event.element else {
+                    print("Error element is nil")
+                    return
+                }
+                let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+
+                if let networkingError = error as? NetworkingErrors {
+                    DispatchQueue.main.async {
+                        vc.errorTitle.text = networkingError.title
+                        vc.errorMessage.text = networkingError.localizedDescription
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        vc.errorMessage.text = error.localizedDescription
+                    }
+                }
+
+                self?.present(vc, animated: true, completion: nil)
             }
             .disposed(by: disposeBag)
     }

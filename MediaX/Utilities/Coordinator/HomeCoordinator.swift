@@ -55,6 +55,27 @@ class HomeCoordinator:Coordinator{
         navigationController.present(vc, animated: true)
     }
     
-        
+    func showErrorInCommentScreen(_ error: Error) {
+        guard let topVC = navigationController.presentedViewController else {
+            print("No presented view controller to present over.")
+            return
+        }
+
+        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+
+        if let networkingError = error as? NetworkingErrors {
+            vc.loadViewIfNeeded()
+            vc.errorTitle?.text = networkingError.title
+            vc.errorMessage?.text = networkingError.localizedDescription
+        } else {
+            vc.loadViewIfNeeded()
+            vc.errorMessage?.text = error.localizedDescription
+        }
+
+        topVC.present(vc, animated: true)
+    }
+
     
 }

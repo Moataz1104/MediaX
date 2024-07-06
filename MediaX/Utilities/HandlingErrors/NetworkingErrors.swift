@@ -17,16 +17,31 @@ enum NetworkingErrors : Error {
     var localizedDescription:String {
         switch self {
         case .networkError(let error):
-            return "Network error: \(error.localizedDescription)"
+            return "\(error.localizedDescription)"
         case .decodingError(let error):
-            return "Decoding error: \(error.localizedDescription)"
+            return "\(error.localizedDescription)"
         case .serverError(let statusCode):
-            return "Server error with status code: \(statusCode)"
+            return "status code: \(statusCode)"
         case .noData:
             return "No data received from the server"
         case .unknownError:
             return "An unknown error occurred"
 
+        }
+    }
+    
+    var title:String{
+        switch self {
+        case .networkError(_):
+            return "Network error"
+        case .decodingError(_):
+            return "Decoding error"
+        case .serverError(_):
+            return "Server error"
+        case .noData:
+            return "No data"
+        case .unknownError:
+            return "An unknown"
         }
     }
 }

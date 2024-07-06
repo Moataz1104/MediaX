@@ -17,7 +17,7 @@ class RegisterViewModel {
     let emailSubject = PublishSubject<String>()
     let passwordSubject = PublishSubject<String>()
     let confirmPasswordSubject = PublishSubject<String>()
-    let errorSubjectMessage = PublishSubject<String>()
+    let errorPublisher = PublishSubject<Error>()
     let mainButtonSubject = PublishRelay<Void>()
     let activityIndicatorRelay = BehaviorRelay(value: false)
     let showRegisterAlertSubject = PublishSubject<Void>()
@@ -88,10 +88,10 @@ class RegisterViewModel {
     }
     
     private func subscribeToErrorPublisher(){
-        APIAuth.shared.registerErrorStringPublisher
-            .subscribe {[weak self] message in
+        APIAuth.shared.registerErrorPublisher
+            .subscribe {[weak self] error in
                 
-                self?.errorSubjectMessage.onNext(message)
+                self?.errorPublisher.onNext(error)
                 self?.activityIndicatorRelay.accept(false)
 
             }

@@ -22,8 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator = MainCoordinator(navigationController: navigationController)
         let accessToken :String? = KeychainWrapper.standard.string(forKey: "token")
         
-        coordinator?.accessToken = accessToken
-//        coordinator?.logOut()
+        coordinator?.accessToken = nil
+        coordinator?.logOut()
         
         
         if let loginTimestamp = UserDefaults.standard.object(forKey: "loginTimestamp") as? Date {

@@ -28,6 +28,8 @@
 		006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C652C1F913400457AD9 /* Coordinator.swift */; };
 		006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C672C1F918000457AD9 /* MainCoordinator.swift */; };
 		006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C692C1F921600457AD9 /* AuthCoordinator.swift */; };
+		008813B62C38F337006A93B4 /* ErrorsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008813B42C38F337006A93B4 /* ErrorsAlertView.swift */; };
+		008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008813B52C38F337006A93B4 /* ErrorsAlertView.xib */; };
 		00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1022C28773600932E44 /* HomeCoordinator.swift */; };
 		00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1052C28775D00932E44 /* SearchCoordinator.swift */; };
 		00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1072C28777300932E44 /* NotificationCoordinator.swift */; };
@@ -94,6 +96,8 @@
 		006A0C652C1F913400457AD9 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		006A0C672C1F918000457AD9 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		006A0C692C1F921600457AD9 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		008813B42C38F337006A93B4 /* ErrorsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsAlertView.swift; sourceTree = "<group>"; };
+		008813B52C38F337006A93B4 /* ErrorsAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorsAlertView.xib; sourceTree = "<group>"; };
 		00ACB1022C28773600932E44 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1052C28775D00932E44 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1072C28777300932E44 /* NotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCoordinator.swift; sourceTree = "<group>"; };
@@ -278,6 +282,24 @@
 			path = LogInScreen;
 			sourceTree = "<group>";
 		};
+		008813B22C38F2FF006A93B4 /* CustomAlerts */ = {
+			isa = PBXGroup;
+			children = (
+				008813B32C38F311006A93B4 /* ErrorsAlert */,
+				00ACB1332C2CF00B00932E44 /* RegisterationAlert */,
+			);
+			path = CustomAlerts;
+			sourceTree = "<group>";
+		};
+		008813B32C38F311006A93B4 /* ErrorsAlert */ = {
+			isa = PBXGroup;
+			children = (
+				008813B42C38F337006A93B4 /* ErrorsAlertView.swift */,
+				008813B52C38F337006A93B4 /* ErrorsAlertView.xib */,
+			);
+			path = ErrorsAlert;
+			sourceTree = "<group>";
+		};
 		00ACB10B2C28779E00932E44 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,7 +381,7 @@
 				00BA3A452C30B27D001592B6 /* PostsView */,
 				00D827212C2F68280033B6E4 /* StoryViews */,
 				0016E7352C3527DA007EFADF /* CommentCell */,
-				00ACB1332C2CF00B00932E44 /* RegisterationAlert */,
+				008813B22C38F2FF006A93B4 /* CustomAlerts */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -547,6 +569,7 @@
 				00D8272B2C309DE80033B6E4 /* StoriesTableViewCell.xib in Resources */,
 				006A0C632C1F855000457AD9 /* LogInView.xib in Resources */,
 				00ACB1222C28786C00932E44 /* ProfileView.xib in Resources */,
+				008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */,
 				006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */,
 				0016E7382C352801007EFADF /* CommentTableViewCell.xib in Resources */,
 				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
@@ -618,6 +641,7 @@
 				00ACB1252C289B5E00932E44 /* HomeView.swift in Sources */,
 				00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */,
 				00C92C542C249F5200358924 /* AuthResponses.swift in Sources */,
+				008813B62C38F337006A93B4 /* ErrorsAlertView.swift in Sources */,
 				00C92C4E2C23992200358924 /* APIConstants.swift in Sources */,
 				00F1EBF52C2E39C900CE0DA5 /* HomeViewModel.swift in Sources */,
 				0016E72D2C33C558007EFADF /* UIImageExtension.swift in Sources */,

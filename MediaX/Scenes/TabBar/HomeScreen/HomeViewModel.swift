@@ -18,7 +18,7 @@ class HomeViewModel {
     var posts = [PostModel]()
     var reloadTableViewClosure: (() -> Void)?
     
-    let errorPublisher = PublishRelay<String>()
+    let errorPublisher = PublishRelay<Error>()
     let likeButtonSubject = PublishRelay<String>()
     let commentButtonSubject = PublishRelay<Void>()
     
@@ -35,7 +35,7 @@ class HomeViewModel {
     
     func fetchAllPosts() {
         guard let accessToken = accessToken else {
-            errorPublisher.accept("Access token is nil")
+            print("Access token is nil")
             return
         }
         
@@ -47,7 +47,7 @@ class HomeViewModel {
                     self?.reloadTableViewClosure?()
                 },
                 onError: { [weak self] error in
-                    self?.errorPublisher.accept(error.localizedDescription)
+                    self?.errorPublisher.accept(error)
                 }
             )
             .disposed(by: disposeBag)
@@ -63,7 +63,7 @@ class HomeViewModel {
                 return APIInterActions.shared.handleLikes(for: id, accessToken: self.accessToken!)
                     .map { id }
                     .catch { error in
-                        self.errorPublisher.accept(error.localizedDescription)
+                        self.errorPublisher.accept(error)
                         return .empty()
                     }
             }
@@ -71,7 +71,7 @@ class HomeViewModel {
                 guard let self = self else { return .empty() }
                 return APIPosts.shared.getPost(by: id, accessToken: self.accessToken!)
                     .catch { error in
-                        self.errorPublisher.accept(error.localizedDescription)
+                        self.errorPublisher.accept(error)
                         return .empty()
                     }
             }
@@ -82,16 +82,9 @@ class HomeViewModel {
                     self.posts[index] = post
                     self.reloadTableViewClosure?()
                 }
-            },onError: { error in
-                print(error.localizedDescription)
+            },onError: {[weak self] error in
+                self?.errorPublisher.accept(error)
             })
-            .disposed(by: disposeBag)
-    }
-    private func subscribeToCommentButton(){
-        commentButtonSubject
-            .subscribe { _ in
-                
-            }
             .disposed(by: disposeBag)
     }
     

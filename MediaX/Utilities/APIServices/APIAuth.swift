@@ -17,11 +17,11 @@ class APIAuth {
     private init(){}
     
 //    for log in
-    let logInErrorPublisher = PublishRelay<String>()
+    let logInErrorPublisher = PublishRelay<Error>()
     let logInSuccessPublisher = PublishRelay<Void>()
 
 //    for register
-    let registerErrorStringPublisher = PublishRelay<String>()
+    let registerErrorPublisher = PublishRelay<Error>()
     let registerSuccessPublisher = PublishRelay<Void>()
 
     
@@ -40,30 +40,30 @@ class APIAuth {
         URLSession.shared.dataTask(with: request){[weak self] data,response,error in
             
             if let error = error {
-                self?.logInErrorPublisher.accept(NetworkingErrors.networkError(error).localizedDescription)
+                self?.logInErrorPublisher.accept(NetworkingErrors.networkError(error))
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else{
-                self?.logInErrorPublisher.accept(NetworkingErrors.unknownError.localizedDescription)
+                self?.logInErrorPublisher.accept(NetworkingErrors.unknownError)
                 return
             }
             guard let data = data else {
-                self?.logInErrorPublisher.accept(NetworkingErrors.noData.localizedDescription)
+                self?.logInErrorPublisher.accept(NetworkingErrors.noData)
                 return
             }
             
             if !(200..<300).contains(httpResponse.statusCode) && httpResponse.statusCode != 500{
-                self?.logInErrorPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode).localizedDescription)
+                self?.logInErrorPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode))
             }
             
             if httpResponse.statusCode == 500 {
                 do{
                     let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                    self?.logInErrorPublisher.accept(decodedMessage.message)
+                    self?.logInErrorPublisher.accept(NSError(domain: "", code: 500,userInfo: [NSLocalizedDescriptionKey:decodedMessage.message]))
                     return
                 }catch{
-                    self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                    self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error))
                 }
             }
 
@@ -78,7 +78,7 @@ class APIAuth {
                 
             } catch {
                 print("Error decoding response: \(error)")
-                self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                self?.logInErrorPublisher.accept(NetworkingErrors.decodingError(error))
             }
             
             
@@ -95,13 +95,11 @@ class APIAuth {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         
-        let phoneNumber = "01123433" + String(Int.random(in: 100...999))
         
         let jsonData: [String: Any] = [
             "fullName": userName,
             "email": email,
             "password": password,
-            "phoneNumber":phoneNumber,
         ]
 
         
@@ -114,30 +112,30 @@ class APIAuth {
             DispatchQueue.main.async {
                 if let error = error {
                     print("Error: \(error)")
-                    self?.registerErrorStringPublisher.accept(NetworkingErrors.networkError(error).localizedDescription)
+                    self?.registerErrorPublisher.accept(NetworkingErrors.networkError(error))
                     return
                 }
                 
                 guard let httpResponse = response as? HTTPURLResponse else{
-                    self?.registerErrorStringPublisher.accept(NetworkingErrors.unknownError.localizedDescription)
+                    self?.registerErrorPublisher.accept(NetworkingErrors.unknownError)
                     return
                 }
                 guard let data = data else {
-                    self?.registerErrorStringPublisher.accept(NetworkingErrors.noData.localizedDescription)
+                    self?.registerErrorPublisher.accept(NetworkingErrors.noData)
                     return
                 }
 
                 if !(200..<300).contains(httpResponse.statusCode) && httpResponse.statusCode != 500{
-                    self?.registerErrorStringPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode).localizedDescription)
+                    self?.registerErrorPublisher.accept(NetworkingErrors.serverError(httpResponse.statusCode))
                 }
                 
                 if httpResponse.statusCode == 500 {
                     do{
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        self?.registerErrorStringPublisher.accept(decodedMessage.message)
+                        self?.registerErrorPublisher.accept(NSError(domain: "", code: 500,userInfo: [NSLocalizedDescriptionKey:decodedMessage.message]))
                         return
                     }catch{
-                        self?.registerErrorStringPublisher.accept(NetworkingErrors.decodingError(error).localizedDescription)
+                        self?.registerErrorPublisher.accept(NetworkingErrors.decodingError(error))
                     }
                 }
                 
