@@ -30,6 +30,7 @@
 		006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C692C1F921600457AD9 /* AuthCoordinator.swift */; };
 		008813B62C38F337006A93B4 /* ErrorsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008813B42C38F337006A93B4 /* ErrorsAlertView.swift */; };
 		008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008813B52C38F337006A93B4 /* ErrorsAlertView.xib */; };
+		0091601C2C3E8AA500DF7850 /* AddPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */; };
 		00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1022C28773600932E44 /* HomeCoordinator.swift */; };
 		00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1052C28775D00932E44 /* SearchCoordinator.swift */; };
 		00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1072C28777300932E44 /* NotificationCoordinator.swift */; };
@@ -98,6 +99,7 @@
 		006A0C692C1F921600457AD9 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		008813B42C38F337006A93B4 /* ErrorsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsAlertView.swift; sourceTree = "<group>"; };
 		008813B52C38F337006A93B4 /* ErrorsAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorsAlertView.xib; sourceTree = "<group>"; };
+		0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewModel.swift; sourceTree = "<group>"; };
 		00ACB1022C28773600932E44 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1052C28775D00932E44 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1072C28777300932E44 /* NotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCoordinator.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 			children = (
 				00BA3A4F2C3219C8001592B6 /* AddPostView.swift */,
 				00BA3A502C3219C8001592B6 /* AddPostView.xib */,
+				0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */,
 			);
 			path = AddPostScreen;
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				00C92C4E2C23992200358924 /* APIConstants.swift in Sources */,
 				00F1EBF52C2E39C900CE0DA5 /* HomeViewModel.swift in Sources */,
 				0016E72D2C33C558007EFADF /* UIImageExtension.swift in Sources */,
+				0091601C2C3E8AA500DF7850 /* AddPostViewModel.swift in Sources */,
 				00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */,
 				00D827242C2F68A70033B6E4 /* StoryCollectionViewCell.swift in Sources */,
 				00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */,

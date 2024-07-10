@@ -60,7 +60,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="vbJ-30-dAW" userLabel="textFieldsStack">
                                                     <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="280"/>
                                                     <subviews>
-                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="mmmmm" borderStyle="roundedRect" placeholder="name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UoR-e0-9x8">
+                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UoR-e0-9x8">
                                                             <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="55"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="55" id="L0Y-J3-tfJ"/>
@@ -68,7 +68,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textField>
-                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="moataz.mohamed.id2@gmail.com" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X2H-Oa-1vj">
+                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X2H-Oa-1vj">
                                                             <rect key="frame" x="0.0" y="75" width="334.33333333333331" height="55"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="55" id="owW-BS-WT3"/>
@@ -76,7 +76,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                                         </textField>
-                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="MmMm@1234" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pdY-uw-B0J">
+                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pdY-uw-B0J">
                                                             <rect key="frame" x="0.0" y="150" width="334.33333333333331" height="55"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="55" id="cLT-YP-0Dg"/>
@@ -84,7 +84,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                         </textField>
-                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="MmMm@1234" borderStyle="roundedRect" placeholder="confirmPassword" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KrE-QX-wQf">
+                                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="confirmPassword" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KrE-QX-wQf">
                                                             <rect key="frame" x="0.0" y="225" width="334.33333333333331" height="55"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="55" id="8vc-cH-k0A"/>
@@ -189,7 +189,7 @@
     </objects>
     <resources>
         <namedColor name="Main">
-            <color red="0.23137254901960785" green="0.58823529411764708" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0032481527887284756" green="0.82083529233932495" blue="0.999916672706604" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sublabel">
             <color red="0.53725490196078429" green="0.54117647058823526" blue="0.51372549019607838" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

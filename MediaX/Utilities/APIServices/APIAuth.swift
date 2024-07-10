@@ -103,7 +103,7 @@ class APIAuth {
         ]
 
         
-        let body = MultiPartFile.multipartFormDataBody(boundary, json: jsonData, images: images)
+        let body = MultiPartFile.registerMultipartFormDataBody(boundary, json: jsonData, images: images)
         
         request.httpBody = body
 

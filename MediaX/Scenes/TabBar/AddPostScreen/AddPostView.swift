@@ -7,6 +7,8 @@
 
 import UIKit
 import Photos
+import RxSwift
+import RxCocoa
 
 protocol addPostDelegate:AnyObject{
     func didDismissPhotoLibrary()
@@ -14,17 +16,31 @@ protocol addPostDelegate:AnyObject{
 
 class AddPostView: UIViewController {
 
+//    MARK: - Attributes
     
     weak var delegate : addPostDelegate?
+    let viewModel : AddPostViewModel
+    let disposeBag:DisposeBag
+    
     
     @IBOutlet weak var newPostImage: UIImageView!
     @IBOutlet weak var newPostContent: UITextView!
+    @IBOutlet weak var postButton: UIButton!
     
+    
+//    MARK: - View Controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTextView()
-        newPostContent.layer.cornerRadius = 40
+        setUpImageTapGesture()
+        postButton.isHidden = true
+
+        newPostContent.layer.cornerRadius = 10
         newPostImage.layer.cornerRadius = 40
+        postButton.layer.cornerRadius = postButton.bounds.height / 2
+        
+        bindTextView()
+        bindPostButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,11 +52,60 @@ class AddPostView: UIViewController {
         resetView()
     }
     
+    init(disposeBag:DisposeBag,viewModel:AddPostViewModel){
+        self.disposeBag = disposeBag
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+//    MARK: - Actions
     @IBAction func viewTapGesture(_ sender: Any) {
         view.endEditing(true)
     }
     
+    @objc func imageTapAction(){
+        checkPhotoLibraryPermission()
+    }
+    @IBAction func postButtonAction(_ sender: Any) {
+    }
     
+//    MARK: - Binings
+    
+    private func bindTextView(){
+        newPostContent.rx.text.orEmpty.bind(to: viewModel.contentTextViewBinder)
+            .disposed(by: disposeBag)
+
+    }
+    private func bindPostButton(){
+        postButton.rx.tap.bind(to: viewModel.postButtonBinder)
+            .disposed(by: disposeBag)
+
+    }
+    
+    
+//    MARK: - privates
+    
+    private func setUpImageTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(imageTapAction))
+        
+        newPostImage.addGestureRecognizer(tap)
+        newPostImage.isUserInteractionEnabled = true
+    }
+    
+    private func postButtonSetup(){
+        if newPostImage.image == UIImage(systemName: "square.and.arrow.up.fill"){
+            postButton.isHidden = true
+        }else{
+            postButton.isHidden = false
+        }
+    }
+
+
     private func setUpTextView(){
         newPostContent.delegate = self
         newPostContent.textContainerInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
@@ -51,8 +116,9 @@ class AddPostView: UIViewController {
     }
     
     private func resetView(){
-        newPostImage.image = UIImage(systemName: "square.and.arrow.up")
+        newPostImage.image = UIImage(systemName: "square.and.arrow.up.fill")
         newPostContent.text = "Write a caption..."
+        postButton.isHidden = true
         newPostContent.textColor = UIColor.lightGray
     }
     
@@ -68,7 +134,6 @@ extension AddPostView :UIImagePickerControllerDelegate, UINavigationControllerDe
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
         case .authorized:
-            openPhotoLibrary()
             openPhotoLibrary()
         case .denied, .restricted:
             
@@ -98,7 +163,6 @@ extension AddPostView :UIImagePickerControllerDelegate, UINavigationControllerDe
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = false
-//            imagePicker.modalPresentationStyle = .fullScreen
             self.present(imagePicker, animated: true, completion: nil)
         } else {
             
@@ -114,15 +178,18 @@ extension AddPostView :UIImagePickerControllerDelegate, UINavigationControllerDe
         self.present(alert, animated: true, completion: nil)
     }
     
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
         if let selectedImage = info[.originalImage] as? UIImage {
-            print("Selected image: \(selectedImage)")
             newPostImage.image = selectedImage
-            
+            if let imageData = selectedImage.jpegData(compressionQuality: 0.99) {
+                viewModel.selectedImageData = imageData
+            }
+            postButtonSetup()
         }
         picker.dismiss(animated: true, completion: nil)
     }
+
     
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

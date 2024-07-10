@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-
+import RxSwift
+import RxCocoa
 class AddPostCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
     
@@ -18,7 +19,9 @@ class AddPostCoordinator:Coordinator{
     }
     
     func start() {
-        let vc = AddPostView()
+        let disposeBag = DisposeBag()
+        let viewModel = AddPostViewModel(coordinator: self, disposeBag: disposeBag)
+        let vc = AddPostView(disposeBag: disposeBag, viewModel: viewModel)
         vc.delegate = delegate
         navigationController.pushViewController(vc, animated: true)
     }

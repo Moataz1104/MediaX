@@ -87,4 +87,42 @@ class APIPosts {
                 .error(NetworkingErrors.networkError(error))
             }
     }
+    
+    func addPost( content:String , imageData:Data,accessToken:String) -> Observable<Void>{
+        
+        var newContent = content
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: apiK.addPostURL)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "POST"
+
+        if newContent == "Write a caption..."{
+            newContent = " "
+        }
+        
+        let body = MultiPartFile.postMultipartFormDataBody(boundary, imageData: imageData, content: newContent)
+        request.httpBody = body
+
+        return URLSession.shared.rx.response(request: request)
+            .flatMap{response,data -> Observable<Void> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+
+                return .just(())
+            }.catch { error in
+                
+                return .error(NetworkingErrors.networkError(error))
+            }
+    }
 }
