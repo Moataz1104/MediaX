@@ -217,6 +217,7 @@ extension AddPostView :UIImagePickerControllerDelegate, UINavigationControllerDe
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+        resetView()
         delegate?.didDismissPhotoLibrary()
     }
 
@@ -225,41 +226,10 @@ extension AddPostView :UIImagePickerControllerDelegate, UINavigationControllerDe
 // MARK: - Text View Delegat
 extension AddPostView:UITextViewDelegate{
 
-    
-    func textViewDidChange(_ textView: UITextView) {
-        if textView.text == "Write a caption..." || textView.text == ""{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.textViewisEmpty()
-            }
-        }else{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.textViewNotEmpty()
-            }
-
-        }
-
-    }
-    
-    
-
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Write a caption..." {
             textView.text = ""
             textView.textColor = UIColor.black
-        }
-        
-        if textView.text == "Write a caption..." || textView.text == ""{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-
-                self?.textViewisEmpty()
-            }
-        }else{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-
-                self?.textViewNotEmpty()
-                
-            }
-
         }
         
     }
@@ -268,25 +238,8 @@ extension AddPostView:UITextViewDelegate{
             textView.text = "Write a caption..."
             textView.textColor = UIColor.lightGray
         }
-        if textView.text == "Write a caption..." || textView.text == ""{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.textViewisEmpty()
-            }
-        }else{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.textViewNotEmpty()
-            }
-
-        }
-
     }
     
-    private func textViewisEmpty(){
-    }
-    private func textViewNotEmpty(){
-    }
-
-
     
 
 }
