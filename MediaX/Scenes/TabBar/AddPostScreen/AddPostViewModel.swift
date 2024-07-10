@@ -20,6 +20,7 @@ class AddPostViewModel{
     
     let contentTextViewBinder = PublishRelay<String>()
     let postButtonBinder = PublishRelay<Void>()
+    let indicatorPublisher = PublishRelay<Bool>()
     
     init(coordinator: AddPostCoordinator, disposeBag: DisposeBag) {
         self.coordinator = coordinator
@@ -37,15 +38,17 @@ class AddPostViewModel{
         postButtonBinder
             .withLatestFrom(contentTextViewBinder)
             .flatMapLatest { [weak self] content -> Observable<Void> in
-                
                 guard let self = self, let imageData = self.selectedImageData else { return .empty()}
+                self.indicatorPublisher.accept(true)
+                
                 return APIPosts.shared.addPost(content: content, imageData: imageData, accessToken: token)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
             }
-            .subscribe { _ in
-                
-            } onError: { error in
+            .subscribe {[weak self] _ in
+                self?.indicatorPublisher.accept(false)
+            } onError: {[weak self] error in
+                self?.indicatorPublisher.accept(false)
                 print(error)
             }
             .disposed(by: disposeBag)

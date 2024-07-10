@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddPostView" customModule="MediaX" customModuleProvider="target">
             <connections>
+                <outlet property="indicator" destination="O5c-PP-sYQ" id="1K4-nx-4f9"/>
                 <outlet property="newPostContent" destination="qFZ-WT-rif" id="BkN-Lu-giE"/>
                 <outlet property="newPostImage" destination="yKH-cO-51K" id="TAL-ps-UTY"/>
                 <outlet property="postButton" destination="64R-GB-vFA" id="8Ng-3I-Oit"/>
@@ -52,8 +53,12 @@
                                 <constraint firstAttribute="width" constant="320" id="hfJ-m1-RyD"/>
                             </constraints>
                         </imageView>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="O5c-PP-sYQ">
+                            <rect key="frame" x="168.33333333333334" y="320" width="37" height="37"/>
+                            <color key="color" name="Main"/>
+                        </activityIndicatorView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qFZ-WT-rif">
-                            <rect key="frame" x="0.0" y="320" width="373.66666666666669" height="186.66666666666663"/>
+                            <rect key="frame" x="0.0" y="377" width="373.66666666666669" height="129.66666666666663"/>
                             <color key="backgroundColor" white="0.97999999999999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="textColor" systemColor="labelColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>

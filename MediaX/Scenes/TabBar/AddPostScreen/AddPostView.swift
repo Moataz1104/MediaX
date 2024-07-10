@@ -26,6 +26,7 @@ class AddPostView: UIViewController {
     @IBOutlet weak var newPostImage: UIImageView!
     @IBOutlet weak var newPostContent: UITextView!
     @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     
 //    MARK: - View Controller life cycle
@@ -34,10 +35,15 @@ class AddPostView: UIViewController {
         setUpTextView()
         setUpImageTapGesture()
         postButton.isHidden = true
+        indicator.isHidden = true
+        indicator.stopAnimating()
 
+        
         newPostContent.layer.cornerRadius = 10
         newPostImage.layer.cornerRadius = 40
         postButton.layer.cornerRadius = postButton.bounds.height / 2
+        
+        subscribeToIndicatorPublisher()
         
         bindTextView()
         bindPostButton()
@@ -45,11 +51,9 @@ class AddPostView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        checkPhotoLibraryPermission()
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        resetView()
+        if !indicator.isAnimating{
+            checkPhotoLibraryPermission()
+        }
     }
     
     init(disposeBag:DisposeBag,viewModel:AddPostViewModel){
@@ -83,6 +87,25 @@ class AddPostView: UIViewController {
     }
     private func bindPostButton(){
         postButton.rx.tap.bind(to: viewModel.postButtonBinder)
+            .disposed(by: disposeBag)
+
+    }
+    
+    private func subscribeToIndicatorPublisher(){
+        viewModel.indicatorPublisher
+            .subscribe {[weak self] isAnimating in
+                if isAnimating{
+                    self?.indicator.isHidden = false
+                    self?.indicator.startAnimating()
+                    
+                }else{
+                    self?.indicator.isHidden = true
+                    self?.indicator.stopAnimating()
+                    self?.resetView()
+                    self?.delegate?.didDismissPhotoLibrary()
+
+                }
+            }
             .disposed(by: disposeBag)
 
     }
