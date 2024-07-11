@@ -38,6 +38,7 @@ class HomeView: UIViewController {
 //    MARK: - View controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         setupTableView()
         registerCells()
         
@@ -143,6 +144,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             cell.viewModel = viewModel
             cell.post = viewModel.posts[indexPath.row]
             cell.configureCell(with: viewModel.posts[indexPath.row], accessToken: viewModel.accessToken!)
+            cell.settingButton.isHidden = true
             
             return cell
         }
@@ -173,7 +175,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     private func hideLogoStack() {
         UIView.animate(withDuration: 0.5) {[weak self] in
             self?.logoStackHeightConstraint.constant = 0
-            self?.tableViewTopConstraint.constant = 50
+            self?.tableViewTopConstraint.constant = -30
             self?.view.layoutIfNeeded()
         }
         isLogoStackHidden = true
@@ -182,7 +184,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     private func showLogoStack() {
         UIView.animate(withDuration: 0.5) {[weak self] in
             self?.logoStackHeightConstraint.constant = 30
-            self?.tableViewTopConstraint.constant = 110
+            self?.tableViewTopConstraint.constant = 50
             self?.view.layoutIfNeeded()
         }
         isLogoStackHidden = false

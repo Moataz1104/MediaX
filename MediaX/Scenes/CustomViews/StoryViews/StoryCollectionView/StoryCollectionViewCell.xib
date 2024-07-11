@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,17 +19,29 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="iaA-EU-MP6">
-                        <rect key="frame" x="126.66666666666669" y="89.666666666666671" width="60" height="76.000000000000014"/>
+                        <rect key="frame" x="121.66666666666669" y="84.666666666666671" width="70" height="86.000000000000014"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="V7D-Ch-dxc">
-                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CH8-CI-Oup">
+                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="V7D-Ch-dxc">
+                                        <rect key="frame" x="5" y="5" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="Obl-Ro-FLa"/>
+                                            <constraint firstAttribute="width" constant="60" id="Q1S-rr-bOI"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="Obl-Ro-FLa"/>
-                                    <constraint firstAttribute="width" constant="60" id="Q1S-rr-bOI"/>
+                                    <constraint firstItem="V7D-Ch-dxc" firstAttribute="centerX" secondItem="CH8-CI-Oup" secondAttribute="centerX" id="1Kv-xc-Wp1"/>
+                                    <constraint firstAttribute="height" constant="70" id="3Ms-WY-Adh"/>
+                                    <constraint firstAttribute="width" constant="70" id="mg5-oY-uSq"/>
+                                    <constraint firstItem="V7D-Ch-dxc" firstAttribute="centerY" secondItem="CH8-CI-Oup" secondAttribute="centerY" id="mks-U8-j4v"/>
                                 </constraints>
-                            </imageView>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userNmae" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v53-xX-s27">
-                                <rect key="frame" x="4.3333333333333286" y="63.999999999999986" width="51" height="12"/>
+                                <rect key="frame" x="9.3333333333333286" y="73.999999999999986" width="51" height="12"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -44,6 +57,7 @@
             </constraints>
             <size key="customSize" width="313" height="230"/>
             <connections>
+                <outlet property="backGroundView" destination="CH8-CI-Oup" id="cRf-S9-iph"/>
                 <outlet property="userImage" destination="V7D-Ch-dxc" id="23s-HB-S0E"/>
                 <outlet property="userName" destination="v53-xX-s27" id="MIm-5b-DCB"/>
             </connections>
@@ -52,5 +66,8 @@
     </objects>
     <resources>
         <image name="1" width="640" height="639"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

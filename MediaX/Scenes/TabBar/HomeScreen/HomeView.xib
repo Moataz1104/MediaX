@@ -15,7 +15,7 @@
                 <outlet property="logoStack" destination="ahM-NX-YJx" id="jBy-bZ-lW7"/>
                 <outlet property="logoStackHeightConstraint" destination="ivR-AE-Tgw" id="gfF-fU-Fep"/>
                 <outlet property="tableView" destination="f69-F5-o6H" id="x9b-sW-15k"/>
-                <outlet property="tableViewTopConstraint" destination="Mpa-eH-BXR" id="Hhn-Gm-D6G"/>
+                <outlet property="tableViewTopConstraint" destination="d4e-5T-vZ5" id="sOf-Nl-Pgm"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="ahM-NX-YJx" userLabel="LogoStack">
-                    <rect key="frame" x="20" y="70" width="353" height="30"/>
+                    <rect key="frame" x="20" y="59" width="353" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Media X" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JP-x2-kIN">
                             <rect key="frame" x="0.0" y="0.0" width="94.333333333333329" height="30"/>
@@ -52,7 +52,7 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f69-F5-o6H">
-                    <rect key="frame" x="10" y="59" width="373" height="793"/>
+                    <rect key="frame" x="10" y="109" width="373" height="743"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="sectionIndexBackgroundColor" name="BackGroundMain"/>
                 </tableView>
@@ -62,10 +62,10 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="f69-F5-o6H" secondAttribute="bottom" id="7eO-h9-Ede"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ahM-NX-YJx" secondAttribute="trailing" constant="20" id="Dn7-PQ-96J"/>
-                <constraint firstItem="ahM-NX-YJx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="EUW-zT-ITK"/>
-                <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="Mpa-eH-BXR"/>
+                <constraint firstItem="ahM-NX-YJx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="EUW-zT-ITK"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Q0Z-NP-VOj"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="c5s-kn-JFZ"/>
+                <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="d4e-5T-vZ5"/>
                 <constraint firstItem="f69-F5-o6H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="i14-Na-Jjw"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="f69-F5-o6H" secondAttribute="trailing" constant="10" id="jUj-hc-dd7"/>
             </constraints>
@@ -78,7 +78,7 @@
             <color red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Main">
-            <color red="0.23137254901960785" green="0.58823529411764708" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0039215688593685627" green="0.70588237047195435" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

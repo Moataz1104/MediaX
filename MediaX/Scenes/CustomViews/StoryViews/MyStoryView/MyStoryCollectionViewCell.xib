@@ -17,22 +17,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="318" height="95"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="ggH-UP-cXF">
-                        <rect key="frame" x="126.66666666666669" y="15" width="65" height="65"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zur-hX-qWp">
+                        <rect key="frame" x="119" y="7.6666666666666643" width="80" height="80"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="ggH-UP-cXF">
+                                <rect key="frame" x="5" y="5" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="FjR-Al-Ndl"/>
+                                    <constraint firstAttribute="height" constant="70" id="ec4-x2-rXi"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="65" id="FjR-Al-Ndl"/>
-                            <constraint firstAttribute="height" constant="65" id="ec4-x2-rXi"/>
+                            <constraint firstItem="ggH-UP-cXF" firstAttribute="centerX" secondItem="zur-hX-qWp" secondAttribute="centerX" id="25J-Ec-WBY"/>
+                            <constraint firstAttribute="width" constant="80" id="h5W-Sy-EJd"/>
+                            <constraint firstItem="ggH-UP-cXF" firstAttribute="centerY" secondItem="zur-hX-qWp" secondAttribute="centerY" id="jLu-oJ-k4h"/>
+                            <constraint firstAttribute="height" constant="80" id="sHD-0f-yNG"/>
                         </constraints>
-                    </imageView>
+                    </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="ggH-UP-cXF" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="9on-jA-tMj"/>
-                <constraint firstItem="ggH-UP-cXF" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="dUN-iY-2hL"/>
+                <constraint firstItem="zur-hX-qWp" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="VR4-TO-6jX"/>
+                <constraint firstItem="zur-hX-qWp" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="rgo-ED-BK1"/>
             </constraints>
             <size key="customSize" width="318" height="95"/>
             <connections>
+                <outlet property="backGroundView" destination="zur-hX-qWp" id="xcz-vg-esr"/>
                 <outlet property="myImage" destination="ggH-UP-cXF" id="g3z-Da-n9P"/>
             </connections>
             <point key="canvasLocation" x="299.23664122137404" y="3.8732394366197185"/>
