@@ -118,15 +118,16 @@ class PostTableViewCell: UITableViewCell {
     }
 
     func configureCell(with post: PostModel, accessToken: String) {
+        
         if let imageUrlString = post.image, let url = URL(string: imageUrlString) {
             imageLoadDisposable = postImage.loadImage(url: url, accessToken: accessToken,indicator:indicator)
             
         }
-        
+
         if let userImageString = post.userImage, let url = URL(string: userImageString) {
             DispatchQueue.main.async{[weak self] in
                 UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.5,options: .transitionCrossDissolve) {
-                    self?.imageLoadDisposable = self?.userImage.loadImage(url: url, accessToken: accessToken, indicator: nil)
+                    self?.userImageLoadDisposable = self?.userImage.loadImage(url: url, accessToken: accessToken, indicator: nil)
                         
                 }
             }

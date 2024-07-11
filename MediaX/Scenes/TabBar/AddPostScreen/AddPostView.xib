@@ -45,7 +45,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mP0-iE-DQ6">
                     <rect key="frame" x="9.6666666666666572" y="131.33333333333331" width="373.66666666666674" height="566.66666666666674"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="yKH-cO-51K">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.and.arrow.up.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="yKH-cO-51K">
                             <rect key="frame" x="27" y="-1" width="320" height="300.66666666666669"/>
                             <color key="tintColor" name="Main"/>
                             <constraints>

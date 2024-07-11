@@ -42,7 +42,7 @@ class HomeViewModel {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] posts in
-                    self?.posts = posts
+                    self?.posts = posts.reversed()
                     self?.reloadTableViewClosure?()
                 },
                 onError: { [weak self] error in

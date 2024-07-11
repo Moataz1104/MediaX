@@ -49,7 +49,7 @@ extension UIImageView {
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self?.image = UIImage(systemName: "photo.artframe")
+                            self?.image = nil
                             indicator?.isHidden = true
                             indicator?.stopAnimating()
 
@@ -58,7 +58,7 @@ extension UIImageView {
                 case .error(let error):
                     print("Error loading image: \(error.localizedDescription)")
                     DispatchQueue.main.async {
-                        self?.image = UIImage(systemName: "photo.artframe")
+                        self?.image = nil
                     }
                 case .completed:
                     break
@@ -71,10 +71,21 @@ class ImageCache {
     static let shared = ImageCache()
     
     private let cache = NSCache<NSString, UIImage>()
-    private let maxCacheSize = 25
+    private let maxCacheSize = 20
     
     private init() {
         cache.countLimit = maxCacheSize
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(clearCache),
+            name: UIApplication.didReceiveMemoryWarningNotification,
+            object: nil
+        )
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+
     }
     
     func setObject(_ object: UIImage, forKey key: NSString) {
@@ -84,4 +95,12 @@ class ImageCache {
     func object(forKey key: NSString) -> UIImage? {
         return cache.object(forKey: key)
     }
+    
+    @objc private func clearCache() {
+        cache.removeAllObjects()
+    }
 }
+
+
+
+

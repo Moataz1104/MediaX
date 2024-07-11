@@ -175,7 +175,7 @@
         <image name="bigLike" width="213.33332824707031" height="213.33332824707031"/>
         <image name="detailImage" width="20" height="20.333333969116211"/>
         <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="profileIcon" width="170.66667175292969" height="170.66667175292969"/>
+        <image name="profileIcon" width="82.333335876464844" height="82.333335876464844"/>
         <image name="square.and.arrow.up" catalog="system" width="108" height="128"/>
         <image name="text.bubble" catalog="system" width="128" height="110"/>
         <namedColor name="sublabel">
