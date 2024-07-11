@@ -12,7 +12,8 @@ import RxCocoa
 
 extension UIImageView {
     
-    func loadImage(url: URL, accessToken: String,indicator:UIActivityIndicatorView?) -> Disposable {
+    func loadImage(url: URL, accessToken: String, indicator: UIActivityIndicatorView?) -> Disposable {
+        
         indicator?.isHidden = false
         indicator?.startAnimating()
         
@@ -21,7 +22,6 @@ extension UIImageView {
                 self?.image = cachedImage
                 indicator?.isHidden = true
                 indicator?.stopAnimating()
-
             }
             return Disposables.create()
         }
@@ -29,8 +29,14 @@ extension UIImageView {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        configuration.urlCache = URLCache(memoryCapacity: 20 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "imageCache")
 
-        return URLSession.shared.rx.data(request: request)
+        let session = URLSession(configuration: configuration)
+        
+        return session.rx.data(request: request)
             .map { data -> UIImage? in
                 return UIImage(data: data)
             }
@@ -45,14 +51,12 @@ extension UIImageView {
                             self?.image = image
                             indicator?.isHidden = true
                             indicator?.stopAnimating()
-
                         }
                     } else {
                         DispatchQueue.main.async {
                             self?.image = nil
                             indicator?.isHidden = true
                             indicator?.stopAnimating()
-
                         }
                     }
                 case .error(let error):
@@ -81,6 +85,7 @@ class ImageCache {
             name: UIApplication.didReceiveMemoryWarningNotification,
             object: nil
         )
+        
     }
     
     deinit {
