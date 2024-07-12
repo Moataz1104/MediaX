@@ -31,6 +31,8 @@
 		008813B62C38F337006A93B4 /* ErrorsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008813B42C38F337006A93B4 /* ErrorsAlertView.swift */; };
 		008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008813B52C38F337006A93B4 /* ErrorsAlertView.xib */; };
 		0091601C2C3E8AA500DF7850 /* AddPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */; };
+		009160242C41155A00DF7850 /* UserInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009160222C41155A00DF7850 /* UserInfoCollectionViewCell.swift */; };
+		009160252C41155A00DF7850 /* UserInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 009160232C41155A00DF7850 /* UserInfoCollectionViewCell.xib */; };
 		00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1022C28773600932E44 /* HomeCoordinator.swift */; };
 		00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1052C28775D00932E44 /* SearchCoordinator.swift */; };
 		00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1072C28777300932E44 /* NotificationCoordinator.swift */; };
@@ -100,6 +102,8 @@
 		008813B42C38F337006A93B4 /* ErrorsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsAlertView.swift; sourceTree = "<group>"; };
 		008813B52C38F337006A93B4 /* ErrorsAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorsAlertView.xib; sourceTree = "<group>"; };
 		0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewModel.swift; sourceTree = "<group>"; };
+		009160222C41155A00DF7850 /* UserInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCollectionViewCell.swift; sourceTree = "<group>"; };
+		009160232C41155A00DF7850 /* UserInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		00ACB1022C28773600932E44 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1052C28775D00932E44 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1072C28777300932E44 /* NotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCoordinator.swift; sourceTree = "<group>"; };
@@ -302,6 +306,15 @@
 			path = ErrorsAlert;
 			sourceTree = "<group>";
 		};
+		0091601D2C405C9800DF7850 /* ProfileCells */ = {
+			isa = PBXGroup;
+			children = (
+				009160222C41155A00DF7850 /* UserInfoCollectionViewCell.swift */,
+				009160232C41155A00DF7850 /* UserInfoCollectionViewCell.xib */,
+			);
+			path = ProfileCells;
+			sourceTree = "<group>";
+		};
 		00ACB10B2C28779E00932E44 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,6 +397,7 @@
 				00D827212C2F68280033B6E4 /* StoryViews */,
 				0016E7352C3527DA007EFADF /* CommentCell */,
 				008813B22C38F2FF006A93B4 /* CustomAlerts */,
+				0091601D2C405C9800DF7850 /* ProfileCells */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -575,6 +589,7 @@
 				008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */,
 				006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */,
 				0016E7382C352801007EFADF /* CommentTableViewCell.xib in Resources */,
+				009160252C41155A00DF7850 /* UserInfoCollectionViewCell.xib in Resources */,
 				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
 				00ACB11E2C28785D00932E44 /* NotificationView.xib in Resources */,
 				00BA3A492C30B2B2001592B6 /* PostTableViewCell.xib in Resources */,
@@ -670,6 +685,7 @@
 				00D8272A2C309DE80033B6E4 /* StoriesTableViewCell.swift in Sources */,
 				00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */,
 				006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */,
+				009160242C41155A00DF7850 /* UserInfoCollectionViewCell.swift in Sources */,
 				006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */,
 				00ACB10A2C28777E00932E44 /* ProfileCoordinator.swift in Sources */,
 				0018FB2C2C367DDB00CA8168 /* TopAlignedLabel.swift in Sources */,
