@@ -126,7 +126,7 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="P0b-eL-lbA" firstAttribute="width" secondItem="1oo-eJ-UQo" secondAttribute="width" id="9f3-nc-6di"/>
+                            <constraint firstItem="P0b-eL-lbA" firstAttribute="width" secondItem="1oo-eJ-UQo" secondAttribute="width" id="BzD-Xf-Lg2"/>
                         </constraints>
                     </stackView>
                 </subviews>

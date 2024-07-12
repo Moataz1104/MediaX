@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKK-2t-cKe">
-                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <rect key="frame" x="-0.33333333333334281" y="59" width="393.66666666666674" height="759"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pcv-uZ-GfQ">
                         <size key="itemSize" width="128" height="128"/>
@@ -34,10 +34,10 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="NKK-2t-cKe" secondAttribute="trailing" id="3Dv-uw-xBk"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="NKK-2t-cKe" secondAttribute="trailing" constant="-0.20000000000000001" id="3Dv-uw-xBk"/>
                 <constraint firstItem="NKK-2t-cKe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Jzb-9F-E2w"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="NKK-2t-cKe" secondAttribute="bottom" id="ua4-gx-OVi"/>
-                <constraint firstItem="NKK-2t-cKe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="wJB-Dd-8AI"/>
+                <constraint firstItem="NKK-2t-cKe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="-0.20000000000000001" id="wJB-Dd-8AI"/>
             </constraints>
             <point key="canvasLocation" x="94" y="20"/>
         </view>
