@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-
+import RxCocoa
+import RxSwift
 
 class ProfileCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
@@ -19,7 +20,9 @@ class ProfileCoordinator:Coordinator{
     }
     
     func start() {
-        let vc = ProfileView()
+        let disposeBag = DisposeBag()
+        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag)
+        let vc = ProfileView(viewModel: viewModel,disposeBag:disposeBag)
         
         navigationController.pushViewController(vc, animated: true)
     }

@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import RxSwift
+import RxCocoa
 class UserInfoCollectionViewCell: UICollectionViewCell {
     static let identifier = "UserInfoCollectionViewCell"
     
@@ -18,6 +19,8 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userBio: UILabel!
     
+    var userImageDisposable : Disposable?
+    var viewModel:ProfileViewModel?
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -30,6 +33,25 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         backImageView.layer.borderWidth = 2
         backImageView.layer.borderColor = UIColor.main.cgColor
 
+
+    }
+    
+    
+    func configureCell(with user:UserModel){
+        
+        if let stringUrl = user.image,
+           let url = URL(string: stringUrl),
+           let token = viewModel?.accessToken{
+            userImageDisposable = userImage.loadImage(url: url, accessToken: token, indicator: nil)
+        }
+        
+        postsNumLabel.text = "\(user.numberOfPosts ?? 0)"
+        followersNumLabel.text = "\(user.numberOfFollowers ?? 0)"
+        followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
+        userName.text = user.fullName ?? ""
+        userBio.text = user.bio
+        
+        print(user)
 
     }
 

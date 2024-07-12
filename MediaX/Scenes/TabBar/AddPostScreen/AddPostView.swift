@@ -55,6 +55,10 @@ class AddPostView: UIViewController {
             checkPhotoLibraryPermission()
         }
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        resetView()
+    }
     
     init(disposeBag:DisposeBag,viewModel:AddPostViewModel){
         self.disposeBag = disposeBag
