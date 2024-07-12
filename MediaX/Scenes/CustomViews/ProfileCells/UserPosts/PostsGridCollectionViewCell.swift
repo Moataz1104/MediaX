@@ -6,15 +6,56 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class PostsGridCollectionViewCell: UICollectionViewCell {
     static let identfier = "PostsGridCollectionViewCell"
 
+//    MARK: - Attributes
+    @IBOutlet weak var postImage: UIImageView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
+    var imageLoadDisposable:Disposable?
+    var viewModel:ProfileViewModel?
+    var post:PostModel?
     
+//    MARK: - Cell life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        imageGestureSetUp()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageLoadDisposable?.dispose()
+        postImage.image = nil
+    }
+
+//    MARK: - Actions
+    
+    func imageGestureSetUp(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapAction))
+        postImage.addGestureRecognizer(tapGesture)
+        postImage.isUserInteractionEnabled = true
+
+    }
+    @objc func imageTapAction(){
+        print(post!.id!)
+    }
+
+    
+    
+//    MARK: - Configuration
+    func configureCell(with post: PostModel){
+        if let imageUrlString = post.image,
+           let url = URL(string: imageUrlString),
+           let token = viewModel?.accessToken{
+            imageLoadDisposable = postImage.loadImage(url: url, accessToken: token,indicator:indicator)
+            
+        }
+
+    }
+    
 
 }

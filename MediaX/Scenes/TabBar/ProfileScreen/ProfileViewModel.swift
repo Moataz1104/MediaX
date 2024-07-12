@@ -15,6 +15,8 @@ class ProfileViewModel{
     let disposeBag:DisposeBag
     
     var user:UserModel?
+    var posts:[PostModel]?
+    
     var reloadcollectionViewClosure:(()->Void)?
     let isAnimatingPublisher = PublishRelay<Bool>()
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
@@ -22,9 +24,7 @@ class ProfileViewModel{
         self.coordinator = coordinator
         self.disposeBag = disposeBag
         
-        
-        getCurrentUser()
-    }
+        }
     
     
     
@@ -46,6 +46,21 @@ class ProfileViewModel{
 
             }
             .disposed(by: disposeBag)
+    }
+    
+    func getCurrentUserPosts(){
+        guard let token = accessToken else{print("No TOKEN"); return}
+        APIUsers.shared.getCurrentUserPosts(accessToken: token)
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
+            .subscribe {[weak self] posts in
+                self?.posts = posts
+                self?.reloadcollectionViewClosure?()
+            }onError: { error in
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+
     }
     
 }

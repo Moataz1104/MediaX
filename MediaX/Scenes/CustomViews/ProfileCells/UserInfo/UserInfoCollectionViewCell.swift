@@ -35,6 +35,11 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
 
 
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImageDisposable?.dispose()
+        userImage.image = nil
+    }
     
     
     func configureCell(with user:UserModel){

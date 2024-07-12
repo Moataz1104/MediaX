@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,24 +18,36 @@
                 <rect key="frame" x="0.0" y="0.0" width="169" height="145"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="3" translatesAutoresizingMaskIntoConstraints="NO" id="Yjx-Mj-X5W">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yjx-Mj-X5W">
                         <rect key="frame" x="0.0" y="12.666666666666671" width="169" height="145"/>
                     </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-SZ-BNS">
+                        <rect key="frame" x="66" y="66.666666666666671" width="37" height="37"/>
+                        <color key="color" name="Main"/>
+                    </activityIndicatorView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="mO0-SZ-BNS" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="PQM-BH-1V1"/>
                 <constraint firstItem="Yjx-Mj-X5W" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="Sc9-1u-drE"/>
                 <constraint firstItem="Yjx-Mj-X5W" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="W2d-SL-BEa"/>
                 <constraint firstItem="Yjx-Mj-X5W" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="bW4-00-UzN"/>
                 <constraint firstItem="Yjx-Mj-X5W" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="dQX-ap-AwU"/>
+                <constraint firstItem="mO0-SZ-BNS" firstAttribute="centerY" secondItem="ZTg-uK-7eu" secondAttribute="centerY" id="kwd-Bo-0e4"/>
             </constraints>
             <size key="customSize" width="169" height="145"/>
+            <connections>
+                <outlet property="indicator" destination="mO0-SZ-BNS" id="faW-C2-0aT"/>
+                <outlet property="postImage" destination="Yjx-Mj-X5W" id="Lm5-Ka-5QL"/>
+            </connections>
             <point key="canvasLocation" x="0.76335877862595414" y="53.169014084507047"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="3" width="3363" height="4204"/>
+        <namedColor name="Main">
+            <color red="0.0039215688593685627" green="0.70196080207824707" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
