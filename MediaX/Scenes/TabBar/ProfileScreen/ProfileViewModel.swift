@@ -42,9 +42,9 @@ class ProfileViewModel{
                 self?.user = user
                 self?.reloadcollectionViewClosure?()
                 self?.isAnimatingPublisher.accept(false)
-            }onError: { error in
+            }onError: {[weak self] error in
                 print(error.localizedDescription)
-                self.isAnimatingPublisher.accept(false)
+                self?.isAnimatingPublisher.accept(false)
 
             }
             .disposed(by: disposeBag)

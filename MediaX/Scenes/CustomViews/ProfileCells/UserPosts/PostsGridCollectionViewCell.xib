@@ -21,8 +21,8 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yjx-Mj-X5W">
                         <rect key="frame" x="0.0" y="12.666666666666671" width="169" height="145"/>
                     </imageView>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-SZ-BNS">
-                        <rect key="frame" x="66" y="66.666666666666671" width="37" height="37"/>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="mO0-SZ-BNS">
+                        <rect key="frame" x="74.666666666666671" y="75" width="20" height="20"/>
                         <color key="color" name="Main"/>
                     </activityIndicatorView>
                 </subviews>

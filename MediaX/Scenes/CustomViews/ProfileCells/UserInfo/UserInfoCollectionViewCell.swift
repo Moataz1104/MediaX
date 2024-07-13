@@ -47,17 +47,15 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         if let stringUrl = user.image,
            let url = URL(string: stringUrl),
            let token = viewModel?.accessToken{
-            userImageDisposable = userImage.loadImage(url: url, accessToken: token, indicator: nil)
+            userImageDisposable = userImage.loadImage(url: url, accessToken: token, indicator: nil)            
         }
-        
-        postsNumLabel.text = "\(user.numberOfPosts ?? 0)"
-        followersNumLabel.text = "\(user.numberOfFollowers ?? 0)"
-        followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
-        userName.text = user.fullName ?? ""
-        userBio.text = user.bio
-        
-        print(user)
-
+        DispatchQueue.main.async{[weak self] in
+            self?.postsNumLabel.text = "\(user.numberOfPosts ?? 0)"
+            self?.followersNumLabel.text = "\(user.numberOfFollowers ?? 0)"
+            self?.followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
+            self?.userName.text = user.fullName ?? ""
+            self?.userBio.text = user.bio
+        }
     }
 
 }

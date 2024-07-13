@@ -19,16 +19,20 @@ class PostDetailView: UIViewController {
     let posts:[PostModel]
     let postVM:PostsViewModel
     let indexPath:IndexPath
-    
+
     //    MARK: - View Controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
 
         self.hero.isEnabled = true
+        postVM.delegate = self
+        postVM.posts = posts
 
         setUpTableView()
         registerCells()
+        
+        reloadTableView()
     }
     
     init( posts: [PostModel],postVM : PostsViewModel,indexPath:IndexPath ) {
@@ -78,6 +82,15 @@ class PostDetailView: UIViewController {
     private func registerCells(){
         tableView.register(UINib(nibName: PostTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: PostTableViewCell.identifier)
         }
+    
+    private func reloadTableView(){
+        postVM.reloadTableViewClosure = {[weak self] in
+            self?.tableView.reloadData()
+        }
+
+    }
+    
+
 
 
 }
@@ -85,14 +98,14 @@ class PostDetailView: UIViewController {
 extension PostDetailView:UITableViewDelegate,UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return postVM.posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
         cell.viewModel = postVM
-        cell.post = posts[indexPath.row]
-        cell.configureCell(with: posts[indexPath.row], accessToken: "")
+        cell.post = postVM.posts[indexPath.row]
+        cell.configureCell(with: postVM.posts[indexPath.row], accessToken: "")
         cell.indexPath = indexPath
         return cell
     }
@@ -104,6 +117,10 @@ extension PostDetailView:UITableViewDelegate,UITableViewDataSource{
 }
 
 
-
-
-
+extension PostDetailView:PostsViewModelDelegate{
+    func didTapCommentButtonInProfile(post: PostModel) {
+        if let coordinator = postVM.coordinator as? ProfileCoordinator{
+            present(coordinator.showCommentsScreen(post: post), animated: true)
+        }
+    }
+}

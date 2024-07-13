@@ -116,22 +116,24 @@ class CommentTableViewCell: UITableViewCell {
             }
         }
 
-        userName.text = comment.username ?? ""
-        content.text = comment.content ?? ""
-        commentTime.text = comment.timeAgo ?? ""
-        
-        if comment.liked!{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
-
+        DispatchQueue.main.async{[weak self] in
+            self?.userName.text = comment.username ?? ""
+            self?.content.text = comment.content ?? ""
+            self?.commentTime.text = comment.timeAgo ?? ""
+            
+            if comment.liked!{
+                UIView.animate(withDuration: 0.3) {[weak self] in
+                    self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
+                    
+                }
+                
+            }else{
+                UIView.animate(withDuration: 0.3) {[weak self] in
+                    self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
+                    
+                }
+                
             }
-
-        }else{
-            UIView.animate(withDuration: 0.3) {[weak self] in
-                self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
-
-            }
-
         }
     }
 }

@@ -60,7 +60,9 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
         if let imageUrlString = post.image,
            let url = URL(string: imageUrlString),
            let token = viewModel?.accessToken{
+            
             imageLoadDisposable = postImage.loadImage(url: url, accessToken: token,indicator:indicator)
+            
             
         }
 

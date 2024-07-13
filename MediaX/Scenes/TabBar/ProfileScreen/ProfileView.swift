@@ -18,22 +18,28 @@ class ProfileView: UIViewController {
     
     let viewModel:ProfileViewModel
     let disposeBag:DisposeBag
+    var refreshControl = UIRefreshControl()
     
+
 //    MARK: - View controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         indicator.isHidden = true
         indicator.stopAnimating()
-
         self.hero.isEnabled = true
-
         
-        
+        refreshControl.tintColor = UIColor.main
         setUpCollectionView()
         registerCells()
         reloadCollectioView()
+        refreshCollectionView()
         subscribeToIndicatorPublisher()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getCurrentUser()
+        viewModel.getCurrentUserPosts()
     }
     
     init(viewModel:ProfileViewModel,disposeBag:DisposeBag){
@@ -84,7 +90,22 @@ class ProfileView: UIViewController {
             self?.collectionView.reloadData()
         }
     }
+    private func refreshCollectionView(){
+        collectionView.refreshControl = refreshControl
+
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+
+    }
     
+    @objc func refreshData() {
+        DispatchQueue.main.async{[weak self] in
+            self?.refreshControl.beginRefreshing()
+            self?.viewModel.getCurrentUser()
+            self?.viewModel.getCurrentUserPosts()
+            self?.refreshControl.endRefreshing()
+        }
+    }
+
 }
 
 
