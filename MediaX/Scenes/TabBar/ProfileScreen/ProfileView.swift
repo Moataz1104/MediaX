@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
+import Hero
 class ProfileView: UIViewController {
 
 //    MARK: - Attributes
@@ -26,20 +26,14 @@ class ProfileView: UIViewController {
         indicator.isHidden = true
         indicator.stopAnimating()
 
+        self.hero.isEnabled = true
+
+        
+        
         setUpCollectionView()
         registerCells()
         reloadCollectioView()
         subscribeToIndicatorPublisher()
-        viewModel.getCurrentUser()
-        viewModel.getCurrentUserPosts()
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.getCurrentUser()
-        viewModel.getCurrentUserPosts()
-        
     }
     
     init(viewModel:ProfileViewModel,disposeBag:DisposeBag){
@@ -123,6 +117,8 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
             if let posts = viewModel.posts{
                 cell.configureCell(with: posts[indexPath.row])
                 cell.post = posts[indexPath.row]
+                cell.indexPath = indexPath
+                
             }
             return cell
 

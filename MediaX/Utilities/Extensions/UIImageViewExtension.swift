@@ -32,7 +32,7 @@ extension UIImageView {
         
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .returnCacheDataElseLoad
-        configuration.urlCache = URLCache(memoryCapacity: 20 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "imageCache")
+        configuration.urlCache = URLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 140 * 1024 * 1024, diskPath: "imageCache")
 
         let session = URLSession(configuration: configuration)
         

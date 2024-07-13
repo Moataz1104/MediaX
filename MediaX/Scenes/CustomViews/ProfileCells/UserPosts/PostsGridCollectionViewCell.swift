@@ -8,6 +8,9 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Hero
+
+
 
 class PostsGridCollectionViewCell: UICollectionViewCell {
     static let identfier = "PostsGridCollectionViewCell"
@@ -19,11 +22,15 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
     var imageLoadDisposable:Disposable?
     var viewModel:ProfileViewModel?
     var post:PostModel?
-    
+    var indexPath:IndexPath?
 //    MARK: - Cell life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         imageGestureSetUp()
+        if let indexPath = indexPath{
+            postImage.heroID = "\(indexPath.row)"
+        }
+
     }
     
     override func prepareForReuse() {
@@ -41,7 +48,9 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
 
     }
     @objc func imageTapAction(){
-        print(post!.id!)
+        if let indexPath = indexPath{
+            viewModel?.pushPostDetailScreen(indexPath: indexPath)
+        }
     }
 
     

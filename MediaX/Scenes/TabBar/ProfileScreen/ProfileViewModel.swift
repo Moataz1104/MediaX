@@ -24,6 +24,8 @@ class ProfileViewModel{
         self.coordinator = coordinator
         self.disposeBag = disposeBag
         
+        getCurrentUser()
+        getCurrentUserPosts()
         }
     
     
@@ -62,5 +64,13 @@ class ProfileViewModel{
             .disposed(by: disposeBag)
 
     }
+
     
+//    MARK: - Navigation
+    
+    func pushPostDetailScreen(indexPath:IndexPath){
+        if let posts = posts{
+            coordinator?.pushPostDetailScreen(posts: posts, indexPath: indexPath)
+        }
+    }
 }

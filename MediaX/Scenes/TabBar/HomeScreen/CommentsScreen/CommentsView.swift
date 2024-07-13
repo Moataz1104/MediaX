@@ -187,7 +187,9 @@ extension CommentsView:UITableViewDelegate,UITableViewDataSource{
         cell.viewModel = viewModel
         cell.comment = viewModel.comments[indexPath.row]
         cell.delegate = self
-        cell.configureCell(with: viewModel.comments[indexPath.row])
+        if let token = viewModel.accessToken{
+            cell.configureCell(with: viewModel.comments[indexPath.row],token: token)
+        }
             
         
         return cell

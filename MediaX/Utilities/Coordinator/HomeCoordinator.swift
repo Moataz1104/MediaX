@@ -26,7 +26,7 @@ class HomeCoordinator:Coordinator{
     
     func start() {
         let disposeBag = DisposeBag()
-        let viewModel = HomeViewModel(disposeBag: disposeBag, coordinator: self)
+        let viewModel = PostsViewModel(disposeBag: disposeBag, coordinator: self)
         let vc = HomeView(disposeBag: disposeBag, viewModel: viewModel)
         vc.delegate = delegate
         

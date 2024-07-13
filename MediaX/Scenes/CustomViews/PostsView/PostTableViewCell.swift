@@ -8,6 +8,9 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Hero
+
+
 class PostTableViewCell: UITableViewCell {
     static let identifier = "PostTableViewCell"
 
@@ -25,14 +28,19 @@ class PostTableViewCell: UITableViewCell {
     
     var imageLoadDisposable: Disposable?
     var userImageLoadDisposable: Disposable?
-    var viewModel:HomeViewModel?
+    var viewModel:PostsViewModel?
     var post:PostModel?
-    
+    var indexPath:IndexPath?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
         setUpDoupleTapRecognaizer()
+        if let indexPath = indexPath{
+            postImage.heroID = "\(indexPath.row)"
+        }
+        
+
     }
     
     override func prepareForReuse() {

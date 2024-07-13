@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import RxCocoa
 import RxSwift
+import Hero
 
 class ProfileCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
@@ -27,5 +28,17 @@ class ProfileCoordinator:Coordinator{
         navigationController.pushViewController(vc, animated: true)
     }
     
-    
+ 
+    func pushPostDetailScreen(posts:[PostModel],indexPath:IndexPath){
+        let disposeBag = DisposeBag()
+        let postVM = PostsViewModel(disposeBag: disposeBag, coordinator: self)
+
+        let vc = PostDetailView(posts: posts,postVM: postVM, indexPath: indexPath)
+        vc.modalPresentationStyle = .fullScreen
+        vc.hero.modalAnimationType = .zoom
+        DispatchQueue.main.async{[weak self] in
+            self?.navigationController.present(vc, animated: true)
+            
+        }
+    }
 }

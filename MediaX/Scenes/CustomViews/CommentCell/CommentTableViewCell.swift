@@ -107,17 +107,15 @@ class CommentTableViewCell: UITableViewCell {
     
     
 //    MARK: - Configuration
-    func configureCell(with comment : CommentModel){
-        if let viewModel = viewModel{
-            DispatchQueue.main.async{[weak self] in
-                
-                UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
-                    self?.userImageDisposable = self?.userImage.loadImage(url: URL(string:comment.userImage!)!, accessToken: viewModel.accessToken!, indicator: nil)
-                        
-                }
+    func configureCell(with comment : CommentModel,token:String){
+        
+        DispatchQueue.main.async{[weak self] in
+            UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
+                self?.userImageDisposable = self?.userImage.loadImage(url: URL(string:comment.userImage!)!, accessToken: token, indicator: nil)
+                    
             }
         }
-        
+
         userName.text = comment.username ?? ""
         content.text = comment.content ?? ""
         commentTime.text = comment.timeAgo ?? ""

@@ -12,7 +12,7 @@ import SwiftKeychainWrapper
 
 class CommentsViewModel{
     let disposeBag: DisposeBag
-    let coordinator: HomeCoordinator
+    weak var coordinator: HomeCoordinator?
 
     let sendButtonRelay = PublishRelay<Void>()
     let contentRelay = PublishRelay<String>()
@@ -47,7 +47,7 @@ class CommentsViewModel{
 
                 return APIInterActions.shared.addComment(for: self.post.id!, content: content, accessToken: token)
                     .catch { error in
-                        self.coordinator.showErrorInCommentScreen(error)
+                        self.coordinator?.showErrorInCommentScreen(error)
                         return .empty()
                     }
             }
@@ -55,7 +55,7 @@ class CommentsViewModel{
                 guard let self = self else{return .empty()}
                 return APIInterActions.shared.getAllComments(by: "\(self.post.id!)", accessToken: token)
                     .catch { error in
-                        self.coordinator.showErrorInCommentScreen(error)
+                        self.coordinator?.showErrorInCommentScreen(error)
                         return .empty()
                     }
             }
@@ -78,7 +78,7 @@ class CommentsViewModel{
                 self?.comments = comments.reversed()
                 self?.reloadTableClosure?(true, nil)
             }onError: {[weak self] error in
-                self?.coordinator.showErrorInCommentScreen(error)
+                self?.coordinator?.showErrorInCommentScreen(error)
             }
             .disposed(by: disposeBag)
             
@@ -91,7 +91,7 @@ class CommentsViewModel{
                 return APIInterActions.shared.addLikeToComment(by: id, accessToken: self.accessToken!)
                     .map{indexPath}
                     .catch { error in
-                        self.coordinator.showErrorInCommentScreen(error)
+                        self.coordinator?.showErrorInCommentScreen(error)
                         return .empty()
                     }
             }
@@ -108,7 +108,7 @@ class CommentsViewModel{
                 self.comments = comments
                 self.reloadTableClosure?(false, indexPath)
             } onError: {[weak self] error in
-                self?.coordinator.showErrorInCommentScreen(error)
+                self?.coordinator?.showErrorInCommentScreen(error)
             }
             .disposed(by: disposeBag)
 

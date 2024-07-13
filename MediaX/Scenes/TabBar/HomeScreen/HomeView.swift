@@ -22,7 +22,7 @@ class HomeView: UIViewController {
 //    MARK: - Attributes
     
     let disposeBag:DisposeBag
-    let viewModel:HomeViewModel
+    let viewModel:PostsViewModel
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logoStack: UIStackView!
@@ -50,7 +50,7 @@ class HomeView: UIViewController {
         viewModel.fetchAllPosts()
 
     }
-    init(disposeBag:DisposeBag,viewModel:HomeViewModel) {
+    init(disposeBag:DisposeBag,viewModel:PostsViewModel) {
         self.disposeBag = disposeBag
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
