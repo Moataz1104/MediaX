@@ -21,7 +21,8 @@ class AddPostViewModel{
     let contentTextViewBinder = PublishRelay<String>()
     let postButtonBinder = PublishRelay<Void>()
     let indicatorPublisher = PublishRelay<Bool>()
-    
+    let errorPublisher = PublishRelay<Error>()
+
     init(coordinator: AddPostCoordinator, disposeBag: DisposeBag) {
         self.coordinator = coordinator
         self.disposeBag = disposeBag
@@ -29,7 +30,6 @@ class AddPostViewModel{
         addPost()
         
     }
-    
     
     
     func addPost(){
@@ -49,7 +49,7 @@ class AddPostViewModel{
                 self?.indicatorPublisher.accept(false)
             } onError: {[weak self] error in
                 self?.indicatorPublisher.accept(false)
-                print(error)
+                self?.errorPublisher.accept(error)
             }
             .disposed(by: disposeBag)
 

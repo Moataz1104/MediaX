@@ -47,12 +47,15 @@ class AddPostView: UIViewController {
         
         bindTextView()
         bindPostButton()
+        subscribeToErrorPublisher()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !indicator.isAnimating{
-            checkPhotoLibraryPermission()
+            DispatchQueue.main.async{[weak self] in
+                self?.checkPhotoLibraryPermission()
+            }
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,7 +80,9 @@ class AddPostView: UIViewController {
     }
     
     @objc func imageTapAction(){
-        checkPhotoLibraryPermission()
+        DispatchQueue.main.async{[weak self] in
+            self?.checkPhotoLibraryPermission()
+        }
     }
     @IBAction func postButtonAction(_ sender: Any) {
     }
@@ -105,14 +110,42 @@ class AddPostView: UIViewController {
                 }else{
                     self?.indicator.isHidden = true
                     self?.indicator.stopAnimating()
-                    self?.resetView()
-                    self?.delegate?.didDismissPhotoLibrary()
 
                 }
             }
             .disposed(by: disposeBag)
 
     }
+    
+    
+    private func subscribeToErrorPublisher() {
+        viewModel.errorPublisher
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] event in
+                guard let error = event.element else {
+                    print("Error element is nil")
+                    return
+                }
+                let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+
+                if let networkingError = error as? NetworkingErrors {
+                    DispatchQueue.main.async {
+                        vc.errorTitle.text = networkingError.title
+                        vc.errorMessage.text = networkingError.localizedDescription
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        vc.errorMessage.text = error.localizedDescription
+                    }
+                }
+
+                self?.present(vc, animated: true, completion: nil)
+            }
+            .disposed(by: disposeBag)
+    }
+
     
     
 //    MARK: - privates
