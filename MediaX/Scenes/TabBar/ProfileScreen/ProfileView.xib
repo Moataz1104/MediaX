@@ -40,6 +40,9 @@
                     <state key="normal">
                         <imageReference key="image" image="gearshape.fill" catalog="system" symbolScale="large"/>
                     </state>
+                    <connections>
+                        <action selector="settingButtonAction:" destination="-1" eventType="touchUpInside" id="APu-OV-8YV"/>
+                    </connections>
                 </button>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="bJ7-EL-Tnj">
                     <rect key="frame" x="178" y="59" width="37" height="37"/>

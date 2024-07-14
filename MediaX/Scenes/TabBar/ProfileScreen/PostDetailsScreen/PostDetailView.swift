@@ -106,7 +106,7 @@ extension PostDetailView:UITableViewDelegate,UITableViewDataSource{
         cell.viewModel = postVM
         cell.post = postVM.posts[indexPath.row]
         cell.configureCell(with: postVM.posts[indexPath.row], accessToken: "")
-        cell.indexPath = indexPath
+         cell.indexPath = indexPath
         return cell
     }
     

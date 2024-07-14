@@ -14,7 +14,13 @@ extension UITextField {
     func setAttributedPlaceholder(with text: String, image:String) {
         
         let imageAttachment = NSTextAttachment()
-        imageAttachment.image = UIImage(named: image)
+        if let image = UIImage(named: image){
+            imageAttachment.image = image
+        }else if let image = UIImage(systemName: "phone") {
+            let tintedImage = image.withTintColor(.authIcons, renderingMode: .alwaysOriginal)
+                imageAttachment.image = tintedImage
+            }
+        
         imageAttachment.bounds = CGRect(x: 0, y: -7, width: 24, height: 24)
         
         
@@ -24,7 +30,7 @@ extension UITextField {
         
         let textString = NSAttributedString(string: text, attributes: [
             .font: UIFont.systemFont(ofSize: 14),
-            .foregroundColor: UIColor.authIcons
+            .foregroundColor: UIColor.authPlaceHolder
         ])
         
         

@@ -62,5 +62,18 @@ class ProfileCoordinator:Coordinator{
         return vc
     }
     
+    func pushSettingScreen(){
+        let disposeBag = DisposeBag()
+        let viewModel = SettingViewModel(disposeBag: disposeBag, coordinator: self)
+        let vc = SettingView(disposeBag: disposeBag, viewModel: viewModel)
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        
+        DispatchQueue.main.async{[weak self] in
+            self?.navigationController.present(vc, animated: true)
+        }
+        
+    }
+    
 
 }

@@ -52,6 +52,12 @@ class ProfileView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    MARK: - Actions
+    
+    @IBAction func settingButtonAction(_ sender: Any) {
+        viewModel.pushSettingScreen()
+    }
+    
 
 //  MARK: - Subscribers
     private func subscribeToIndicatorPublisher(){

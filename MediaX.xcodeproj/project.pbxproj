@@ -20,7 +20,6 @@
 		0018FB2E2C368CCB00CA8168 /* APIInterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018FB2D2C368CCB00CA8168 /* APIInterActions.swift */; };
 		006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C402C1F74F600457AD9 /* AppDelegate.swift */; };
 		006A0C432C1F74F600457AD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C422C1F74F600457AD9 /* SceneDelegate.swift */; };
-		006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C492C1F74F700457AD9 /* Assets.xcassets */; };
 		006A0C552C1F7E0E00457AD9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C542C1F7E0E00457AD9 /* Launch Screen.storyboard */; };
 		006A0C5E2C1F84B500457AD9 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C5D2C1F84B500457AD9 /* Colors.xcassets */; };
 		006A0C632C1F855000457AD9 /* LogInView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C622C1F855000457AD9 /* LogInView.xib */; };
@@ -28,6 +27,7 @@
 		006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C652C1F913400457AD9 /* Coordinator.swift */; };
 		006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C672C1F918000457AD9 /* MainCoordinator.swift */; };
 		006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C692C1F921600457AD9 /* AuthCoordinator.swift */; };
+		007258B02C441F7C00662A28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 007258AF2C441F7C00662A28 /* Assets.xcassets */; };
 		008813B62C38F337006A93B4 /* ErrorsAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008813B42C38F337006A93B4 /* ErrorsAlertView.swift */; };
 		008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008813B52C38F337006A93B4 /* ErrorsAlertView.xib */; };
 		0091601C2C3E8AA500DF7850 /* AddPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */; };
@@ -79,6 +79,9 @@
 		00F1EBF52C2E39C900CE0DA5 /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F1EBF42C2E39C900CE0DA5 /* PostsViewModel.swift */; };
 		00FCD1BC2C41795B0005F89C /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FCD1BA2C41795B0005F89C /* PostDetailView.swift */; };
 		00FCD1BD2C41795B0005F89C /* PostDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00FCD1BB2C41795B0005F89C /* PostDetailView.xib */; };
+		00FCD1C12C43F86D0005F89C /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FCD1BF2C43F86D0005F89C /* SettingView.swift */; };
+		00FCD1C22C43F86D0005F89C /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00FCD1C02C43F86D0005F89C /* SettingView.xib */; };
+		00FCD1C42C43F8750005F89C /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FCD1C32C43F8750005F89C /* SettingViewModel.swift */; };
 		E1F5B06D58CC3457AA679DF1 /* Pods_MediaX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,7 +100,6 @@
 		006A0C3D2C1F74F600457AD9 /* MediaX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006A0C402C1F74F600457AD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		006A0C422C1F74F600457AD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		006A0C492C1F74F700457AD9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		006A0C4E2C1F74F700457AD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		006A0C542C1F7E0E00457AD9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		006A0C5D2C1F84B500457AD9 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		006A0C652C1F913400457AD9 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		006A0C672C1F918000457AD9 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		006A0C692C1F921600457AD9 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		007258AF2C441F7C00662A28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Assets.xcassets/Assets.xcassets; sourceTree = "<group>"; };
 		008813B42C38F337006A93B4 /* ErrorsAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsAlertView.swift; sourceTree = "<group>"; };
 		008813B52C38F337006A93B4 /* ErrorsAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorsAlertView.xib; sourceTree = "<group>"; };
 		0091601B2C3E8AA500DF7850 /* AddPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewModel.swift; sourceTree = "<group>"; };
@@ -157,6 +160,9 @@
 		00F1EBF42C2E39C900CE0DA5 /* PostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
 		00FCD1BA2C41795B0005F89C /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		00FCD1BB2C41795B0005F89C /* PostDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostDetailView.xib; sourceTree = "<group>"; };
+		00FCD1BF2C43F86D0005F89C /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		00FCD1C02C43F86D0005F89C /* SettingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingView.xib; sourceTree = "<group>"; };
+		00FCD1C32C43F8750005F89C /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		1BF2EB1D77B7F74D198EC9FC /* Pods-MediaX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaX.debug.xcconfig"; path = "Target Support Files/Pods-MediaX/Pods-MediaX.debug.xcconfig"; sourceTree = "<group>"; };
 		A3023D612AD1B91F7229DA2C /* Pods-MediaX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaX.release.xcconfig"; path = "Target Support Files/Pods-MediaX/Pods-MediaX.release.xcconfig"; sourceTree = "<group>"; };
 		F0066A19A84F6ED2A5BD1635 /* Pods_MediaX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -278,8 +284,8 @@
 		006A0C5B2C1F81E900457AD9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				006A0C492C1F74F700457AD9 /* Assets.xcassets */,
 				006A0C5D2C1F84B500457AD9 /* Colors.xcassets */,
+				007258AF2C441F7C00662A28 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 				00ACB1202C28786C00932E44 /* ProfileView.xib */,
 				00ACCA712C414DD300EE29AC /* ProfileViewModel.swift */,
 				00FCD1B92C41793F0005F89C /* PostDetailsScreen */,
+				00FCD1BE2C43F8500005F89C /* SettingScreen */,
 			);
 			path = ProfileScreen;
 			sourceTree = "<group>";
@@ -544,6 +551,16 @@
 			path = PostDetailsScreen;
 			sourceTree = "<group>";
 		};
+		00FCD1BE2C43F8500005F89C /* SettingScreen */ = {
+			isa = PBXGroup;
+			children = (
+				00FCD1BF2C43F86D0005F89C /* SettingView.swift */,
+				00FCD1C02C43F86D0005F89C /* SettingView.xib */,
+				00FCD1C32C43F8750005F89C /* SettingViewModel.swift */,
+			);
+			path = SettingScreen;
+			sourceTree = "<group>";
+		};
 		3748A9770DF25CD6FDA8E81F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -623,6 +640,7 @@
 			files = (
 				006A0C5E2C1F84B500457AD9 /* Colors.xcassets in Resources */,
 				00ACB11A2C28784D00932E44 /* SearchView.xib in Resources */,
+				007258B02C441F7C00662A28 /* Assets.xcassets in Resources */,
 				00ACCA6B2C41291A00EE29AC /* PostsGridCollectionViewCell.xib in Resources */,
 				0016E7312C351155007EFADF /* CommentsView.xib in Resources */,
 				00BA3A522C3219C8001592B6 /* AddPostView.xib in Resources */,
@@ -632,9 +650,9 @@
 				00D8272B2C309DE80033B6E4 /* StoriesTableViewCell.xib in Resources */,
 				00FCD1BD2C41795B0005F89C /* PostDetailView.xib in Resources */,
 				006A0C632C1F855000457AD9 /* LogInView.xib in Resources */,
+				00FCD1C22C43F86D0005F89C /* SettingView.xib in Resources */,
 				00ACB1222C28786C00932E44 /* ProfileView.xib in Resources */,
 				008813B72C38F337006A93B4 /* ErrorsAlertView.xib in Resources */,
-				006A0C4A2C1F74F700457AD9 /* Assets.xcassets in Resources */,
 				0016E7382C352801007EFADF /* CommentTableViewCell.xib in Resources */,
 				009160252C41155A00DF7850 /* UserInfoCollectionViewCell.xib in Resources */,
 				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
@@ -698,6 +716,7 @@
 				00ACCA702C414C8300EE29AC /* UserModel.swift in Sources */,
 				00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */,
 				00BA3A482C30B2B2001592B6 /* PostTableViewCell.swift in Sources */,
+				00FCD1C42C43F8750005F89C /* SettingViewModel.swift in Sources */,
 				00ACB1382C2CF4BD00932E44 /* RegisterAlertView.swift in Sources */,
 				00BA3A572C323477001592B6 /* APIPosts.swift in Sources */,
 				00ACB11D2C28785D00932E44 /* NotificationView.swift in Sources */,
@@ -715,6 +734,7 @@
 				0091601C2C3E8AA500DF7850 /* AddPostViewModel.swift in Sources */,
 				00C92C4B2C23721F00358924 /* RegisterViewModel.swift in Sources */,
 				00D827242C2F68A70033B6E4 /* StoryCollectionViewCell.swift in Sources */,
+				00FCD1C12C43F86D0005F89C /* SettingView.swift in Sources */,
 				00E8C9F12C233E61008A3996 /* UITextFieldExtension.swift in Sources */,
 				006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */,
 				00ACB12B2C28F0DE00932E44 /* DataExtension.swift in Sources */,

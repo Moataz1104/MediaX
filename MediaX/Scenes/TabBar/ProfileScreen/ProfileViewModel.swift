@@ -73,4 +73,8 @@ class ProfileViewModel{
             coordinator?.pushPostDetailScreen(posts: posts, indexPath: indexPath)
         }
     }
+    
+    func pushSettingScreen(){
+        coordinator?.pushSettingScreen()
+    }
 }
