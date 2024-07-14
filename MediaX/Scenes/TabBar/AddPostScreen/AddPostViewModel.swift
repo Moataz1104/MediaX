@@ -17,6 +17,7 @@ class AddPostViewModel{
     let token = KeychainWrapper.standard.string(forKey: "token")
     var selectedImageData: Data?
 
+    var successClosure:(()->Void)?
     
     let contentTextViewBinder = PublishRelay<String>()
     let postButtonBinder = PublishRelay<Void>()
@@ -47,6 +48,8 @@ class AddPostViewModel{
             }
             .subscribe {[weak self] _ in
                 self?.indicatorPublisher.accept(false)
+                self?.successClosure?()
+                self?.clearState()
             } onError: {[weak self] error in
                 self?.indicatorPublisher.accept(false)
                 self?.errorPublisher.accept(error)
@@ -56,5 +59,9 @@ class AddPostViewModel{
         
     }
     
-    
+    func clearState() {
+        self.selectedImageData = nil
+        self.contentTextViewBinder.accept("")
+    }
+
 }

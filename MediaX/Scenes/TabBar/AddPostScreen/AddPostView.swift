@@ -32,22 +32,19 @@ class AddPostView: UIViewController {
 //    MARK: - View Controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUi()
+        
         setUpTextView()
         setUpImageTapGesture()
-        postButton.isHidden = true
-        indicator.isHidden = true
-        indicator.stopAnimating()
-
-        
-        newPostContent.layer.cornerRadius = 10
-        newPostImage.layer.cornerRadius = 40
-        postButton.layer.cornerRadius = postButton.bounds.height / 2
         
         subscribeToIndicatorPublisher()
+        subscribeToErrorPublisher()
         
         bindTextView()
         bindPostButton()
-        subscribeToErrorPublisher()
+        
+        successClosure()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -150,6 +147,28 @@ class AddPostView: UIViewController {
     
 //    MARK: - privates
     
+    private func configureUi(){
+        DispatchQueue.main.async{[weak self] in
+            self?.checkPhotoLibraryPermission()
+        }
+
+        postButton.isHidden = true
+        indicator.isHidden = true
+        indicator.stopAnimating()
+
+        
+        newPostContent.layer.cornerRadius = 10
+        newPostImage.layer.cornerRadius = 40
+        postButton.layer.cornerRadius = postButton.bounds.height / 2
+
+    }
+    private func successClosure(){
+        viewModel.successClosure = {[weak self] in
+            self?.delegate?.didDismissPhotoLibrary()
+        }
+
+    }
+    
     private func setUpImageTapGesture(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageTapAction))
         
@@ -180,6 +199,7 @@ class AddPostView: UIViewController {
         newPostContent.text = "Write a caption..."
         postButton.isHidden = true
         newPostContent.textColor = UIColor.lightGray
+        viewModel.clearState()
     }
     
     
