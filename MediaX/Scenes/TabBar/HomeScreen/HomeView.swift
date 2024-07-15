@@ -28,6 +28,7 @@ class HomeView: UIViewController {
     @IBOutlet weak var logoStack: UIStackView!
     @IBOutlet weak var logoStackHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     weak var delegate : HomeViewDelegate?
 
@@ -39,12 +40,16 @@ class HomeView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        indicator.isHidden = true
+        indicator.stopAnimating()
         setupTableView()
         registerCells()
         
         reloadTableView()
+        subscribeToIndicatorPublisher()
         subscribeToErrorPublisher()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchAllPosts()
@@ -61,7 +66,7 @@ class HomeView: UIViewController {
     }
     
     
-//    MARK: - privates
+//    MARK: - Subscribers
     
     private func subscribeToErrorPublisher() {
         viewModel.errorPublisher
@@ -91,8 +96,23 @@ class HomeView: UIViewController {
             .disposed(by: disposeBag)
     }
 
-    
-    
+    private func subscribeToIndicatorPublisher(){
+        viewModel.indicatorPublisher
+            .observe(on: MainScheduler.instance)
+            .subscribe {[weak self] isAnimate in
+                if isAnimate{
+                    self?.indicator.isHidden = false
+                    self?.indicator.startAnimating()
+                }else{
+                    self?.indicator.isHidden = true
+                    self?.indicator.stopAnimating()
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+
+    //    MARK: - privates
+
     private func setupTableView(){
         tableView.delegate = self
         tableView.dataSource = self
@@ -109,11 +129,12 @@ class HomeView: UIViewController {
 
     }
     
-    func reloadTableView(){
+    private func reloadTableView(){
         viewModel.reloadTableViewClosure = {[weak self] in
             self?.tableView.reloadData()
         }
     }
+    
 
 
 }
@@ -143,7 +164,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
             cell.viewModel = viewModel
             cell.post = viewModel.posts[indexPath.row]
-            cell.configureCell(with: viewModel.posts[indexPath.row], accessToken: viewModel.accessToken!)
+            cell.configureCell(with: viewModel.posts[indexPath.row])
             cell.settingButton.isHidden = true
             
             return cell

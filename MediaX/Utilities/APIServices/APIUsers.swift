@@ -88,10 +88,47 @@ class APIUsers{
             .catch { error in
                 return .error(NetworkingErrors.networkError(error))
             }
-            
-            
-            
+    }
+    
+    func updateUser(userName:String,phoneNumber:String, bio:String,imageData:Data , accessToken:String)-> Observable<Void>{
+        let url = apiK.updateUserURL
+        let jsonBody = [
+            "fullName" : userName,
+            "phoneNumber":phoneNumber,
+            "bio":bio
+        ]
+        
+        var request = URLRequest(url: url)
+        let boundary = "Boundary-\(UUID().uuidString)"
 
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "PUT"
+        
+        let body = MultiPartFile.updateUserMultipartFormDataBody(boundary, json: jsonBody, imageData: imageData)
+        
+        request.httpBody = body
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data -> Observable<Void> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+
+                return .just(())
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
     }
     
 }

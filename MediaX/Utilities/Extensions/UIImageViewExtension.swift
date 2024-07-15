@@ -12,7 +12,7 @@ import RxCocoa
 
 extension UIImageView {
     
-    func loadImage(url: URL, accessToken: String, indicator: UIActivityIndicatorView?) -> Disposable {
+    func loadImage(url: URL, indicator: UIActivityIndicatorView?) -> Disposable {
         
         indicator?.isHidden = false
         indicator?.startAnimating()
@@ -27,12 +27,11 @@ extension UIImageView {
         }
         
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .returnCacheDataElseLoad
-        configuration.urlCache = URLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 140 * 1024 * 1024, diskPath: "imageCache")
+        configuration.urlCache = URLCache(memoryCapacity: 20 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: "imageCache")
 
         let session = URLSession(configuration: configuration)
         

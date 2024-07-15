@@ -45,9 +45,8 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     func configureCell(with user:UserModel){
         
         if let stringUrl = user.image,
-           let url = URL(string: stringUrl),
-           let token = viewModel?.accessToken{
-            userImageDisposable = userImage.loadImage(url: url, accessToken: token, indicator: nil)            
+           let url = URL(string: stringUrl){
+            userImageDisposable = userImage.loadImage(url: url, indicator: nil)
         }
         DispatchQueue.main.async{[weak self] in
             self?.postsNumLabel.text = "\(user.numberOfPosts ?? 0)"

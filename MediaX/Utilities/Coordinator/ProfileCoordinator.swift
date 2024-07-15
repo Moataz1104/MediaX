@@ -62,10 +62,10 @@ class ProfileCoordinator:Coordinator{
         return vc
     }
     
-    func pushSettingScreen(){
+    func pushSettingScreen(user:UserModel){
         let disposeBag = DisposeBag()
-        let viewModel = SettingViewModel(disposeBag: disposeBag, coordinator: self)
-        let vc = SettingView(disposeBag: disposeBag, viewModel: viewModel)
+        let viewModel = SettingViewModel(disposeBag: disposeBag, coordinator: self, user: user)
+        let vc = SettingView(disposeBag: disposeBag, viewModel: viewModel , user:user)
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         
@@ -75,5 +75,26 @@ class ProfileCoordinator:Coordinator{
         
     }
     
+    func showErrorInSettingScreen(_ error: Error) {
+        guard let topVC = navigationController.presentedViewController else {
+            print("No presented view controller to present over.")
+            return
+        }
+
+        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+
+        if let networkingError = error as? NetworkingErrors {
+            vc.loadViewIfNeeded()
+            vc.errorTitle?.text = networkingError.title
+            vc.errorMessage?.text = networkingError.localizedDescription
+        } else {
+            vc.loadViewIfNeeded()
+            vc.errorMessage?.text = error.localizedDescription
+        }
+
+        topVC.present(vc, animated: true)
+    }
 
 }

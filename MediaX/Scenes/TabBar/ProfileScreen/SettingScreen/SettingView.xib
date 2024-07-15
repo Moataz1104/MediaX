@@ -16,6 +16,7 @@
                 <outlet property="backButton" destination="ZbX-1S-9Si" id="VLj-ab-7xs"/>
                 <outlet property="backImageView" destination="2lT-cp-ieX" id="dpw-cA-6Xj"/>
                 <outlet property="bioTextView" destination="TMN-t9-vI2" id="vqY-qN-5NV"/>
+                <outlet property="indicator" destination="CDP-hT-JTG" id="vt1-4I-5qO"/>
                 <outlet property="logOutButton" destination="cJn-1Z-xzC" id="9YG-wf-X0d"/>
                 <outlet property="phoneTextField" destination="EAB-tD-Z2i" id="41s-1j-x2S"/>
                 <outlet property="scrollView" destination="MwA-hQ-aJ7" id="2Iq-6u-6OT"/>
@@ -75,7 +76,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2lT-cp-ieX" userLabel="backImageView">
                                                     <rect key="frame" x="121.66666666666669" y="138" width="150" height="150"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="NOu-Z6-Nza">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="NOu-Z6-Nza">
                                                             <rect key="frame" x="5" y="5" width="140" height="140"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="140" id="Y8V-uA-tr2"/>
@@ -159,7 +160,6 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="200" id="BKC-10-p74"/>
                                                                     </constraints>
-                                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</string>
                                                                     <color key="textColor" systemColor="labelColor"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -190,12 +190,18 @@
                                         <constraint firstItem="zbO-al-ihO" firstAttribute="top" secondItem="JFB-o9-TtM" secondAttribute="top" id="jei-rs-KlD"/>
                                     </constraints>
                                 </stackView>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="CDP-hT-JTG">
+                                    <rect key="frame" x="178" y="371" width="37" height="37"/>
+                                    <color key="color" name="Main"/>
+                                </activityIndicatorView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="wmN-22-PP8" firstAttribute="width" secondItem="2hl-um-hdV" secondAttribute="width" multiplier="0.8" id="1Ln-I6-j8b"/>
+                                <constraint firstItem="CDP-hT-JTG" firstAttribute="centerX" secondItem="2hl-um-hdV" secondAttribute="centerX" id="4rh-Cl-UeQ"/>
                                 <constraint firstAttribute="trailing" secondItem="JFB-o9-TtM" secondAttribute="trailing" id="5ZC-k5-8E5"/>
                                 <constraint firstItem="JFB-o9-TtM" firstAttribute="top" secondItem="2hl-um-hdV" secondAttribute="top" id="QCh-54-Ifl"/>
+                                <constraint firstItem="CDP-hT-JTG" firstAttribute="centerY" secondItem="2hl-um-hdV" secondAttribute="centerY" id="SN6-ao-07q"/>
                                 <constraint firstItem="1i4-gL-GPX" firstAttribute="top" secondItem="2hl-um-hdV" secondAttribute="top" constant="59" id="d9I-iW-08L"/>
                                 <constraint firstAttribute="bottom" secondItem="JFB-o9-TtM" secondAttribute="bottom" id="duj-Os-MUk"/>
                                 <constraint firstItem="JFB-o9-TtM" firstAttribute="leading" secondItem="2hl-um-hdV" secondAttribute="leading" id="rx7-da-vJD"/>
@@ -239,7 +245,7 @@
     <resources>
         <image name="arrow.left" catalog="system" width="128" height="95"/>
         <image name="door.left.hand.open" catalog="system" width="108" height="128"/>
-        <image name="me" width="768" height="1024"/>
+        <image name="profileIcon" width="82.333335876464844" height="82.333335876464844"/>
         <namedColor name="Main">
             <color red="0.0039215688593685627" green="0.70196080207824707" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

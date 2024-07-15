@@ -105,7 +105,7 @@ extension PostDetailView:UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
         cell.viewModel = postVM
         cell.post = postVM.posts[indexPath.row]
-        cell.configureCell(with: postVM.posts[indexPath.row], accessToken: "")
+        cell.configureCell(with: postVM.posts[indexPath.row])
          cell.indexPath = indexPath
         return cell
     }

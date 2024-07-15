@@ -58,12 +58,8 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
 //    MARK: - Configuration
     func configureCell(with post: PostModel){
         if let imageUrlString = post.image,
-           let url = URL(string: imageUrlString),
-           let token = viewModel?.accessToken{
-            
-            imageLoadDisposable = postImage.loadImage(url: url, accessToken: token,indicator:indicator)
-            
-            
+           let url = URL(string: imageUrlString){
+            imageLoadDisposable = postImage.loadImage(url: url ,indicator:indicator)
         }
 
     }

@@ -54,6 +54,11 @@ class CommentsView: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        commentTextView.becomeFirstResponder()
+    }
+    
     
     init(viewModel: CommentsViewModel, disposeBag: DisposeBag,post:PostModel) {
         self.viewModel = viewModel

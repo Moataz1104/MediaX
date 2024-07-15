@@ -111,7 +111,7 @@ class CommentTableViewCell: UITableViewCell {
         
         DispatchQueue.main.async{[weak self] in
             UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
-                self?.userImageDisposable = self?.userImage.loadImage(url: URL(string:comment.userImage!)!, accessToken: token, indicator: nil)
+                self?.userImageDisposable = self?.userImage.loadImage(url: URL(string:comment.userImage!)!, indicator: nil)
                     
             }
         }

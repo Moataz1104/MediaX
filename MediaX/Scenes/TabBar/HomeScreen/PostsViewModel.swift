@@ -27,7 +27,8 @@ class PostsViewModel {
     let errorPublisher = PublishRelay<Error>()
     let likeButtonSubject = PublishRelay<String>()
     let commentButtonSubject = PublishRelay<Void>()
-    
+    let indicatorPublisher = PublishRelay<Bool>()
+
     
     init(disposeBag: DisposeBag, coordinator: Coordinator) {
         self.disposeBag = disposeBag
@@ -43,15 +44,20 @@ class PostsViewModel {
             print("Access token is nil")
             return
         }
-        
+        indicatorPublisher.accept(true)
+
         APIPosts.shared.getAllPosts(accessToken: accessToken)
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] posts in
                     self?.posts = posts.reversed()
                     self?.reloadTableViewClosure?()
+                    self?.indicatorPublisher.accept(false)
+
                 },
                 onError: { [weak self] error in
+                    self?.indicatorPublisher.accept(false)
                     self?.errorPublisher.accept(error)
                 }
             )

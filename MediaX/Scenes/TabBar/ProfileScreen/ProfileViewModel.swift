@@ -75,6 +75,8 @@ class ProfileViewModel{
     }
     
     func pushSettingScreen(){
-        coordinator?.pushSettingScreen()
+        if let user = user{
+            coordinator?.pushSettingScreen(user:user)
+        }
     }
 }

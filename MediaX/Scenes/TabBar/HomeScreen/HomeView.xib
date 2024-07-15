@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeView" customModule="MediaX" customModuleProvider="target">
             <connections>
+                <outlet property="indicator" destination="Tul-RE-XhK" id="en8-fC-rbe"/>
                 <outlet property="logoStack" destination="ahM-NX-YJx" id="jBy-bZ-lW7"/>
                 <outlet property="logoStackHeightConstraint" destination="ivR-AE-Tgw" id="gfF-fU-Fep"/>
                 <outlet property="tableView" destination="f69-F5-o6H" id="x9b-sW-15k"/>
@@ -56,6 +57,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="sectionIndexBackgroundColor" name="BackGroundMain"/>
                 </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Tul-RE-XhK">
+                    <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                    <color key="color" name="Main"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="BackGroundMain"/>
@@ -63,6 +68,8 @@
                 <constraint firstAttribute="bottom" secondItem="f69-F5-o6H" secondAttribute="bottom" id="7eO-h9-Ede"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ahM-NX-YJx" secondAttribute="trailing" constant="20" id="Dn7-PQ-96J"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="EUW-zT-ITK"/>
+                <constraint firstItem="Tul-RE-XhK" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ik2-p0-OgG"/>
+                <constraint firstItem="Tul-RE-XhK" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Kpp-fZ-VLt"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Q0Z-NP-VOj"/>
                 <constraint firstItem="ahM-NX-YJx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="c5s-kn-JFZ"/>
                 <constraint firstItem="f69-F5-o6H" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="d4e-5T-vZ5"/>
@@ -78,7 +85,7 @@
             <color red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Main">
-            <color red="0.0039215688593685627" green="0.70588237047195435" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0039215688593685627" green="0.70196080207824707" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
