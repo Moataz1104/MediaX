@@ -51,6 +51,8 @@ class SearchView: UIViewController {
 //    MARK: - Privates
     private func configUi(){
         navigationController?.navigationBar.isHidden = true
+        searchTextField.setAttributedPlaceholder(with: "Search...", image: "magnifyingglass")
+
         mainViewTopCons.constant = view.frame.height * 0.1
         mainView.layer.cornerRadius = 40
         mainView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

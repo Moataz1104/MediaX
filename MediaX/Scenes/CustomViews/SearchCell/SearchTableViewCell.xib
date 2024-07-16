@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="wfd-TD-fD0">
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wfd-TD-fD0">
                         <rect key="frame" x="20" y="7.6666666666666643" width="280" height="50"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="glM-b5-gfn">
@@ -39,7 +39,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xoe-Sk-bcP">
-                                <rect key="frame" x="262.66666666666669" y="0.0" width="17.333333333333314" height="50"/>
+                                <rect key="frame" x="262.66666666666669" y="14" width="17.333333333333314" height="22"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="xmark" catalog="system"/>
@@ -66,7 +66,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="me" width="768" height="1024"/>
+        <image name="me" width="886" height="886"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>

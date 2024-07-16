@@ -16,7 +16,7 @@ extension UITextField {
         let imageAttachment = NSTextAttachment()
         if let image = UIImage(named: image){
             imageAttachment.image = image
-        }else if let image = UIImage(systemName: "phone") {
+        }else if let image = UIImage(systemName: image) {
             let tintedImage = image.withTintColor(.authIcons, renderingMode: .alwaysOriginal)
                 imageAttachment.image = tintedImage
             }
