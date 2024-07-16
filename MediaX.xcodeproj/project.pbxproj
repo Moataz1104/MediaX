@@ -18,6 +18,9 @@
 		0016E7392C352801007EFADF /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7362C352801007EFADF /* CommentTableViewCell.swift */; };
 		0018FB2C2C367DDB00CA8168 /* TopAlignedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018FB2B2C367DDB00CA8168 /* TopAlignedLabel.swift */; };
 		0018FB2E2C368CCB00CA8168 /* APIInterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018FB2D2C368CCB00CA8168 /* APIInterActions.swift */; };
+		0034E0C52C46CC5A0064FD4E /* SearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0034E0C42C46CC5A0064FD4E /* SearchTableViewCell.xib */; };
+		0034E0C62C46CC5A0064FD4E /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E0C32C46CC5A0064FD4E /* SearchTableViewCell.swift */; };
+		0034E0C82C46CFEC0064FD4E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E0C72C46CFEC0064FD4E /* SearchViewModel.swift */; };
 		006A0C412C1F74F600457AD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C402C1F74F600457AD9 /* AppDelegate.swift */; };
 		006A0C432C1F74F600457AD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A0C422C1F74F600457AD9 /* SceneDelegate.swift */; };
 		006A0C552C1F7E0E00457AD9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006A0C542C1F7E0E00457AD9 /* Launch Screen.storyboard */; };
@@ -97,6 +100,9 @@
 		0016E7372C352801007EFADF /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		0018FB2B2C367DDB00CA8168 /* TopAlignedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopAlignedLabel.swift; sourceTree = "<group>"; };
 		0018FB2D2C368CCB00CA8168 /* APIInterActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInterActions.swift; sourceTree = "<group>"; };
+		0034E0C32C46CC5A0064FD4E /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		0034E0C42C46CC5A0064FD4E /* SearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTableViewCell.xib; sourceTree = "<group>"; };
+		0034E0C72C46CFEC0064FD4E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		006A0C3D2C1F74F600457AD9 /* MediaX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006A0C402C1F74F600457AD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		006A0C422C1F74F600457AD9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +203,15 @@
 				0016E7372C352801007EFADF /* CommentTableViewCell.xib */,
 			);
 			path = CommentCell;
+			sourceTree = "<group>";
+		};
+		0034E0C22C46CC3D0064FD4E /* SearchCell */ = {
+			isa = PBXGroup;
+			children = (
+				0034E0C32C46CC5A0064FD4E /* SearchTableViewCell.swift */,
+				0034E0C42C46CC5A0064FD4E /* SearchTableViewCell.xib */,
+			);
+			path = SearchCell;
 			sourceTree = "<group>";
 		};
 		006A0C342C1F74F600457AD9 = {
@@ -364,6 +379,7 @@
 			children = (
 				00ACB1172C28784D00932E44 /* SearchView.swift */,
 				00ACB1182C28784D00932E44 /* SearchView.xib */,
+				0034E0C72C46CFEC0064FD4E /* SearchViewModel.swift */,
 			);
 			path = SearchScreen;
 			sourceTree = "<group>";
@@ -422,6 +438,7 @@
 				0016E7352C3527DA007EFADF /* CommentCell */,
 				008813B22C38F2FF006A93B4 /* CustomAlerts */,
 				0091601D2C405C9800DF7850 /* ProfileCells */,
+				0034E0C22C46CC3D0064FD4E /* SearchCell */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -657,6 +674,7 @@
 				009160252C41155A00DF7850 /* UserInfoCollectionViewCell.xib in Resources */,
 				00ACB1392C2CF4BD00932E44 /* RegisterAlertView.xib in Resources */,
 				00ACB11E2C28785D00932E44 /* NotificationView.xib in Resources */,
+				0034E0C52C46CC5A0064FD4E /* SearchTableViewCell.xib in Resources */,
 				00BA3A492C30B2B2001592B6 /* PostTableViewCell.xib in Resources */,
 				00D827322C30A6BB0033B6E4 /* MyStoryCollectionViewCell.xib in Resources */,
 				00D827252C2F68A70033B6E4 /* StoryCollectionViewCell.xib in Resources */,
@@ -721,7 +739,9 @@
 				00BA3A572C323477001592B6 /* APIPosts.swift in Sources */,
 				00ACB11D2C28785D00932E44 /* NotificationView.swift in Sources */,
 				00C92C522C239C0100358924 /* APIAuth.swift in Sources */,
+				0034E0C62C46CC5A0064FD4E /* SearchTableViewCell.swift in Sources */,
 				0018FB2E2C368CCB00CA8168 /* APIInterActions.swift in Sources */,
+				0034E0C82C46CFEC0064FD4E /* SearchViewModel.swift in Sources */,
 				006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */,
 				00ACB1252C289B5E00932E44 /* HomeView.swift in Sources */,
 				00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */,

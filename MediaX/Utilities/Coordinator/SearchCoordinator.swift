@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-
+import RxSwift
+import RxCocoa
 
 class SearchCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
@@ -19,7 +20,9 @@ class SearchCoordinator:Coordinator{
     }
     
     func start() {
-        let vc = SearchView()
+        let disposeBag = DisposeBag()
+        let viewModel = SearchViewModel(coordinator: self, disposeBag: disposeBag)
+        let vc = SearchView(viewModel: viewModel, disposeBag: disposeBag)
         
         navigationController.pushViewController(vc, animated: true)
     }

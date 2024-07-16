@@ -131,4 +131,43 @@ class APIUsers{
             }
     }
     
+    func searchUser(userName:String,accessToken:String)-> Observable<[UserModel]>{
+        
+        let jsonData = [
+            "userName":userName
+        ]
+        let body = try! JSONSerialization.data(withJSONObject: jsonData)
+        
+        var request = URLRequest(url: apiK.searchUserURL)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        request.httpBody = body
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data ->Observable<[UserModel]> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+                
+                do {
+                    let decodedUsers = try JSONDecoder().decode([UserModel].self, from: data)
+                    return .just(decodedUsers)
+                }catch{
+                    return .error(NetworkingErrors.decodingError(error))
+                }
+
+            }.catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+        
+    }
 }
