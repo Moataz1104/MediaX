@@ -18,11 +18,23 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var followingNumLabel: UILabel!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userBio: UILabel!
+    @IBOutlet weak var followButton: UIButton!
     
     var userImageDisposable : Disposable?
     var viewModel:ProfileViewModel?
     override func awakeFromNib() {
         super.awakeFromNib()
+        configUi()
+
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImageDisposable?.dispose()
+        userImage.image = nil
+    }
+    
+    
+    private func configUi(){
         
         userImage.layer.cornerRadius = userImage.bounds.width / 2
         userImage.clipsToBounds = true
@@ -33,12 +45,7 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         backImageView.layer.borderWidth = 2
         backImageView.layer.borderColor = UIColor.main.cgColor
 
-
-    }
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        userImageDisposable?.dispose()
-        userImage.image = nil
+        followButton.layer.cornerRadius = followButton.frame.height / 2
     }
     
     

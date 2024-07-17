@@ -119,6 +119,12 @@ class PostsViewModel {
             coordinator.presentStoryScreen(indexPath:indexPath)
         }
     }
+    
+    func showOtherUserScreen(){
+        if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.showOtherUsersScreen()
+        }
+    }
 
     
 }

@@ -11,7 +11,7 @@ import RxCocoa
 import SwiftKeychainWrapper
 
 class ProfileViewModel{
-    weak var coordinator:ProfileCoordinator?
+    var coordinator:Coordinator?
     let disposeBag:DisposeBag
     
     var user:UserModel?
@@ -20,7 +20,7 @@ class ProfileViewModel{
     var reloadcollectionViewClosure:(()->Void)?
     let isAnimatingPublisher = PublishRelay<Bool>()
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
-    init(coordinator: ProfileCoordinator, disposeBag: DisposeBag) {
+    init(coordinator: Coordinator, disposeBag: DisposeBag) {
         self.coordinator = coordinator
         self.disposeBag = disposeBag
         
@@ -69,14 +69,14 @@ class ProfileViewModel{
 //    MARK: - Navigation
     
     func pushPostDetailScreen(indexPath:IndexPath){
-        if let posts = posts{
-            coordinator?.pushPostDetailScreen(posts: posts, indexPath: indexPath)
+        if let posts = posts , let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
         }
     }
     
     func pushSettingScreen(){
-        if let user = user{
-            coordinator?.pushSettingScreen(user:user)
+        if let user = user , let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.pushSettingScreen(user:user)
         }
     }
 }

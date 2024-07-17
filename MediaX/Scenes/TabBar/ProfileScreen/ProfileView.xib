@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="collectionView" destination="NKK-2t-cKe" id="oOB-lg-SpN"/>
                 <outlet property="indicator" destination="bJ7-EL-Tnj" id="xXo-5C-gEg"/>
+                <outlet property="settingButtonOutlet" destination="Wrp-nb-Eqc" id="gd2-6y-C9Z"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKK-2t-cKe">
-                    <rect key="frame" x="-0.33333333333334281" y="86" width="393.66666666666674" height="732"/>
+                    <rect key="frame" x="-0.33333333333334281" y="94" width="393.66666666666674" height="724"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pcv-uZ-GfQ">
                         <size key="itemSize" width="128" height="128"/>
@@ -57,7 +58,7 @@
                 <constraint firstItem="bJ7-EL-Tnj" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="HMB-29-JwQ"/>
                 <constraint firstItem="bJ7-EL-Tnj" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ooj-Kc-wKB"/>
                 <constraint firstItem="Wrp-nb-Eqc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Toj-sV-Xr9"/>
-                <constraint firstItem="NKK-2t-cKe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="27" id="msv-Ff-4e0"/>
+                <constraint firstItem="NKK-2t-cKe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="35" id="msv-Ff-4e0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="NKK-2t-cKe" secondAttribute="bottom" id="ua4-gx-OVi"/>
                 <constraint firstItem="NKK-2t-cKe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="-0.20000000000000001" id="wJB-Dd-8AI"/>
             </constraints>

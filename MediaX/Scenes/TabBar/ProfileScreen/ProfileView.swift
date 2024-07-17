@@ -14,10 +14,13 @@ class ProfileView: UIViewController {
 //    MARK: - Attributes
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet weak var settingButtonOutlet: UIButton!
     
+
     
     let viewModel:ProfileViewModel
     let disposeBag:DisposeBag
+    let isCurrentUser:Bool
     var refreshControl = UIRefreshControl()
     
 
@@ -35,6 +38,12 @@ class ProfileView: UIViewController {
         reloadCollectioView()
         refreshCollectionView()
         subscribeToIndicatorPublisher()
+        
+        if isCurrentUser{
+            settingButtonOutlet.isHidden = false
+        }else{
+            settingButtonOutlet.isHidden = true
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,9 +51,10 @@ class ProfileView: UIViewController {
         viewModel.getCurrentUserPosts()
     }
     
-    init(viewModel:ProfileViewModel,disposeBag:DisposeBag){
+    init(viewModel:ProfileViewModel,disposeBag:DisposeBag,isCurrentUser:Bool){
         self.viewModel = viewModel
         self.disposeBag = disposeBag
+        self.isCurrentUser = isCurrentUser
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -125,7 +135,7 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
         if section == 0{
             return 1
         }else{
-            return viewModel.posts?.count ?? 0
+            return viewModel.posts?.count ?? 10
         }
     }
     
@@ -133,20 +143,26 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
         if indexPath.section == 0{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserInfoCollectionViewCell.identifier, for: indexPath) as! UserInfoCollectionViewCell
             cell.viewModel = viewModel
-            
+            if isCurrentUser{
+                cell.followButton.isHidden = true
+            }else{
+                cell.followButton.isHidden = false
+            }
             if let user = viewModel.user{
                 cell.configureCell(with: user)
             }
+            
             return cell
         }else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostsGridCollectionViewCell.identfier, for: indexPath) as! PostsGridCollectionViewCell
             cell.viewModel = viewModel
             if let posts = viewModel.posts{
-                cell.configureCell(with: posts[indexPath.row])
-                cell.post = posts[indexPath.row]
-                cell.indexPath = indexPath
-                
+//                cell.configureCell(with: posts[indexPath.row])
+//                cell.post = posts[indexPath.row]
+//                cell.indexPath = indexPath
             }
+            cell.postImage.image = UIImage(named: "4")
+
             return cell
 
         }

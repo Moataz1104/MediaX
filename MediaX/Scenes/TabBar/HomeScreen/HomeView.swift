@@ -32,6 +32,7 @@ class HomeView: UIViewController {
     
     weak var delegate : HomeViewDelegate?
 
+    
 
     private var previousScrollOffset: CGFloat = 0.0
     private var isLogoStackHidden = false
@@ -154,7 +155,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         if section == 0 {
             return 1
         } else {
-            return viewModel.posts.count
+            return 5
         }
     }
 
@@ -168,10 +169,10 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
             cell.viewModel = viewModel
-            cell.post = viewModel.posts[indexPath.row]
-            cell.configureCell(with: viewModel.posts[indexPath.row])
-            cell.settingButton.isHidden = true
-            
+//            cell.post = viewModel.posts[indexPath.row]
+//            cell.configureCell(with: viewModel.posts[indexPath.row])
+//            cell.settingButton.isHidden = true
+            cell.configureFakePost()
             return cell
         }
     }

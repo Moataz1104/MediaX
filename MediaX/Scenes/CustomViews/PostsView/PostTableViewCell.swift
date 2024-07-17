@@ -13,7 +13,7 @@ import Hero
 
 class PostTableViewCell: UITableViewCell {
     static let identifier = "PostTableViewCell"
-
+    
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var postTime: UILabel!
     @IBOutlet weak var userImage: UIImageView!
@@ -36,11 +36,13 @@ class PostTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configUi()
         setUpDoupleTapRecognaizer()
+        setUpUserImageGesture()
         if let indexPath = indexPath{
             postImage.heroID = "\(indexPath.row)"
         }
         
-
+        
+        
     }
     
     override func prepareForReuse() {
@@ -50,10 +52,10 @@ class PostTableViewCell: UITableViewCell {
         
         userImageLoadDisposable?.dispose()
         userImage.image = nil
-
+        
         
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0))
@@ -61,10 +63,10 @@ class PostTableViewCell: UITableViewCell {
     
     
     
-//    MARK: - Actions
+    //    MARK: - Actions
     
     @IBAction func likeButtonAction(_ sender: Any) {
-                
+        
         if let post = post{
             let id = String(describing: post.id!)
             viewModel?.likeButtonSubject.accept(id)
@@ -106,14 +108,22 @@ class PostTableViewCell: UITableViewCell {
             viewModel?.likeButtonSubject.accept(id)
         }
     }
-//    MARK: - PRivates
+    //    MARK: - PRivates
     private func setUpDoupleTapRecognaizer(){
         let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubletapLike))
-
+        
         doubleTapRecognizer.numberOfTapsRequired = 2
         postImage.addGestureRecognizer(doubleTapRecognizer)
         postImage.isUserInteractionEnabled = true
-
+        
+    }
+    private func setUpUserImageGesture(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleUserImageTap))
+        userImage.addGestureRecognizer(tapGesture)
+        userImage.isUserInteractionEnabled = true
+    }
+    @objc func handleUserImageTap(){
+        viewModel?.showOtherUserScreen()
     }
     private func configUi(){
         userImage.layer.cornerRadius = userImage.bounds.width / 2
@@ -122,9 +132,9 @@ class PostTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 25
         backgroundColor = .backGroundMain
         contentView.bringSubviewToFront(bigHeartImage)
-
+        
     }
-
+    
     func configureCell(with post: PostModel) {
         
         if let imageUrlString = post.image, let url = URL(string: imageUrlString) {
@@ -132,14 +142,14 @@ class PostTableViewCell: UITableViewCell {
                 self?.imageLoadDisposable = self?.postImage.loadImage(url: url,indicator:self?.indicator)
             }
         }
-
+        
         if let userImageString = post.userImage, let url = URL(string: userImageString) {
             DispatchQueue.main.async{[weak self] in
                 UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.5,options: .transitionCrossDissolve) {
                     self?.userImageLoadDisposable = self?.userImage.loadImage(url: url, indicator: nil)
                 }
             }
-
+            
         }
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = post.username ?? "No user name"
@@ -162,6 +172,15 @@ class PostTableViewCell: UITableViewCell {
             }
         }
         
+    }
+    
+    func configureFakePost(){
+        userName.text = "Moataz Mohamed"
+        postContent.text = "fake post"
+        numberOfLikesLabel.text = "900"
+        postTime.text = "33s"
+        userImage.image = UIImage(named: "me")
+        postImage.image = UIImage(named: "4")
     }
 }
 

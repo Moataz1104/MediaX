@@ -89,4 +89,12 @@ class HomeCoordinator:Coordinator{
         }
 
     }
+    
+    func showOtherUsersScreen(){
+        let disposeBag = DisposeBag()
+        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag)
+        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
