@@ -113,6 +113,12 @@ class PostsViewModel {
     func showCommentsScreenFromProfile(post:PostModel){
         delegate?.didTapCommentButtonInProfile(post:post)
     }
+    
+    func presentStoryScreen(indexPath:IndexPath){
+        if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.presentStoryScreen(indexPath:indexPath)
+        }
+    }
 
     
 }

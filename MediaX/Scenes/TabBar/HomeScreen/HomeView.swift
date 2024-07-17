@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
+import Hero
 
 protocol HomeViewDelegate: AnyObject {
     func didScrollDown()
@@ -42,6 +42,8 @@ class HomeView: UIViewController {
         navigationController?.navigationBar.isHidden = true
         indicator.isHidden = true
         indicator.stopAnimating()
+        self.hero.isEnabled = true
+
         setupTableView()
         registerCells()
         
@@ -159,6 +161,9 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: StoriesTableViewCell.identifier, for: indexPath) as! StoriesTableViewCell
+            
+            cell.viewModel = viewModel
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell

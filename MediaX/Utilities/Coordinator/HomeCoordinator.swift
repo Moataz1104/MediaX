@@ -77,5 +77,16 @@ class HomeCoordinator:Coordinator{
         topVC.present(vc, animated: true)
     }
 
-    
+    func presentStoryScreen(indexPath:IndexPath){
+        let vc = StoryView()
+        vc.indexPath = indexPath
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
+
+        DispatchQueue.main.async{[weak self] in
+            self?.navigationController.present(vc, animated: true)
+            
+        }
+
+    }
 }
