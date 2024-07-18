@@ -81,7 +81,7 @@ class PostTableViewCell: UITableViewCell {
         }
     }
     @objc func doubletapLike() {
-        if !(post?.liked)!{
+        if let _ = post?.liked{
             bigHeartImage.isHidden = false
             bigHeartImage.alpha = 1
             bigHeartImage.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
@@ -132,6 +132,9 @@ class PostTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 25
         backgroundColor = .backGroundMain
         contentView.bringSubviewToFront(bigHeartImage)
+        
+        indicator.isHidden = true
+        indicator.stopAnimating()
         
     }
     

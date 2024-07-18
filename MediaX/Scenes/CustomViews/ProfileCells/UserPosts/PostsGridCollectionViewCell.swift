@@ -27,6 +27,8 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         imageGestureSetUp()
+        indicator.isHidden = true
+        indicator.stopAnimating()
         if let indexPath = indexPath{
             postImage.heroID = "\(indexPath.row)"
         }
