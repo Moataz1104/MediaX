@@ -155,7 +155,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         if section == 0 {
             return 1
         } else {
-            return 5
+            return viewModel.posts.count
         }
     }
 
@@ -169,10 +169,9 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
             cell.viewModel = viewModel
-//            cell.post = viewModel.posts[indexPath.row]
-//            cell.configureCell(with: viewModel.posts[indexPath.row])
-//            cell.settingButton.isHidden = true
-            cell.configureFakePost()
+            cell.post = viewModel.posts[indexPath.row]
+            cell.configureCell(with: viewModel.posts[indexPath.row])
+            cell.settingButton.isHidden = true
             return cell
         }
     }

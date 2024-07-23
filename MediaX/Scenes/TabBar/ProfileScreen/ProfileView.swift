@@ -135,7 +135,7 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
         if section == 0{
             return 1
         }else{
-            return viewModel.posts?.count ?? 10
+            return viewModel.posts?.count ?? 0
         }
     }
     
@@ -157,11 +157,10 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostsGridCollectionViewCell.identfier, for: indexPath) as! PostsGridCollectionViewCell
             cell.viewModel = viewModel
             if let posts = viewModel.posts{
-//                cell.configureCell(with: posts[indexPath.row])
-//                cell.post = posts[indexPath.row]
-//                cell.indexPath = indexPath
+                cell.configureCell(with: posts[indexPath.row])
+                cell.post = posts[indexPath.row]
+                cell.indexPath = indexPath
             }
-            cell.postImage.image = UIImage(named: "4")
 
             return cell
 

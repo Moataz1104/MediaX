@@ -19,9 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         coordinator = MainCoordinator(navigationController: navigationController)
-        let _ :String? = KeychainWrapper.standard.string(forKey: "token")
+        let accessToken :String? = KeychainWrapper.standard.string(forKey: "token")
         
-        coordinator?.accessToken = "accessToken"
+        coordinator?.accessToken = accessToken
 //        coordinator?.logOut()
         
         

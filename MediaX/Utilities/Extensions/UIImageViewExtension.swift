@@ -11,9 +11,7 @@ import RxSwift
 import RxCocoa
 
 extension UIImageView {
-    
-    func loadImage(url: URL, indicator: UIActivityIndicatorView?) -> Disposable {
-        
+    func loadImage(url: URL, indicator: UIActivityIndicatorView?, completion: ((UIImage?) -> Void)? = nil) -> Disposable {
         indicator?.isHidden = false
         indicator?.startAnimating()
         
@@ -22,6 +20,7 @@ extension UIImageView {
                 self?.image = cachedImage
                 indicator?.isHidden = true
                 indicator?.stopAnimating()
+                completion?(cachedImage)
             }
             return Disposables.create()
         }
@@ -50,18 +49,23 @@ extension UIImageView {
                             self?.image = image
                             indicator?.isHidden = true
                             indicator?.stopAnimating()
+                            completion?(image)
                         }
                     } else {
                         DispatchQueue.main.async {
                             self?.image = nil
                             indicator?.isHidden = true
                             indicator?.stopAnimating()
+                            completion?(nil)
                         }
                     }
                 case .error(let error):
                     print("Error loading image: \(error.localizedDescription)")
                     DispatchQueue.main.async {
                         self?.image = nil
+                        indicator?.isHidden = true
+                        indicator?.stopAnimating()
+                        completion?(nil)
                     }
                 case .completed:
                     break
@@ -84,12 +88,10 @@ class ImageCache {
             name: UIApplication.didReceiveMemoryWarningNotification,
             object: nil
         )
-        
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-
     }
     
     func setObject(_ object: UIImage, forKey key: NSString) {
@@ -104,7 +106,3 @@ class ImageCache {
         cache.removeAllObjects()
     }
 }
-
-
-
-

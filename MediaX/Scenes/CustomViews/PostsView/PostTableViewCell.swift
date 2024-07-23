@@ -177,13 +177,5 @@ class PostTableViewCell: UITableViewCell {
         
     }
     
-    func configureFakePost(){
-        userName.text = "Moataz Mohamed"
-        postContent.text = "fake post"
-        numberOfLikesLabel.text = "900"
-        postTime.text = "33s"
-        userImage.image = UIImage(named: "me")
-        postImage.image = UIImage(named: "4")
-    }
 }
 

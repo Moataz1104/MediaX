@@ -155,17 +155,20 @@ class SettingView: UIViewController {
 
     }
     
-    private func configureUser(){
-        DispatchQueue.main.async{[weak self] in
-            guard let self = self else {return}
+    private func configureUser() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.userNameTextField.text = self.user.fullName ?? ""
             self.phoneTextField.text = self.user.phoneNumber ?? ""
             self.bioTextView.text = self.user.bio ?? ""
             
-            self.userImageLoadDisposable = self.userImage.loadImage(url: URL(string: self.user.image!)!, indicator: nil)
+            self.userImageLoadDisposable = self.userImage.loadImage(url: URL(string: self.user.image!)!, indicator: nil) { [weak self] loadedImage in
+                guard let self = self, let image = loadedImage else { return }
+                if let imageData = image.jpegData(compressionQuality: 0.99) {
+                    self.viewModel.imageDataPublisher.accept(imageData)
+                }
+            }
         }
-            
-
     }
     private func resetUserInfoClosure(){
         viewModel.resetUserInfo = {[weak self] in
