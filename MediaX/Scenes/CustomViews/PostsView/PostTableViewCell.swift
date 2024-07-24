@@ -108,7 +108,14 @@ class PostTableViewCell: UITableViewCell {
             viewModel?.likeButtonSubject.accept(id)
         }
     }
-    //    MARK: - PRivates
+    
+    @objc func handleUserImageTap(){
+        if let post = post{
+            viewModel?.showOtherUserScreen(id:"\(post.userId!)")
+        }
+    }
+
+    //    MARK: - Privates
     private func setUpDoupleTapRecognaizer(){
         let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubletapLike))
         
@@ -121,9 +128,6 @@ class PostTableViewCell: UITableViewCell {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleUserImageTap))
         userImage.addGestureRecognizer(tapGesture)
         userImage.isUserInteractionEnabled = true
-    }
-    @objc func handleUserImageTap(){
-        viewModel?.showOtherUserScreen()
     }
     private func configUi(){
         userImage.layer.cornerRadius = userImage.bounds.width / 2

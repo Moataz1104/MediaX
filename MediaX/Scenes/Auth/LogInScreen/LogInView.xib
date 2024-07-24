@@ -47,7 +47,7 @@
                                                 <constraint firstAttribute="height" constant="55" id="tGH-CP-VN2"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                            <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="MmMm@1234" borderStyle="roundedRect" placeholder="●●●●●●●●" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0xW-ou-L2N">
                                             <rect key="frame" x="0.0" y="70" width="314.33333333333331" height="55"/>
@@ -55,7 +55,7 @@
                                                 <constraint firstAttribute="height" constant="55" id="LOh-14-pjn"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                            <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                         </textField>
                                     </subviews>
                                 </stackView>
@@ -153,7 +153,7 @@
     </objects>
     <resources>
         <namedColor name="Main">
-            <color red="0.0039215688593685627" green="0.70588237047195435" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0039215688593685627" green="0.70196080207824707" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

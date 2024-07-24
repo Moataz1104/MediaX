@@ -13,20 +13,29 @@ import SwiftKeychainWrapper
 class ProfileViewModel{
     var coordinator:Coordinator?
     let disposeBag:DisposeBag
-    
+    let isCurrentUser:Bool
+
     var user:UserModel?
     var posts:[PostModel]?
+    var userId:String?
     
     var reloadcollectionViewClosure:(()->Void)?
     let isAnimatingPublisher = PublishRelay<Bool>()
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
-    init(coordinator: Coordinator, disposeBag: DisposeBag) {
+    init(coordinator: Coordinator, disposeBag: DisposeBag,isCurrentUser:Bool,userId:String? = nil) {
         self.coordinator = coordinator
         self.disposeBag = disposeBag
+        self.isCurrentUser = isCurrentUser
+        self.userId = userId
         
-        getCurrentUser()
-        getCurrentUserPosts()
+        if isCurrentUser{
+            getCurrentUser()
+            getCurrentUserPosts()
+        }else{
+            getOtherUserProfile()
+            getOtherUserPosts()
         }
+    }
     
     
     
@@ -66,11 +75,45 @@ class ProfileViewModel{
     }
 
     
+    func getOtherUserProfile(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+        guard let userId = userId else{return}
+        
+        APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
+            .observe(on: MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe {[weak self] user in
+                self?.user = user
+                self?.reloadcollectionViewClosure?()
+            }onError: { error in
+                print(error)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func getOtherUserPosts(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+        guard let userId = userId else{return}
+
+        APIUsers.shared.getOtherUserPosts(by: userId, accessToken: token)
+            .observe(on: MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe {[weak self] posts in
+                self?.posts = posts
+                self?.reloadcollectionViewClosure?()
+            }onError: { error in
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+    }
+    
 //    MARK: - Navigation
     
     func pushPostDetailScreen(indexPath:IndexPath){
         if let posts = posts , let coordinator = coordinator as? ProfileCoordinator{
             coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
+        }else if let posts = posts ,  let coordinator = coordinator as? HomeCoordinator{
+            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath) 
         }
     }
     
@@ -79,4 +122,5 @@ class ProfileViewModel{
             coordinator.pushSettingScreen(user:user)
         }
     }
+
 }

@@ -120,9 +120,9 @@ class PostsViewModel {
         }
     }
     
-    func showOtherUserScreen(){
+    func showOtherUserScreen(id:String){
         if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.showOtherUsersScreen()
+            coordinator.showOtherUsersScreen(id:id)
         }
     }
 

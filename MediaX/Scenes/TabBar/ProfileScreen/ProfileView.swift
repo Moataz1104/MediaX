@@ -47,8 +47,13 @@ class ProfileView: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getCurrentUser()
-        viewModel.getCurrentUserPosts()
+        if isCurrentUser{
+            viewModel.getCurrentUser()
+            viewModel.getCurrentUserPosts()
+        }else{
+            viewModel.getOtherUserProfile()
+            viewModel.getOtherUserPosts()
+        }
     }
     
     init(viewModel:ProfileViewModel,disposeBag:DisposeBag,isCurrentUser:Bool){
@@ -116,8 +121,13 @@ class ProfileView: UIViewController {
     @objc func refreshData() {
         DispatchQueue.main.async{[weak self] in
             self?.refreshControl.beginRefreshing()
-            self?.viewModel.getCurrentUser()
-            self?.viewModel.getCurrentUserPosts()
+            if self?.isCurrentUser == true{
+                self?.viewModel.getCurrentUser()
+                self?.viewModel.getCurrentUserPosts()
+            }else{
+                self?.viewModel.getOtherUserProfile()
+                self?.viewModel.getOtherUserPosts()
+            }
             self?.refreshControl.endRefreshing()
         }
     }
@@ -148,6 +158,7 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
             }else{
                 cell.followButton.isHidden = false
             }
+            
             if let user = viewModel.user{
                 cell.configureCell(with: user)
             }

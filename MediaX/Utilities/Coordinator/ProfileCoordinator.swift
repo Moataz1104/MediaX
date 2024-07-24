@@ -22,7 +22,7 @@ class ProfileCoordinator:Coordinator{
     
     func start() {
         let disposeBag = DisposeBag()
-        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag)
+        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: true)
         let vc = ProfileView(viewModel: viewModel,disposeBag:disposeBag, isCurrentUser: true)
         
         navigationController.pushViewController(vc, animated: true)
