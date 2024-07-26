@@ -24,6 +24,9 @@ class HomeView: UIViewController {
     let disposeBag:DisposeBag
     let viewModel:PostsViewModel
     
+    private var hasReachedBottom = false
+    private var size = 5
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logoStack: UIStackView!
     @IBOutlet weak var logoStackHeightConstraint: NSLayoutConstraint!
@@ -41,21 +44,21 @@ class HomeView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-//        indicator.isHidden = true
-//        indicator.stopAnimating()
+        indicator.isHidden = true
+        indicator.stopAnimating()
         self.hero.isEnabled = true
 
         setupTableView()
         registerCells()
         
         reloadTableView()
-//        subscribeToIndicatorPublisher()
+        subscribeToIndicatorPublisher()
         subscribeToErrorPublisher()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchAllPosts()
+        viewModel.sizeReciver.accept(size)
 
     }
     init(disposeBag:DisposeBag,viewModel:PostsViewModel) {
@@ -99,20 +102,20 @@ class HomeView: UIViewController {
             .disposed(by: disposeBag)
     }
 
-//    private func subscribeToIndicatorPublisher(){
-//        viewModel.indicatorPublisher
-//            .observe(on: MainScheduler.instance)
-//            .subscribe {[weak self] isAnimate in
-//                if isAnimate{
-//                    self?.indicator.isHidden = false
-//                    self?.indicator.startAnimating()
-//                }else{
-//                    self?.indicator.isHidden = true
-//                    self?.indicator.stopAnimating()
-//                }
-//            }
-//            .disposed(by: disposeBag)
-//    }
+    private func subscribeToIndicatorPublisher(){
+        viewModel.indicatorPublisher
+            .observe(on: MainScheduler.instance)
+            .subscribe {[weak self] isAnimate in
+                if isAnimate{
+                    self?.indicator.isHidden = false
+                    self?.indicator.startAnimating()
+                }else{
+                    self?.indicator.isHidden = true
+                    self?.indicator.stopAnimating()
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 
     //    MARK: - privates
 
@@ -187,6 +190,16 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let currentOffset = scrollView.contentOffset.y
         let offsetDifference = currentOffset - previousScrollOffset
+        let bottomOffset = scrollView.contentSize.height - scrollView.bounds.height
+        
+        if scrollView.contentOffset.y >= bottomOffset && !hasReachedBottom {
+            hasReachedBottom = true
+            size += 5
+            viewModel.sizeReciver.accept(size)
+            
+        } else if scrollView.contentOffset.y < bottomOffset {
+            hasReachedBottom = false
+        }
 
         if offsetDifference > 0 && !isLogoStackHidden {
             hideLogoStack()

@@ -14,7 +14,6 @@ struct apiK{
     URL(string: "https://tumbler.onrender.com/v0/auth/login")!
     static let registerURL =
     URL(string: "https://tumbler.onrender.com/v0/auth/register")!
-    static let allPostsPaginatedURL = URL(string: "https://tumbler.onrender.com/v0/posts/paginated-posts?page=0&size=50")!
     static let addPostURL = URL(string: "https://tumbler.onrender.com/v0/posts")!
     static let currentUserURL = URL(string:"https://tumbler.onrender.com/v0/user/profile/current")!
     static let currentUserPostsURL = URL(string:"https://tumbler.onrender.com/v0/posts/current_user-posts")!
@@ -27,6 +26,7 @@ struct apiK{
     static let otherUserProfileStr = "https://tumbler.onrender.com/v0/user/post/profile/"
     static let otherUserPostsStr = "https://tumbler.onrender.com/v0/posts/user/"
     static let searchUserStr = "https://tumbler.onrender.com/v0/user/search"
+    static let allPostsPaginatedStr =  "https://tumbler.onrender.com/v0/posts/paginated-posts?page=0&size="
 
 
     

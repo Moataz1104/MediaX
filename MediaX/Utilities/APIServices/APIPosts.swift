@@ -18,11 +18,13 @@ class APIPosts {
     
 
     
-    func getAllPosts(accessToken: String) -> Observable<[PostModel]> {
+    func getAllPosts(accessToken: String,size:String) -> Observable<[PostModel]> {
         print("getallPosts")
         print(accessToken)
+        let urlStr = apiK.allPostsPaginatedStr + size
         
-        var request = URLRequest(url: apiK.allPostsPaginatedURL)
+        
+        var request = URLRequest(url: URL(string: urlStr)!)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         

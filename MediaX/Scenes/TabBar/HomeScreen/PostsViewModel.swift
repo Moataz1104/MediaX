@@ -30,6 +30,8 @@ class PostsViewModel {
     let indicatorPublisher = PublishRelay<Bool>()
 
     var allPostsDisposable:Disposable?
+    var sizeReciver = PublishRelay<Int>()
+    
     
     init(disposeBag: DisposeBag, coordinator: Coordinator) {
         self.disposeBag = disposeBag
@@ -37,17 +39,22 @@ class PostsViewModel {
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
 
         subscribeToLikeButton()
+        fetchAllPosts()
     }
+    
     func fetchAllPosts() {
         guard let accessToken = accessToken else {
             print("Access token is nil")
             return
         }
-        indicatorPublisher.accept(true)
-        allPostsDisposable?.dispose()
-        allPostsDisposable = APIPosts.shared.getAllPosts(accessToken: accessToken)
-            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
-            .observe(on: MainScheduler.instance)
+        
+        sizeReciver
+            .flatMapLatest {[weak self] size ->Observable<[PostModel]> in
+                self?.indicatorPublisher.accept(true)
+                return APIPosts.shared.getAllPosts(accessToken: accessToken, size: "\(size)")
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+            }
             .subscribe(
                 onNext: { [weak self] posts in
                     self?.posts = posts
@@ -59,6 +66,7 @@ class PostsViewModel {
                     self?.errorPublisher.accept(error)
                 }
             )
+            .disposed(by: disposeBag)
     }
     
     //    MARK: - Post Cell subscribers
