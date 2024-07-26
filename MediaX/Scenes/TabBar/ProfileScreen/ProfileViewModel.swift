@@ -22,6 +22,11 @@ class ProfileViewModel{
     var reloadcollectionViewClosure:(()->Void)?
     let isAnimatingPublisher = PublishRelay<Bool>()
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
+    
+    var getCurrentUserDisposable:Disposable?
+    var getCurrentUserPostsDisposable:Disposable?
+    
+    
     init(coordinator: Coordinator, disposeBag: DisposeBag,isCurrentUser:Bool,userId:String? = nil) {
         self.coordinator = coordinator
         self.disposeBag = disposeBag
@@ -42,8 +47,8 @@ class ProfileViewModel{
     
     func getCurrentUser(){
         guard let token = accessToken else{print("No TOKEN"); return}
-        
-        APIUsers.shared.getCurrentUser(accessToken: token)
+        getCurrentUserDisposable?.dispose()
+        getCurrentUserDisposable = APIUsers.shared.getCurrentUser(accessToken: token)
             .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
             .observe(on: MainScheduler.instance)
             .subscribe {[weak self] user in
@@ -56,12 +61,12 @@ class ProfileViewModel{
                 self?.isAnimatingPublisher.accept(false)
 
             }
-            .disposed(by: disposeBag)
     }
     
     func getCurrentUserPosts(){
         guard let token = accessToken else{print("No TOKEN"); return}
-        APIUsers.shared.getCurrentUserPosts(accessToken: token)
+        getCurrentUserPostsDisposable?.dispose()
+        getCurrentUserPostsDisposable =  APIUsers.shared.getCurrentUserPosts(accessToken: token)
             .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
             .observe(on: MainScheduler.instance)
             .subscribe {[weak self] posts in
@@ -70,7 +75,6 @@ class ProfileViewModel{
             }onError: { error in
                 print(error.localizedDescription)
             }
-            .disposed(by: disposeBag)
 
     }
 

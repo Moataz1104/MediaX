@@ -31,7 +31,8 @@ class PostTableViewCell: UITableViewCell {
     var viewModel:PostsViewModel?
     var post:PostModel?
     var indexPath:IndexPath?
-
+    weak var delegate:HomeViewDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
@@ -112,6 +113,7 @@ class PostTableViewCell: UITableViewCell {
     @objc func handleUserImageTap(){
         if let post = post{
             viewModel?.showOtherUserScreen(id:"\(post.userId!)")
+            delegate?.didScrollUp()
         }
     }
 

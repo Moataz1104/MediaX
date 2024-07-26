@@ -55,14 +55,23 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="Main"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Ofu-UK-hZ6" secondAttribute="trailing" id="7cx-M3-geg"/>
                 <constraint firstAttribute="bottom" secondItem="Ofu-UK-hZ6" secondAttribute="bottom" id="BEJ-YN-uZq"/>
                 <constraint firstItem="Ofu-UK-hZ6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="paF-Al-Ky9"/>
                 <constraint firstItem="Ofu-UK-hZ6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zqs-lJ-bFq"/>
             </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="esO-Uk-kHh" appends="YES" id="soG-1T-RAf"/>
+            </connections>
             <point key="canvasLocation" x="93.89312977099236" y="19.718309859154932"/>
         </view>
+        <tapGestureRecognizer id="esO-Uk-kHh">
+            <connections>
+                <action selector="viewTapGesture:" destination="-1" id="oZ3-D6-eWL"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <namedColor name="Main">

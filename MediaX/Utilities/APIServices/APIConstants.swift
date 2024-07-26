@@ -24,7 +24,7 @@ struct apiK{
     static let addCommentStringUrl = "https://tumbler.onrender.com/v0/comments/post/"
     static let commentsStringUrl = "https://tumbler.onrender.com/v0/comments/"
     static let likeUrlString = "https://tumbler.onrender.com/v0/likes/post/"
-    static let otherUserProfileStr = "https://tumbler.onrender.com/v0/user/profile/"
+    static let otherUserProfileStr = "https://tumbler.onrender.com/v0/user/post/profile/"
     static let otherUserPostsStr = "https://tumbler.onrender.com/v0/posts/user/"
     static let searchUserStr = "https://tumbler.onrender.com/v0/user/search"
 

@@ -171,6 +171,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             cell.viewModel = viewModel
             cell.post = viewModel.posts[indexPath.row]
             cell.configureCell(with: viewModel.posts[indexPath.row])
+            cell.delegate = delegate
             cell.settingButton.isHidden = true
             return cell
         }

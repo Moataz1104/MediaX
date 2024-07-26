@@ -49,6 +49,11 @@ class SearchView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @IBAction func viewTapGesture(_ sender: Any) {
+        view.endEditing(true)
+    }
+    
+    
 //    MARK: - Privates
     private func configUi(){
         navigationController?.navigationBar.isHidden = true
