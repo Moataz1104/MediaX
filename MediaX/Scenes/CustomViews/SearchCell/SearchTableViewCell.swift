@@ -39,7 +39,7 @@ class SearchTableViewCell: UITableViewCell {
             self?.userName.text = user.fullName ?? ""
         }
         
-        if let usrlStril = user.image , let url = URL(string: usrlStril){
+        if let urlString = user.image , let url = URL(string: urlString){
             imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
         }
         

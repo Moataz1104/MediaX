@@ -41,15 +41,15 @@ class HomeView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        indicator.isHidden = true
-        indicator.stopAnimating()
+//        indicator.isHidden = true
+//        indicator.stopAnimating()
         self.hero.isEnabled = true
 
         setupTableView()
         registerCells()
         
         reloadTableView()
-        subscribeToIndicatorPublisher()
+//        subscribeToIndicatorPublisher()
         subscribeToErrorPublisher()
     }
     
@@ -99,20 +99,20 @@ class HomeView: UIViewController {
             .disposed(by: disposeBag)
     }
 
-    private func subscribeToIndicatorPublisher(){
-        viewModel.indicatorPublisher
-            .observe(on: MainScheduler.instance)
-            .subscribe {[weak self] isAnimate in
-                if isAnimate{
-                    self?.indicator.isHidden = false
-                    self?.indicator.startAnimating()
-                }else{
-                    self?.indicator.isHidden = true
-                    self?.indicator.stopAnimating()
-                }
-            }
-            .disposed(by: disposeBag)
-    }
+//    private func subscribeToIndicatorPublisher(){
+//        viewModel.indicatorPublisher
+//            .observe(on: MainScheduler.instance)
+//            .subscribe {[weak self] isAnimate in
+//                if isAnimate{
+//                    self?.indicator.isHidden = false
+//                    self?.indicator.startAnimating()
+//                }else{
+//                    self?.indicator.isHidden = true
+//                    self?.indicator.stopAnimating()
+//                }
+//            }
+//            .disposed(by: disposeBag)
+//    }
 
     //    MARK: - privates
 

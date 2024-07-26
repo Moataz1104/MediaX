@@ -33,9 +33,10 @@ class SearchView: UIViewController {
         keyBoardWillAppear()
         keyBoardWillDisappear()
         
-        searchTextField.rx.text.orEmpty
-            .bind(to: viewModel.searchTextFieldRelay)
-            .disposed(by: disposeBag)
+        bindTextField()
+        reloadTableView()
+        
+        
     }
 
     init(viewModel: SearchViewModel, disposeBag: DisposeBag) {
@@ -62,6 +63,23 @@ class SearchView: UIViewController {
         tableView.register(UINib(nibName: SearchTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: SearchTableViewCell.identifier)
     }
     
+    private func reloadTableView(){
+        viewModel.reloadTableViewClosure = {[weak self] in
+            DispatchQueue.main.async{
+                self?.tableView.reloadData()
+            }
+            
+        }
+
+    }
+    
+    private func bindTextField(){
+        searchTextField.rx.text.orEmpty
+            .bind(to: viewModel.searchTextFieldRelay)
+            .disposed(by: disposeBag)
+        
+
+    }
     
     
     
@@ -73,8 +91,7 @@ class SearchView: UIViewController {
 extension SearchView:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        viewModel.users?.count ?? 0
-        20
+        viewModel.users?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell

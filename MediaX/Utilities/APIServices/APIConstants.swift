@@ -19,7 +19,6 @@ struct apiK{
     static let currentUserURL = URL(string:"https://tumbler.onrender.com/v0/user/profile/current")!
     static let currentUserPostsURL = URL(string:"https://tumbler.onrender.com/v0/posts/current_user-posts")!
     static let updateUserURL = URL(string:"https://tumbler.onrender.com/v0/user/profile")!
-    static let searchUserURL = URL(string:"https://tumbler.onrender.com/v0/user/search")!
 
     static let getOnePostStringUrl =  "https://tumbler.onrender.com/v0/posts/"
     static let addCommentStringUrl = "https://tumbler.onrender.com/v0/comments/post/"
@@ -27,6 +26,7 @@ struct apiK{
     static let likeUrlString = "https://tumbler.onrender.com/v0/likes/post/"
     static let otherUserProfileStr = "https://tumbler.onrender.com/v0/user/profile/"
     static let otherUserPostsStr = "https://tumbler.onrender.com/v0/posts/user/"
+    static let searchUserStr = "https://tumbler.onrender.com/v0/user/search"
 
 
     

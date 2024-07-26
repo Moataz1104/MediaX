@@ -132,16 +132,11 @@ class APIUsers{
     }
     
     func searchUser(userName:String,accessToken:String)-> Observable<[UserModel]>{
-        
-        let jsonData = [
-            "userName":userName
-        ]
-        let body = try! JSONSerialization.data(withJSONObject: jsonData)
-        
-        var request = URLRequest(url: apiK.searchUserURL)
+                
+        let urlString = apiK.searchUserStr + "?userName=\(userName)"
+        var request = URLRequest(url: URL(string: urlString)!)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
-        request.httpBody = body
         
         return URLSession.shared.rx.response(request: request)
             .flatMapLatest { response,data ->Observable<[UserModel]> in

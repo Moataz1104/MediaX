@@ -51,7 +51,7 @@ class PostsViewModel {
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: { [weak self] posts in
-                    self?.posts = posts.reversed()
+                    self?.posts = posts
                     self?.reloadTableViewClosure?()
                     self?.indicatorPublisher.accept(false)
 
