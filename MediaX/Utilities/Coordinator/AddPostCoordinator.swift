@@ -13,7 +13,7 @@ class AddPostCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
     
     var navigationController: UINavigationController
-    weak var delegate:addPostDelegate?
+    weak var delegate:AddPostDelegate?
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }

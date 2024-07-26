@@ -33,35 +33,40 @@ class AddPostViewModel{
     }
     
     
-    func addPost(){
-        guard let token = token else{print("No token"); return}
-        
+    func addPost() {
+        guard let token = token else { print("No token"); return }
+
         postButtonBinder
             .withLatestFrom(contentTextViewBinder)
             .flatMapLatest { [weak self] content -> Observable<Void> in
-                guard let self = self, let imageData = self.selectedImageData else { return .empty()}
+                guard let self = self, let imageData = self.selectedImageData else { return .empty() }
                 self.indicatorPublisher.accept(true)
                 
                 return APIPosts.shared.addPost(content: content, imageData: imageData, accessToken: token)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
+                    .do(onDispose: {
+                        self.indicatorPublisher.accept(false)
+                    })
+                    .catch {error -> Observable<Void> in
+                        self.indicatorPublisher.accept(false)
+                        self.errorPublisher.accept(error)
+                        return .empty()
+                    }
             }
-            .subscribe {[weak self] _ in
-                self?.indicatorPublisher.accept(false)
-                self?.successClosure?()
-                self?.clearState()
-            } onError: {[weak self] error in
-                self?.indicatorPublisher.accept(false)
-                self?.errorPublisher.accept(error)
-            }
+            .retry()
+            .subscribe(
+                onNext: { [weak self] in
+                    self?.successClosure?()
+                    self?.clearState()
+                }
+            )
             .disposed(by: disposeBag)
-
-        
     }
-    
+
     func clearState() {
-        self.selectedImageData = nil
-        self.contentTextViewBinder.accept("")
+        selectedImageData = nil
+        contentTextViewBinder.accept("")
     }
 
 }

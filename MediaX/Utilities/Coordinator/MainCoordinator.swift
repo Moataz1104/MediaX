@@ -196,7 +196,7 @@ extension MainCoordinator: HomeViewDelegate {
     }
 }
 
-extension MainCoordinator:addPostDelegate{
+extension MainCoordinator:AddPostDelegate{
     func didDismissPhotoLibrary() {
         guard let tabBarController = tabBarController else {print("No controller"); return }
         

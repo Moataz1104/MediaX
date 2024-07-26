@@ -10,7 +10,7 @@ import Photos
 import RxSwift
 import RxCocoa
 
-protocol addPostDelegate:AnyObject{
+protocol AddPostDelegate:AnyObject{
     func didDismissPhotoLibrary()
 }
 
@@ -18,7 +18,7 @@ class AddPostView: UIViewController {
 
 //    MARK: - Attributes
     
-    weak var delegate : addPostDelegate?
+    weak var delegate : AddPostDelegate?
     let viewModel : AddPostViewModel
     let disposeBag:DisposeBag
     
@@ -41,7 +41,7 @@ class AddPostView: UIViewController {
         subscribeToErrorPublisher()
         
         bindTextView()
-        bindPostButton()
+
         
         successClosure()
 
@@ -82,17 +82,13 @@ class AddPostView: UIViewController {
         }
     }
     @IBAction func postButtonAction(_ sender: Any) {
+        viewModel.postButtonBinder.accept(())
     }
     
 //    MARK: - Binings
     
     private func bindTextView(){
         newPostContent.rx.text.orEmpty.bind(to: viewModel.contentTextViewBinder)
-            .disposed(by: disposeBag)
-
-    }
-    private func bindPostButton(){
-        postButton.rx.tap.bind(to: viewModel.postButtonBinder)
             .disposed(by: disposeBag)
 
     }
