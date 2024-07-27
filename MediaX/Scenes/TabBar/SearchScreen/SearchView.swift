@@ -66,12 +66,16 @@ class SearchView: UIViewController {
     
     private func registerCell(){
         tableView.register(UINib(nibName: SearchTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: SearchTableViewCell.identifier)
+        tableView.register(UINib(nibName: GeneralUserTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: GeneralUserTableViewCell.identifier)
     }
     
     private func reloadTableView(){
         viewModel.reloadTableViewClosure = {[weak self] in
+            guard let self = self else{return}
             DispatchQueue.main.async{
-                self?.tableView.reloadData()
+                let range = NSRange(location: 0, length: self.tableView.numberOfSections)
+                let sections = IndexSet(integersIn: Range(range) ?? 0..<0)
+                self.tableView.reloadSections(sections, with: .fade)
             }
             
         }
@@ -96,15 +100,20 @@ class SearchView: UIViewController {
 extension SearchView:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.users?.count ?? 0
+        viewModel.recentUsers?.count ?? viewModel.users?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
-        
-        if let user = viewModel.users?[indexPath.row]{
-            cell.configureUser(user:user )
+        if let users = viewModel.recentUsers{
+            let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+            cell.configureUser(user: users[indexPath.row])
+            return cell
+        }else if let users = viewModel.users{
+            let cell = tableView.dequeueReusableCell(withIdentifier: GeneralUserTableViewCell.identifier, for: indexPath) as! GeneralUserTableViewCell
+            cell.configureUser(user: users[indexPath.row])
+            return cell
         }
-        return cell
+        
+        return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
