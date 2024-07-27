@@ -22,6 +22,8 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     
     var userImageDisposable : Disposable?
     var viewModel:ProfileViewModel?
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
@@ -31,6 +33,10 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         userImageDisposable?.dispose()
         userImage.image = nil
+    }
+    
+    @IBAction func followButtonAction(_ sender: Any) {
+        viewModel?.followButtonRelay.accept(())
     }
     
     
@@ -45,11 +51,13 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         backImageView.layer.borderWidth = 2
         backImageView.layer.borderColor = UIColor.main.cgColor
 
+        
         followButton.layer.cornerRadius = followButton.frame.height / 2
+        followButton.isHidden = true
     }
     
     
-    func configureCell(with user:UserModel){
+    func configureCell(with user:UserModel,isFollowButtonHidden:Bool){
         
         if let stringUrl = user.image,
            let url = URL(string: stringUrl){
@@ -61,7 +69,24 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
             self?.followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
             self?.userName.text = user.fullName ?? ""
             self?.userBio.text = user.bio
+            self?.checkFollowStatus(status: user.followStatus ?? "",isFollowButtonHidden:isFollowButtonHidden)
         }
+    }
+    
+    
+    private func checkFollowStatus(status:String,isFollowButtonHidden:Bool){
+        if status == "NONE"{
+            followButton.backgroundColor = .main
+            followButton.setTitle("Follow", for: .normal)
+            followButton.isHidden = isFollowButtonHidden
+
+        }else{
+            followButton.backgroundColor = .lightGray
+            followButton.setTitle("UnFollow", for: .normal)
+            followButton.isHidden = isFollowButtonHidden
+
+        }
+        
     }
 
 }

@@ -27,6 +27,7 @@ struct apiK{
     static let otherUserPostsStr = "https://tumbler.onrender.com/v0/posts/user/"
     static let searchUserStr = "https://tumbler.onrender.com/v0/user/search"
     static let allPostsPaginatedStr =  "https://tumbler.onrender.com/v0/posts/paginated-posts?page=0&size="
+    static let followUrlString = "https://tumbler.onrender.com/v0/followers/follow/"
 
 
     

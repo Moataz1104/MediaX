@@ -13,6 +13,7 @@ enum NetworkingErrors : Error {
     case serverError(Int)
     case noData
     case unknownError
+    case customError(String)
     
     var localizedDescription:String {
         switch self {
@@ -26,6 +27,8 @@ enum NetworkingErrors : Error {
             return "No data received from the server"
         case .unknownError:
             return "An unknown error occurred"
+        case .customError(let message):
+            return message
 
         }
     }
@@ -42,6 +45,8 @@ enum NetworkingErrors : Error {
             return "No data"
         case .unknownError:
             return "An unknown"
+        case .customError(_):
+            return "Error"
         }
     }
 }

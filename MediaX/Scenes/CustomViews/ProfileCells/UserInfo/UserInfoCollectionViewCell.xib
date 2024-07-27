@@ -114,6 +114,9 @@
                                                 <state key="normal" title="Follow">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="followButtonAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Yv1-db-TIa"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>

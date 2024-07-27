@@ -55,6 +55,7 @@ class PostsViewModel {
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
             }
+            .retry()
             .subscribe(
                 onNext: { [weak self] posts in
                     self?.posts = posts

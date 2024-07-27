@@ -37,7 +37,7 @@ class APIPosts {
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500,userInfo: [NSLocalizedDescriptionKey:decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -72,7 +72,7 @@ class APIPosts {
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -115,7 +115,7 @@ class APIPosts {
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }

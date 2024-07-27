@@ -34,7 +34,7 @@ class APIUsers{
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -71,7 +71,7 @@ class APIUsers{
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -118,7 +118,7 @@ class APIUsers{
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -147,7 +147,7 @@ class APIUsers{
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -183,7 +183,7 @@ class APIUsers{
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -221,7 +221,7 @@ class APIUsers{
                 if response.statusCode == 500 {
                     do {
                         let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
-                        return .error(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: decodedMessage.message]))
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
                     } catch {
                         return .error(NetworkingErrors.decodingError(error))
                     }
@@ -238,5 +238,38 @@ class APIUsers{
             .catch { error in
                 return .error(NetworkingErrors.networkError(error))
             }
+    }
+    
+    
+    func followUser(accessToken:String,userId:String)-> Observable<Void>{
+        let urlStr = apiK.followUrlString + userId
+        
+        var request = URLRequest(url: URL(string: urlStr)!)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "POST"
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data -> Observable<Void> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+
+                return .just(())
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+        
+
     }
 }

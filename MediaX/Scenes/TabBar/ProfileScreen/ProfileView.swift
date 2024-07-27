@@ -51,7 +51,7 @@ class ProfileView: UIViewController {
             viewModel.getCurrentUser()
             viewModel.getCurrentUserPosts()
         }else{
-            viewModel.getOtherUserProfile()
+            viewModel.getUserProfileRelay.accept(())
             viewModel.getOtherUserPosts()
         }
     }
@@ -107,9 +107,12 @@ class ProfileView: UIViewController {
         collectionView.register(UINib(nibName: PostsGridCollectionViewCell.identfier, bundle: nil), forCellWithReuseIdentifier: PostsGridCollectionViewCell.identfier)
     }
     private func reloadCollectioView(){
-        viewModel.reloadcollectionViewClosure = {[weak self] in
-            self?.collectionView.reloadData()
+        DispatchQueue.main.async {[weak self] in
+            self?.viewModel.reloadcollectionViewClosure = {
+                self?.collectionView.reloadData()
+            }
         }
+
     }
     private func refreshCollectionView(){
         collectionView.refreshControl = refreshControl
@@ -125,8 +128,9 @@ class ProfileView: UIViewController {
                 self?.viewModel.getCurrentUser()
                 self?.viewModel.getCurrentUserPosts()
             }else{
-                self?.viewModel.getOtherUserProfile()
+                self?.viewModel.getUserProfileRelay.accept(())
                 self?.viewModel.getOtherUserPosts()
+
             }
             self?.refreshControl.endRefreshing()
         }
@@ -153,14 +157,12 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
         if indexPath.section == 0{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserInfoCollectionViewCell.identifier, for: indexPath) as! UserInfoCollectionViewCell
             cell.viewModel = viewModel
-            if isCurrentUser{
-                cell.followButton.isHidden = true
-            }else{
-                cell.followButton.isHidden = false
-            }
-            
             if let user = viewModel.user{
-                cell.configureCell(with: user)
+                if isCurrentUser{
+                    cell.configureCell(with: user,isFollowButtonHidden:true)
+                }else{
+                    cell.configureCell(with: user,isFollowButtonHidden:false)
+                }
             }
             
             return cell

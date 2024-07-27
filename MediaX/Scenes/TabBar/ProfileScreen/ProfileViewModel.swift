@@ -21,6 +21,9 @@ class ProfileViewModel{
     
     var reloadcollectionViewClosure:(()->Void)?
     let isAnimatingPublisher = PublishRelay<Bool>()
+    let followButtonRelay = PublishRelay<Void>()
+    let getUserProfileRelay = PublishRelay<Void>()
+    
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
     
     var getCurrentUserDisposable:Disposable?
@@ -39,6 +42,7 @@ class ProfileViewModel{
         }else{
             getOtherUserProfile()
             getOtherUserPosts()
+            handleFollow()
         }
     }
     
@@ -83,9 +87,13 @@ class ProfileViewModel{
         guard let token = accessToken else{print("No tokeeeen"); return}
         guard let userId = userId else{return}
         
-        APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
-            .observe(on: MainScheduler.instance)
-            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+        getUserProfileRelay
+            .flatMapLatest { _ -> Observable<UserModel> in
+                return APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+
+            }
             .subscribe {[weak self] user in
                 self?.user = user
                 self?.reloadcollectionViewClosure?()
@@ -110,6 +118,33 @@ class ProfileViewModel{
             }
             .disposed(by: disposeBag)
     }
+    
+    func handleFollow(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+        guard let userId = userId else{return}
+
+        followButtonRelay
+            .flatMapLatest { _ -> Observable<Void> in
+                APIUsers.shared.followUser(accessToken: token, userId: userId)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .do(onError:{error in
+                        print(error.localizedDescription)
+                    })
+            }
+            .retry()
+            .subscribe {[weak self] _ in
+                self?.getUserProfileRelay.accept(())
+                self?.reloadcollectionViewClosure?()
+            }onError: { error in
+                
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    
+    
     
 //    MARK: - Navigation
     
