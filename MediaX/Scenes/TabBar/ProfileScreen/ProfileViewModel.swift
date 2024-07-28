@@ -14,6 +14,7 @@ class ProfileViewModel{
     var coordinator:Coordinator?
     let disposeBag:DisposeBag
     let isCurrentUser:Bool
+    let isFromSearch:Bool
 
     var user:UserModel?
     var posts:[PostModel]?
@@ -30,12 +31,12 @@ class ProfileViewModel{
     var getCurrentUserPostsDisposable:Disposable?
     
     
-    init(coordinator: Coordinator, disposeBag: DisposeBag,isCurrentUser:Bool,userId:String? = nil) {
+    init(coordinator: Coordinator, disposeBag: DisposeBag,isCurrentUser:Bool,userId:String? = nil,isFromSearch:Bool = false) {
         self.coordinator = coordinator
         self.disposeBag = disposeBag
         self.isCurrentUser = isCurrentUser
         self.userId = userId
-        
+        self.isFromSearch = isFromSearch
         if isCurrentUser{
             getCurrentUser()
             getCurrentUserPosts()
@@ -87,20 +88,38 @@ class ProfileViewModel{
         guard let token = accessToken else{print("No tokeeeen"); return}
         guard let userId = userId else{return}
         
-        getUserProfileRelay
-            .flatMapLatest { _ -> Observable<UserModel> in
-                return APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
-                    .observe(on: MainScheduler.instance)
-                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+        if isFromSearch{
+            getUserProfileRelay
+                .flatMapLatest { _ -> Observable<UserModel> in
+                    return APIUsers.shared.getUserFromSearch(by: userId, accessToken: token)
+                        .observe(on: MainScheduler.instance)
+                        .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    
+                }
+                .subscribe {[weak self] user in
+                    self?.user = user
+                    self?.reloadcollectionViewClosure?()
+                }onError: { error in
+                    print(error)
+                }
+                .disposed(by: disposeBag)
 
-            }
-            .subscribe {[weak self] user in
-                self?.user = user
-                self?.reloadcollectionViewClosure?()
-            }onError: { error in
-                print(error)
-            }
-            .disposed(by: disposeBag)
+        }else{
+            getUserProfileRelay
+                .flatMapLatest { _ -> Observable<UserModel> in
+                    return APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
+                        .observe(on: MainScheduler.instance)
+                        .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    
+                }
+                .subscribe {[weak self] user in
+                    self?.user = user
+                    self?.reloadcollectionViewClosure?()
+                }onError: { error in
+                    print(error)
+                }
+                .disposed(by: disposeBag)
+        }
     }
     
     func getOtherUserPosts(){
@@ -153,6 +172,9 @@ class ProfileViewModel{
             coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
         }else if let posts = posts ,  let coordinator = coordinator as? HomeCoordinator{
             coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath) 
+        }else if let posts = posts , let coordinator = coordinator as? SearchCoordinator{
+            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
+
         }
     }
     

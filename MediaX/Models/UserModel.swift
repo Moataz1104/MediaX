@@ -9,9 +9,10 @@ import Foundation
 
 struct UserModel:Codable{
     let fullName, email, phoneNumber: String?
+    let id:Int?
     let image: String?
     let bio: String?
-    let followStatus: String?
+    let follow: Bool?
     let numberOfPosts, numberOfFollowing, numberOfFollowers: Int?
 
 }

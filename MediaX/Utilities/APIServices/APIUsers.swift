@@ -269,7 +269,74 @@ class APIUsers{
             .catch { error in
                 return .error(NetworkingErrors.networkError(error))
             }
+    }
+    
+    func deleteUserFromRecent(accessToken:String,id:String)-> Observable<Void>{
+        let urlStr = apiK.deleteUserFromRecentStr + id
         
+        var request = URLRequest(url: URL(string: urlStr)!)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "DELETE"
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data -> Observable<Void> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
 
+                return .just(())
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+    }
+    
+    func getUserFromSearch(by id:String , accessToken:String) -> Observable<UserModel>{
+        let urlString = apiK.getUserFromSearch + id
+        var request = URLRequest(url: URL(string: urlString)!)
+        
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response, data -> Observable<UserModel> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+                
+                do{
+                    let decodedUser = try JSONDecoder().decode(UserModel.self, from: data)
+                    
+                    return .just(decodedUser)
+                    
+                }catch{
+                    return .error(NetworkingErrors.decodingError(error))
+                }
+                
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+
+        
     }
 }

@@ -15,6 +15,8 @@ class SearchTableViewCell: UITableViewCell {
     @IBOutlet weak var userImage: UIImageView!
     
     var imageLoadDisposable:Disposable?
+    var viewModel:SearchViewModel?
+    var user:UserModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,6 +31,9 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     @IBAction func xButtonAction(_ sender: Any) {
+        if let vm = viewModel,let id = user?.id{
+            vm.deleteFromRecentRelay.accept("\(id)")
+        }
     }
  
     

@@ -28,6 +28,8 @@ class SearchView: UIViewController {
         configUi()
         tableView.delegate = self
         tableView.dataSource = self
+        
+
         searchTextField.delegate = self
         registerCell()
         keyBoardWillAppear()
@@ -105,10 +107,16 @@ extension SearchView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let users = viewModel.recentUsers{
             let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+            cell.user = users[indexPath.row]
+            cell.viewModel = viewModel
             cell.configureUser(user: users[indexPath.row])
             return cell
+            
         }else if let users = viewModel.users{
             let cell = tableView.dequeueReusableCell(withIdentifier: GeneralUserTableViewCell.identifier, for: indexPath) as! GeneralUserTableViewCell
+                
+            cell.viewModel = viewModel
+            cell.user = users[indexPath.row]
             cell.configureUser(user: users[indexPath.row])
             return cell
         }
@@ -117,6 +125,20 @@ extension SearchView:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        if let users = viewModel.recentUsers{
+            if let userId = users[indexPath.row].id{
+                viewModel.pushProfileScree(id: "\(userId)")
+            }
+        }else if let users = viewModel.users{
+            if let userId = users[indexPath.row].id{
+                viewModel.pushProfileScree(id: "\(userId)")
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

@@ -69,13 +69,13 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
             self?.followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
             self?.userName.text = user.fullName ?? ""
             self?.userBio.text = user.bio
-            self?.checkFollowStatus(status: user.followStatus ?? "",isFollowButtonHidden:isFollowButtonHidden)
+            self?.checkFollowStatus(status: user.follow ?? false,isFollowButtonHidden:isFollowButtonHidden)
         }
     }
     
     
-    private func checkFollowStatus(status:String,isFollowButtonHidden:Bool){
-        if status == "NONE"{
+    private func checkFollowStatus(status:Bool,isFollowButtonHidden:Bool){
+        if !status{
             followButton.backgroundColor = .main
             followButton.setTitle("Follow", for: .normal)
             followButton.isHidden = isFollowButtonHidden

@@ -28,8 +28,8 @@ struct apiK{
     static let searchUserStr = "https://tumbler.onrender.com/v0/user/search"
     static let allPostsPaginatedStr =  "https://tumbler.onrender.com/v0/posts/paginated-posts?page=0&size="
     static let followUrlString = "https://tumbler.onrender.com/v0/followers/follow/"
-
-
+    static let deleteUserFromRecentStr = "https://tumbler.onrender.com/v0/user/recent-search/"
+    static let getUserFromSearch = "https://tumbler.onrender.com/v0/user/search/profile/"
     
     
 }

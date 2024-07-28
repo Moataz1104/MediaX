@@ -20,7 +20,9 @@ class SearchViewModel{
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
     
     let searchTextFieldRelay = PublishRelay<String>()
-    
+    let followButtonRelay = PublishRelay<String>()
+    let deleteFromRecentRelay = PublishRelay<String>()
+//    let getUserRelay = PublishRelay<(Void,String)>()
     var reloadTableViewClosure:(()->Void)?
     
     
@@ -29,10 +31,12 @@ class SearchViewModel{
         self.coordinator = coordinator
         self.disposeBag = disposeBag
         searchForUsers()
+        handleFollow()
+        deleteFromRecent()
     }
     
     
-    func searchForUsers() {
+    private func searchForUsers() {
         guard let accessToken = accessToken else{return}
         searchTextFieldRelay
             .debounce(RxTimeInterval.milliseconds(200), scheduler: MainScheduler.instance)
@@ -58,4 +62,73 @@ class SearchViewModel{
             .disposed(by: disposeBag)
     }
 
+    private func handleFollow(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+
+        followButtonRelay
+            .flatMapLatest { id -> Observable<Void> in
+                APIUsers.shared.followUser(accessToken: token, userId: id)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .do(onError:{error in
+                        print(error.localizedDescription)
+                    })
+            }
+            .retry()
+            .subscribe {[weak self] _ in
+                
+                self?.reloadTableViewClosure?()
+            }onError: { error in
+                
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+    }
+
+    private func deleteFromRecent(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+
+        deleteFromRecentRelay
+            .flatMapLatest { id -> Observable<Void> in
+                APIUsers.shared.deleteUserFromRecent(accessToken: token, id: id)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .do(onError:{error in
+                        print(error.localizedDescription)
+                    })
+            }
+            .retry()
+            .subscribe {[weak self] _ in
+                
+                self?.reloadTableViewClosure?()
+            }onError: { error in
+                
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+//    private func getUser(){
+//        guard let token = accessToken else{return}
+//        
+//        getUserRelay
+//            .flatMapLatest { _ , id -> Observable<UserModel> in
+//                return APIUsers.shared.getUserFromSearch(by: id, accessToken: token)
+//                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+//                    .observe(on: MainScheduler.instance)
+//                    .do(onError:{error in print(error.localizedDescription)})
+//            }
+//            .subscribe {[weak self] user in
+//                
+//            }
+//            
+//        
+//    }
+
+    
+//    MARK: - Navigation
+    
+    func pushProfileScree(id:String){
+        coordinator.pushProfileScreen(id: id)
+    }
 }

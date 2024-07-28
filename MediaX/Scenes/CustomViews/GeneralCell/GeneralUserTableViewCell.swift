@@ -17,6 +17,8 @@ class GeneralUserTableViewCell: UITableViewCell {
     @IBOutlet weak var followButton: UIButton!
     
     var imageLoadDisposable:Disposable?
+    var viewModel : SearchViewModel?
+    var user:UserModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +27,9 @@ class GeneralUserTableViewCell: UITableViewCell {
         userImage.clipsToBounds = true
 
     }
+    
+    
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -32,6 +37,9 @@ class GeneralUserTableViewCell: UITableViewCell {
     
     
     @IBAction func followButtonAction(_ sender: Any) {
+        if let vm = viewModel, let id = user?.id{
+            vm.followButtonRelay.accept("\(id)")
+        }
     }
     
  
@@ -41,6 +49,8 @@ class GeneralUserTableViewCell: UITableViewCell {
         
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = user.fullName ?? ""
+            self?.checkFollowStatus(status: user.follow ?? false)
+            
         }
         
         if let urlString = user.image , let url = URL(string: urlString){
@@ -49,5 +59,18 @@ class GeneralUserTableViewCell: UITableViewCell {
         
         
     }
+    
+    private func checkFollowStatus(status:Bool){
+        if !status{
+            followButton.backgroundColor = .main
+            followButton.setTitle("Follow", for: .normal)
+
+        }else{
+            followButton.backgroundColor = .lightGray
+            followButton.setTitle("UnFollow", for: .normal)
+        }
+        
+    }
+
 
 }
