@@ -38,7 +38,7 @@ class SearchView: UIViewController {
         bindTextField()
         reloadTableView()
         
-        
+        subscribeToErrorPublisher()
     }
 
     init(viewModel: SearchViewModel, disposeBag: DisposeBag) {
@@ -51,10 +51,59 @@ class SearchView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    MARK: - Actions
     @IBAction func viewTapGesture(_ sender: Any) {
         view.endEditing(true)
     }
     
+    @objc func cellTapAction(_ sender: UITapGestureRecognizer) {
+        guard let cell = sender.view as? UITableViewCell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        if let users = viewModel.recentUsers{
+            if let userId = users[indexPath.row].id{
+                viewModel.pushProfileScree(id: "\(userId)")
+            }
+        }else if let users = viewModel.users{
+            if let userId = users[indexPath.row].id{
+                viewModel.pushProfileScree(id: "\(userId)")
+            }
+        }
+
+    }
+    
+//    MARK: - Subscribers
+    
+    private func subscribeToErrorPublisher() {
+        viewModel.errorPublisher
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] event in
+                guard let error = event.element else {
+                    print("Error element is nil")
+                    return
+                }
+                let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+
+                if let networkingError = error as? NetworkingErrors {
+                    DispatchQueue.main.async {
+                        vc.errorTitle.text = networkingError.title
+                        vc.errorMessage.text = networkingError.localizedDescription
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        vc.errorMessage.text = error.localizedDescription
+                    }
+                }
+
+                self?.present(vc, animated: true, completion: nil)
+            }
+            .disposed(by: disposeBag)
+    }
+
+
     
 //    MARK: - Privates
     private func configUi(){
@@ -110,6 +159,11 @@ extension SearchView:UITableViewDelegate,UITableViewDataSource{
             cell.user = users[indexPath.row]
             cell.viewModel = viewModel
             cell.configureUser(user: users[indexPath.row])
+            
+            let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTapAction(_:)))
+            cell.addGestureRecognizer(cellTapGesture)
+            cell.isUserInteractionEnabled = true
+
             return cell
             
         }else if let users = viewModel.users{
@@ -118,6 +172,11 @@ extension SearchView:UITableViewDelegate,UITableViewDataSource{
             cell.viewModel = viewModel
             cell.user = users[indexPath.row]
             cell.configureUser(user: users[indexPath.row])
+            
+            let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTapAction(_:))) // Use tap gesture because of the cell selection bug
+            cell.addGestureRecognizer(cellTapGesture)
+            cell.isUserInteractionEnabled = true
+
             return cell
         }
         
@@ -129,15 +188,6 @@ extension SearchView:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
-        if let users = viewModel.recentUsers{
-            if let userId = users[indexPath.row].id{
-                viewModel.pushProfileScree(id: "\(userId)")
-            }
-        }else if let users = viewModel.users{
-            if let userId = users[indexPath.row].id{
-                viewModel.pushProfileScree(id: "\(userId)")
-            }
-        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

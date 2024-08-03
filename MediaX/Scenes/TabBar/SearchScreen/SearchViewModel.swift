@@ -22,7 +22,9 @@ class SearchViewModel{
     let searchTextFieldRelay = PublishRelay<String>()
     let followButtonRelay = PublishRelay<String>()
     let deleteFromRecentRelay = PublishRelay<String>()
-//    let getUserRelay = PublishRelay<(Void,String)>()
+    let getUserRelay = PublishRelay<String>()
+    let errorPublisher = PublishRelay<Error>()
+ 
     var reloadTableViewClosure:(()->Void)?
     
     
@@ -33,6 +35,7 @@ class SearchViewModel{
         searchForUsers()
         handleFollow()
         deleteFromRecent()
+        getUser()
     }
     
     
@@ -44,6 +47,11 @@ class SearchViewModel{
             .flatMapLatest { query -> Observable<(String, [UserModel])> in
                 return APIUsers.shared.searchUser(userName: query, accessToken: accessToken)
                     .map { (query, $0) }
+                    .catch {[weak self]error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
+                
             }
             .subscribe(onNext: {[weak self] (query,users) in
                 if query.isEmpty{
@@ -56,8 +64,8 @@ class SearchViewModel{
                     self?.reloadTableViewClosure?()
                     
                 }
-            },onError: { error in
-                print(error.localizedDescription)
+            },onError: {[weak self] error in
+                self?.errorPublisher.accept(error)
             })
             .disposed(by: disposeBag)
     }
@@ -66,65 +74,79 @@ class SearchViewModel{
         guard let token = accessToken else{print("No tokeeeen"); return}
 
         followButtonRelay
-            .flatMapLatest { id -> Observable<Void> in
+            .flatMapLatest { id -> Observable<(Void,String)> in
                 APIUsers.shared.followUser(accessToken: token, userId: id)
+                    .map { ($0, id) }
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .do(onError:{error in
-                        print(error.localizedDescription)
-                    })
+                    .catch {[weak self]error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
             }
             .retry()
-            .subscribe {[weak self] _ in
+            .subscribe(onNext: { [weak self] (_, id) in
+                self?.getUserRelay.accept(id)
+            },onError: {[weak self] error in
                 
-                self?.reloadTableViewClosure?()
-            }onError: { error in
-                
-                print(error.localizedDescription)
-            }
-            .disposed(by: disposeBag)
-    }
-
-    private func deleteFromRecent(){
-        guard let token = accessToken else{print("No tokeeeen"); return}
-
-        deleteFromRecentRelay
-            .flatMapLatest { id -> Observable<Void> in
-                APIUsers.shared.deleteUserFromRecent(accessToken: token, id: id)
-                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-                    .observe(on: MainScheduler.instance)
-                    .do(onError:{error in
-                        print(error.localizedDescription)
-                    })
-            }
-            .retry()
-            .subscribe {[weak self] _ in
-                
-                self?.reloadTableViewClosure?()
-            }onError: { error in
-                
-                print(error.localizedDescription)
-            }
+                self?.errorPublisher.accept(error)
+            })
             .disposed(by: disposeBag)
     }
     
-//    private func getUser(){
-//        guard let token = accessToken else{return}
-//        
-//        getUserRelay
-//            .flatMapLatest { _ , id -> Observable<UserModel> in
-//                return APIUsers.shared.getUserFromSearch(by: id, accessToken: token)
-//                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-//                    .observe(on: MainScheduler.instance)
-//                    .do(onError:{error in print(error.localizedDescription)})
-//            }
-//            .subscribe {[weak self] user in
-//                
-//            }
-//            
-//        
-//    }
+    
 
+    private func deleteFromRecent() {
+        guard let token = accessToken else {
+            print("No tokeeeen")
+            return
+        }
+
+        deleteFromRecentRelay
+            .flatMapLatest { id -> Observable<(Void, String)> in
+                APIUsers.shared.deleteUserFromRecent(accessToken: token, id: id)
+                    .map { ($0, id) }
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch {[weak self]error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
+            }
+            .retry()
+            .subscribe(onNext: { [weak self] (_, id) in
+                self?.recentUsers?.removeAll(where: { $0.id == Int(id)! })
+                self?.reloadTableViewClosure?()
+            }, onError: {[weak self] error in
+                self?.errorPublisher.accept(error)
+            })
+            .disposed(by: disposeBag)
+    }
+
+    func getUser(){
+        guard let token = accessToken else{ return}
+        
+        getUserRelay
+            .flatMapLatest { id -> Observable<(UserModel,String)> in
+                APIUsers.shared.getOtherUserProfile(by: id, accessToken: token)
+                    .map{($0 , id)}
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch {[weak self]error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
+            }
+            .subscribe {[weak self] (user , id) in
+                if let index = self?.users?.firstIndex(where: { $0.id == Int(id) }) {
+                    print("asdasdasdasdasdasdsa")
+                    self?.users?.remove(at: index)
+                    self?.users?.insert(user, at: index)
+                }
+                self?.reloadTableViewClosure?()
+            }
+            .disposed(by: disposeBag)
+    }
     
 //    MARK: - Navigation
     

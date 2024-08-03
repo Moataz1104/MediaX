@@ -24,7 +24,7 @@ class ProfileViewModel{
     let isAnimatingPublisher = PublishRelay<Bool>()
     let followButtonRelay = PublishRelay<Void>()
     let getUserProfileRelay = PublishRelay<Void>()
-    
+    let errorPublisher = PublishRelay<Error>()
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
     
     var getCurrentUserDisposable:Disposable?
@@ -37,6 +37,7 @@ class ProfileViewModel{
         self.isCurrentUser = isCurrentUser
         self.userId = userId
         self.isFromSearch = isFromSearch
+        
         if isCurrentUser{
             getCurrentUser()
             getCurrentUserPosts()
@@ -56,13 +57,17 @@ class ProfileViewModel{
         getCurrentUserDisposable = APIUsers.shared.getCurrentUser(accessToken: token)
             .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
             .observe(on: MainScheduler.instance)
+            .catch({[weak self] error in
+                self?.errorPublisher.accept(error)
+                return .empty()
+            })
             .subscribe {[weak self] user in
                 self?.isAnimatingPublisher.accept(true)
                 self?.user = user
                 self?.reloadcollectionViewClosure?()
                 self?.isAnimatingPublisher.accept(false)
             }onError: {[weak self] error in
-                print(error.localizedDescription)
+                self?.errorPublisher.accept(error)
                 self?.isAnimatingPublisher.accept(false)
 
             }
@@ -74,54 +79,57 @@ class ProfileViewModel{
         getCurrentUserPostsDisposable =  APIUsers.shared.getCurrentUserPosts(accessToken: token)
             .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
             .observe(on: MainScheduler.instance)
+            .catch({[weak self] error in
+                self?.errorPublisher.accept(error)
+                return .empty()
+            })
             .subscribe {[weak self] posts in
                 self?.posts = posts
                 self?.reloadcollectionViewClosure?()
-            }onError: { error in
-                print(error.localizedDescription)
+            }onError: {[weak self] error in
+                self?.errorPublisher.accept(error)
             }
 
     }
 
     
-    func getOtherUserProfile(){
-        guard let token = accessToken else{print("No tokeeeen"); return}
-        guard let userId = userId else{return}
-        
-        if isFromSearch{
-            getUserProfileRelay
-                .flatMapLatest { _ -> Observable<UserModel> in
-                    return APIUsers.shared.getUserFromSearch(by: userId, accessToken: token)
-                        .observe(on: MainScheduler.instance)
-                        .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-                    
-                }
-                .subscribe {[weak self] user in
-                    self?.user = user
-                    self?.reloadcollectionViewClosure?()
-                }onError: { error in
-                    print(error)
-                }
-                .disposed(by: disposeBag)
-
-        }else{
-            getUserProfileRelay
-                .flatMapLatest { _ -> Observable<UserModel> in
-                    return APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
-                        .observe(on: MainScheduler.instance)
-                        .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-                    
-                }
-                .subscribe {[weak self] user in
-                    self?.user = user
-                    self?.reloadcollectionViewClosure?()
-                }onError: { error in
-                    print(error)
-                }
-                .disposed(by: disposeBag)
+    func getOtherUserProfile() {
+        guard let token = accessToken else {
+            print("No token")
+            return
         }
+        guard let userId = userId else {
+            print("No userId")
+            return
+        }
+        
+        let fetchUser: Observable<UserModel>
+        
+        if isFromSearch {
+            fetchUser = APIUsers.shared.getUserFromSearch(by: userId, accessToken: token)
+        } else {
+            fetchUser = APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
+        }
+        
+        getUserProfileRelay
+            .flatMapLatest { _ -> Observable<UserModel> in
+                return fetchUser
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .catch { [weak self] error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
+            }
+            .subscribe { [weak self] user in
+                self?.user = user
+                self?.reloadcollectionViewClosure?()
+            } onError: { [weak self] error in
+                self?.errorPublisher.accept(error)
+            }
+            .disposed(by: disposeBag)
     }
-    
+
     func getOtherUserPosts(){
         guard let token = accessToken else{print("No tokeeeen"); return}
         guard let userId = userId else{return}
@@ -129,11 +137,15 @@ class ProfileViewModel{
         APIUsers.shared.getOtherUserPosts(by: userId, accessToken: token)
             .observe(on: MainScheduler.instance)
             .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .catch({[weak self] error in
+                self?.errorPublisher.accept(error)
+                return .empty()
+            })
             .subscribe {[weak self] posts in
                 self?.posts = posts
                 self?.reloadcollectionViewClosure?()
-            }onError: { error in
-                print(error.localizedDescription)
+            }onError: {[weak self] error in
+                self?.errorPublisher.accept(error)
             }
             .disposed(by: disposeBag)
     }
@@ -147,17 +159,18 @@ class ProfileViewModel{
                 APIUsers.shared.followUser(accessToken: token, userId: userId)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .do(onError:{error in
-                        print(error.localizedDescription)
-                    })
+                    .catch {[weak self]error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
             }
             .retry()
             .subscribe {[weak self] _ in
                 self?.getUserProfileRelay.accept(())
                 self?.reloadcollectionViewClosure?()
-            }onError: { error in
+            }onError: {[weak self] error in
                 
-                print(error.localizedDescription)
+                self?.errorPublisher.accept(error)
             }
             .disposed(by: disposeBag)
     }

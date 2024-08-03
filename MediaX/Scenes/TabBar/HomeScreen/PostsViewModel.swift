@@ -54,6 +54,10 @@ class PostsViewModel {
                 return APIPosts.shared.getAllPosts(accessToken: accessToken, size: "\(size)")
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
+                    .catch {[weak self] error in
+                        self?.errorPublisher.accept(error)
+                        return Observable.empty()
+                    }
             }
             .retry()
             .subscribe(

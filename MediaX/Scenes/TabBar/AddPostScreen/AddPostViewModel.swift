@@ -48,7 +48,7 @@ class AddPostViewModel{
                     .do(onDispose: {
                         self.indicatorPublisher.accept(false)
                     })
-                    .catch {error -> Observable<Void> in
+                    .catch {error  in
                         self.indicatorPublisher.accept(false)
                         self.errorPublisher.accept(error)
                         return .empty()

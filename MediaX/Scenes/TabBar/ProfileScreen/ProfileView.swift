@@ -33,6 +33,7 @@ class ProfileView: UIViewController {
         self.hero.isEnabled = true
         
         refreshControl.tintColor = UIColor.main
+        subscribeToErrorPublisher()
         setUpCollectionView()
         registerCells()
         reloadCollectioView()
@@ -93,15 +94,45 @@ class ProfileView: UIViewController {
 
     }
     
-//    MARK: - Privates
+        
+    private func subscribeToErrorPublisher() {
+        viewModel.errorPublisher
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] event in
+                guard let error = event.element else {
+                    print("Error element is nil")
+                    return
+                }
+                let vc = ErrorsAlertView()
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                
+                if let networkingError = error as? NetworkingErrors {
+                    DispatchQueue.main.async {
+                        vc.errorTitle?.text = networkingError.title
+                        vc.errorMessage?.text = networkingError.localizedDescription
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        vc.errorMessage?.text = error.localizedDescription
+                    }
+                }
+                self?.present(vc, animated: true, completion: nil)
+
+            }
+            .disposed(by: disposeBag)
+    }
+
+    
+    //    MARK: - Privates
     private func setUpCollectionView(){
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
-
+        
     }
-
+    
     private func registerCells(){
         collectionView.register(UINib(nibName: UserInfoCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: UserInfoCollectionViewCell.identifier)
         collectionView.register(UINib(nibName: PostsGridCollectionViewCell.identfier, bundle: nil), forCellWithReuseIdentifier: PostsGridCollectionViewCell.identfier)
@@ -112,13 +143,13 @@ class ProfileView: UIViewController {
                 self?.collectionView.reloadData()
             }
         }
-
+        
     }
     private func refreshCollectionView(){
         collectionView.refreshControl = refreshControl
-
+        
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-
+        
     }
     
     @objc func refreshData() {

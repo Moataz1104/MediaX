@@ -60,13 +60,14 @@ class SettingViewModel{
                 return APIUsers.shared.updateUser(userName: userName, phoneNumber: phone, bio: bio, imageData: imageData, accessToken: token)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .do(onError: { error in
+                    .catch {error in
+                        print(error.localizedDescription)
                         self?.indicatorPublisher.accept(false)
                         self?.coordinator.showErrorInSettingScreen(error)
                         self?.resetUserInfo?()
-                        print(error.localizedDescription)
-                    })
-                    .retry() 
+                        return Observable.empty()
+                    }
+                    .retry()
             }
             .subscribe(onNext: { [weak self] _ in
                 self?.dismissView?()
