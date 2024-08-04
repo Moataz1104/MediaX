@@ -7,19 +7,27 @@
 
 import UIKit
 import Hero
+import RxSwift
+import RxCocoa
+
 class StoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "StoryCollectionViewCell"
     
     @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
+    
     var indexPath:IndexPath?
-
-    var viewModel:PostsViewModel?
+    var userImageDisposable:Disposable?
+    var viewModel:StoryViewModel?
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
-
+                
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImageDisposable?.dispose()
     }
     
     private func configUi(){
@@ -44,6 +52,19 @@ class StoryCollectionViewCell: UICollectionViewCell {
     @objc func handleImageTap(){
         if let indexPath = indexPath{
             viewModel?.presentStoryScreen(indexPath:indexPath)
+        }
+    }
+    
+    
+    
+    
+    func configureCell(with story : StoryModel){
+        
+        DispatchQueue.main.async{[weak self] in
+            self?.userName.text = story.username ?? ""
+        }
+        if let userImageStr = story.userImage , let url = URL(string: userImageStr){
+            userImageDisposable = userImage.loadImage(url: url, indicator: nil)
         }
     }
 }

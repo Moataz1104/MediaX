@@ -123,11 +123,6 @@ class PostsViewModel {
         delegate?.didTapCommentButtonInProfile(post:post)
     }
     
-    func presentStoryScreen(indexPath:IndexPath){
-        if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.presentStoryScreen(indexPath:indexPath)
-        }
-    }
     
     func showOtherUserScreen(id:String){
         if let coordinator = coordinator as? HomeCoordinator{

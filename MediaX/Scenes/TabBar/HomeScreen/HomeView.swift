@@ -22,7 +22,8 @@ class HomeView: UIViewController {
 //    MARK: - Attributes
     
     let disposeBag:DisposeBag
-    let viewModel:PostsViewModel
+    let postsViewModel:PostsViewModel
+    let storyViewModel:StoryViewModel
     
     private var hasReachedBottom = false
     private var size = 5
@@ -58,12 +59,14 @@ class HomeView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.sizeReciver.accept(size)
+        postsViewModel.sizeReciver.accept(size)
+        storyViewModel.getStoriesRelay.accept(())
 
     }
-    init(disposeBag:DisposeBag,viewModel:PostsViewModel) {
+    init(disposeBag:DisposeBag,viewModel:PostsViewModel,storyViewModel:StoryViewModel) {
         self.disposeBag = disposeBag
-        self.viewModel = viewModel
+        self.postsViewModel = viewModel
+        self.storyViewModel = storyViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -75,7 +78,7 @@ class HomeView: UIViewController {
 //    MARK: - Subscribers
     
     private func subscribeToErrorPublisher() {
-        viewModel.errorPublisher
+        postsViewModel.errorPublisher
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] event in
                 guard let error = event.element else {
@@ -103,7 +106,7 @@ class HomeView: UIViewController {
     }
 
     private func subscribeToIndicatorPublisher(){
-        viewModel.indicatorPublisher
+        postsViewModel.indicatorPublisher
             .observe(on: MainScheduler.instance)
             .subscribe {[weak self] isAnimate in
                 if isAnimate{
@@ -136,7 +139,10 @@ class HomeView: UIViewController {
     }
     
     private func reloadTableView(){
-        viewModel.reloadTableViewClosure = {[weak self] in
+        postsViewModel.reloadTableViewClosure = {[weak self] in
+            self?.tableView.reloadData()
+        }
+        storyViewModel.reloadTableViewClosure = {[weak self] in
             self?.tableView.reloadData()
         }
     }
@@ -158,7 +164,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         if section == 0 {
             return 1
         } else {
-            return viewModel.posts.count
+            return postsViewModel.posts.count
         }
     }
 
@@ -166,14 +172,14 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: StoriesTableViewCell.identifier, for: indexPath) as! StoriesTableViewCell
             
-            cell.viewModel = viewModel
-            
+            cell.viewModel = storyViewModel
+            cell.reloadData()
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
-            cell.viewModel = viewModel
-            cell.post = viewModel.posts[indexPath.row]
-            cell.configureCell(with: viewModel.posts[indexPath.row])
+            cell.viewModel = postsViewModel
+            cell.post = postsViewModel.posts[indexPath.row]
+            cell.configureCell(with: postsViewModel.posts[indexPath.row])
             cell.delegate = delegate
             cell.settingButton.isHidden = true
             return cell
@@ -195,7 +201,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
         if scrollView.contentOffset.y >= bottomOffset && !hasReachedBottom {
             hasReachedBottom = true
             size += 5
-            viewModel.sizeReciver.accept(size)
+            postsViewModel.sizeReciver.accept(size)
             
         } else if scrollView.contentOffset.y < bottomOffset {
             hasReachedBottom = false

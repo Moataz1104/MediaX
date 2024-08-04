@@ -27,7 +27,8 @@ class HomeCoordinator:Coordinator{
     func start() {
         let disposeBag = DisposeBag()
         let viewModel = PostsViewModel(disposeBag: disposeBag, coordinator: self)
-        let vc = HomeView(disposeBag: disposeBag, viewModel: viewModel)
+        let storyViewModel = StoryViewModel(disposeBag: disposeBag, coordinator: self)
+        let vc = HomeView(disposeBag: disposeBag, viewModel: viewModel,storyViewModel: storyViewModel)
         vc.delegate = delegate
         
         navigationController.pushViewController(vc, animated: true)

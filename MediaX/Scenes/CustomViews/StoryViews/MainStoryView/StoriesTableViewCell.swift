@@ -10,19 +10,24 @@ import UIKit
 class StoriesTableViewCell: UITableViewCell {
     static let identifier = "StoriesTableViewCell"
     
+    
+//    MARK: - Attributes
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var viewModel : StoryViewModel?
     
-    var viewModel : PostsViewModel?
-    
+//    MARK: - Cell life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCollectionView()
         registerAndSetDelegates()
         collectionView.backgroundColor = .backGroundMain
         collectionView.bounces = true
+        
+
     }
         
+//    MARK: Privates
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -48,13 +53,17 @@ class StoriesTableViewCell: UITableViewCell {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
+    
+    func reloadData(){
+        collectionView.reloadData()
+    }
 }
 
 extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        return viewModel?.stories?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -62,6 +71,9 @@ extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoryCollectionViewCell.identifier, for: indexPath) as! StoryCollectionViewCell
         cell.indexPath = indexPath
         cell.viewModel = viewModel
+        if let stories = viewModel?.stories{
+            cell.configureCell(with:stories[indexPath.row] )
+        }
         return cell
     }
 }
