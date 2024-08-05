@@ -17,8 +17,10 @@ class StoryViewModel{
     let accessToken: String?
 
     let getStoriesRelay = PublishRelay<Void>()
-    
+    let getStoryDetailsRelay = PublishRelay<(IndexPath,String)>()
     var stories : [StoryModel]?
+    var storyDetails : StoryDetailsModel?
+
     var reloadTableViewClosure: (() -> Void)?
     var reloadTableViewClosure2: (() -> Void)?
 
@@ -28,6 +30,7 @@ class StoryViewModel{
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
         
         getStories()
+        getStoryDetails()
     }
     
     
@@ -61,6 +64,36 @@ class StoryViewModel{
     
     
     
+    func getStoryDetails(){
+        guard let accessToken = accessToken else {
+            print("Access token is nil")
+            return
+        }
+        getStoryDetailsRelay
+            .flatMapLatest { indexPath,id -> Observable<(StoryDetailsModel,IndexPath)> in
+                
+                return APIStory.shared.getStoryDetails(by: id, accessToken: accessToken)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .map { storyDetails in
+                        return (storyDetails, indexPath)
+                    }
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .subscribe {[weak self] details , index in
+                
+                self?.presentStoryScreen(storyDetials: details, indexPath: index)
+            }onError: { error in
+                
+                print(error.localizedDescription)
+            }
+            .disposed(by: disposeBag)
+
+    }
+
     
     
     
@@ -70,9 +103,9 @@ class StoryViewModel{
     
     
     
-    func presentStoryScreen(indexPath:IndexPath){
+    func presentStoryScreen(storyDetials:StoryDetailsModel,indexPath:IndexPath){
         if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.presentStoryScreen(indexPath:indexPath)
+            coordinator.presentStoryScreen(details: storyDetials, indexPath:indexPath)
         }
     }
 

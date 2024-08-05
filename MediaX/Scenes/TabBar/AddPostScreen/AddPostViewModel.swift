@@ -45,9 +45,6 @@ class AddPostViewModel{
                 return APIPosts.shared.addPost(content: content, imageData: imageData, accessToken: token)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .do(onDispose: {
-                        self.indicatorPublisher.accept(false)
-                    })
                     .catch {error  in
                         self.indicatorPublisher.accept(false)
                         self.errorPublisher.accept(error)
@@ -58,6 +55,7 @@ class AddPostViewModel{
             .subscribe(
                 onNext: { [weak self] in
                     self?.successClosure?()
+                    self?.indicatorPublisher.accept(false)
                     self?.clearState()
                 }
             )

@@ -72,6 +72,7 @@ extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDele
         cell.indexPath = indexPath
         cell.viewModel = viewModel
         if let stories = viewModel?.stories{
+            cell.story = stories[indexPath.row]
             cell.configureCell(with:stories[indexPath.row] )
         }
         return cell

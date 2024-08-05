@@ -8,7 +8,16 @@
 import Foundation
 
 struct StoryModel:Codable{
-    let storyID: Int?
+    let storyId: Int?
     let username, userImage: String?
     let watched: Bool?
+}
+
+
+struct StoryDetailsModel:Codable{
+    let storyImage: String?
+    let userId: Int?
+    let username, userImage: String?
+    let numberOfViews: Int?
+    let timeAgo: String?
 }

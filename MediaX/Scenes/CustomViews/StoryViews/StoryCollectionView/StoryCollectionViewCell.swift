@@ -16,18 +16,30 @@ class StoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     var indexPath:IndexPath?
     var userImageDisposable:Disposable?
     var viewModel:StoryViewModel?
+    var story:StoryModel?
+    private let disposeBag = DisposeBag()
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
-                
+        indicator.isHidden = true
+        indicator.stopAnimating()
+        
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         userImageDisposable?.dispose()
+        
+        indicator.isHidden = true
+        indicator.stopAnimating()
+
     }
     
     private func configUi(){
@@ -37,7 +49,6 @@ class StoryCollectionViewCell: UICollectionViewCell {
         backGroundView.layer.cornerRadius = backGroundView.bounds.width / 2
         backGroundView.clipsToBounds = true
         backGroundView.layer.borderWidth = 2
-        backGroundView.layer.borderColor = UIColor.main.cgColor
 
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleImageTap))
@@ -50,8 +61,10 @@ class StoryCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func handleImageTap(){
-        if let indexPath = indexPath{
-            viewModel?.presentStoryScreen(indexPath:indexPath)
+        indicator.startAnimating()
+        indicator.isHidden = false
+        if let indexPath = indexPath , let story = story , let storyId = story.storyId{
+            viewModel?.getStoryDetailsRelay.accept((indexPath,"\(storyId)"))
         }
     }
     
@@ -62,9 +75,16 @@ class StoryCollectionViewCell: UICollectionViewCell {
         
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = story.username ?? ""
+            
+            if story.watched ?? false{
+                self?.backGroundView.layer.borderColor = UIColor.lightGray.cgColor
+            }else{
+                self?.backGroundView.layer.borderColor = UIColor.main.cgColor
+            }
         }
         if let userImageStr = story.userImage , let url = URL(string: userImageStr){
             userImageDisposable = userImage.loadImage(url: url, indicator: nil)
         }
+
     }
 }

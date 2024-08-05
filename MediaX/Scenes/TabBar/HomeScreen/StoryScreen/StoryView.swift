@@ -7,6 +7,8 @@
 
 import UIKit
 import Hero
+import RxSwift
+import RxCocoa
 class StoryView: UIViewController {
 
 //    MARK: - Attributes
@@ -16,11 +18,20 @@ class StoryView: UIViewController {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var upperStack: UIStackView!
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var viewsStack: UIStackView!
+    @IBOutlet weak var numberOfViews: UILabel!
+    
     
     var indexPath:IndexPath?
     var timer: Timer?
     var progress: Float = 0.0
     var isInProgress = true
+    
+    let storyDetails:StoryDetailsModel
+    var storyImageDisposable:Disposable?
+    var bluredImageDisposable:Disposable?
+    var userImageDisposable:Disposable?
 
 //    MARK: - View Controller life cycle
     override func viewDidLoad() {
@@ -38,11 +49,29 @@ class StoryView: UIViewController {
         progressView.progress = 0.0
         startProgress()
 
+        configureStory()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setUpBlureEffect()
+    }
+    
+    init(storyDetails:StoryDetailsModel){
+        self.storyDetails = storyDetails
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    deinit{
+        storyImageDisposable?.dispose()
+        userImageDisposable?.dispose()
+        bluredImageDisposable?.dispose()
+
+
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 //        MARK: - Actions
@@ -85,6 +114,7 @@ class StoryView: UIViewController {
         
         view.bringSubviewToFront(storyImage)
         view.bringSubviewToFront(upperStack )
+        view.bringSubviewToFront(viewsStack )
 
     }
 
@@ -104,6 +134,22 @@ class StoryView: UIViewController {
                 self.dismiss(animated: true)
             }
         }
+    }
+    
+    private func configureStory(){
+        DispatchQueue.main.async{[weak self] in
+            self?.userName.text = self?.storyDetails.username
+            self?.timeLabel.text = self?.storyDetails.timeAgo
+            self?.numberOfViews.text = "\(self?.storyDetails.numberOfViews ?? 0)"
+        }
+        
+        storyImageDisposable = storyImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil)
+        
+        bluredImageDisposable = bluredImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil)
+
+        userImageDisposable = userImage.loadImage(url: URL(string: storyDetails.userImage!)!, indicator: nil)
+
+        
     }
 
 }

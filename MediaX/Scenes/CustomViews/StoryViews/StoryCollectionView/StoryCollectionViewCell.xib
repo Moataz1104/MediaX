@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,6 +32,11 @@
                                             <constraint firstAttribute="width" constant="60" id="Q1S-rr-bOI"/>
                                         </constraints>
                                     </imageView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="xx4-kc-t1C">
+                                        <rect key="frame" x="24.333333333333314" y="25.3333333333333" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="color" name="Main"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -61,6 +67,7 @@
             <size key="customSize" width="313" height="230"/>
             <connections>
                 <outlet property="backGroundView" destination="CH8-CI-Oup" id="cRf-S9-iph"/>
+                <outlet property="indicator" destination="xx4-kc-t1C" id="5ym-jr-tsW"/>
                 <outlet property="userImage" destination="V7D-Ch-dxc" id="23s-HB-S0E"/>
                 <outlet property="userName" destination="v53-xX-s27" id="MIm-5b-DCB"/>
             </connections>
@@ -69,6 +76,9 @@
     </objects>
     <resources>
         <image name="profileIcon" width="82.333335876464844" height="82.333335876464844"/>
+        <namedColor name="Main">
+            <color red="0.0039215688593685627" green="0.70196080207824707" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
