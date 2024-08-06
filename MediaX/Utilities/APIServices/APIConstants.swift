@@ -32,5 +32,5 @@ struct apiK{
     static let deleteUserFromRecentStr = "https://tumbler.onrender.com/v0/user/recent-search/"
     static let getUserFromSearch = "https://tumbler.onrender.com/v0/user/search/profile/"
     static let getStoryDetailsStr = "https://tumbler.onrender.com/v0/story/user/"
-    
+    static let getStoryViewsStr = "https://tumbler.onrender.com/v0/story/views/"
 }

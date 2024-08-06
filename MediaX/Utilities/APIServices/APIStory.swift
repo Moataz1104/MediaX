@@ -16,14 +16,14 @@ class APIStory{
     
     
     
-    func getStories(accessToken:String)-> Observable<[StoryModel]>{
+    func getStories(accessToken:String)-> Observable<StoryModel>{
         
         var request = URLRequest(url: apiK.getStoriesURL)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         return URLSession.shared.rx.response(request: request)
-            .flatMapLatest { response,data -> Observable<[StoryModel]> in
+            .flatMapLatest { response,data -> Observable<StoryModel> in
                 if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
                     return .error(NetworkingErrors.serverError(response.statusCode))
                 }
@@ -38,7 +38,7 @@ class APIStory{
                 }
 
                 do{
-                    let decodedStories = try JSONDecoder().decode([StoryModel].self, from: data)
+                    let decodedStories = try JSONDecoder().decode(StoryModel.self, from: data)
                     return .just(decodedStories)
                 }catch{
                     return .error(NetworkingErrors.decodingError(error))
@@ -82,5 +82,40 @@ class APIStory{
             .catch { error in
                     .error(NetworkingErrors.networkError(error))
             }
+    }
+    
+    func getStoryViews(accessToken:String,id:String)-> Observable<[UserModel]>{
+        let urlStr = apiK.getStoryViewsStr + id
+        
+        var request = URLRequest(url: URL(string: urlStr)!)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data -> Observable<[UserModel]> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+                
+                do{
+                    let decodedViews = try JSONDecoder().decode([UserModel].self, from: data)
+                    return .just(decodedViews)
+                }catch{
+                    return .error(NetworkingErrors.decodingError(error))
+                }
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+        
     }
 }

@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 class StoryView: UIViewController {
 
+    
+    
 //    MARK: - Attributes
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var bluredImage: UIImageView!
@@ -29,27 +31,19 @@ class StoryView: UIViewController {
     var isInProgress = true
     
     let storyDetails:StoryDetailsModel
+    let viewModel:StoryViewModel
+    
     var storyImageDisposable:Disposable?
     var bluredImageDisposable:Disposable?
     var userImageDisposable:Disposable?
 
+    var stackGesture:UITapGestureRecognizer!
 //    MARK: - View Controller life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        self.hero.isEnabled = true
-        if let indexPath = indexPath{
-            storyImage.heroID = "\(indexPath.row)"
-        }
-
-        userImage.layer.cornerRadius = userImage.frame.width / 2
-        userImage.clipsToBounds = true
-        
-
-        progressView.progress = 0.0
-        startProgress()
-
-        configureStory()
+        stackGesture = UITapGestureRecognizer(target: self, action: #selector(viewStackAction))
+        setUpUi()
     }
     
     override func viewDidLayoutSubviews() {
@@ -57,17 +51,16 @@ class StoryView: UIViewController {
         setUpBlureEffect()
     }
     
-    init(storyDetails:StoryDetailsModel){
+    init(storyDetails:StoryDetailsModel,viewModel:StoryViewModel){
         self.storyDetails = storyDetails
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
     }
     deinit{
-        storyImageDisposable?.dispose()
+        storyImageDisposable?.dispose() 
         userImageDisposable?.dispose()
         bluredImageDisposable?.dispose()
-
-
     }
     
     required init?(coder: NSCoder) {
@@ -94,7 +87,25 @@ class StoryView: UIViewController {
             break
         }
     }
-    
+    @objc func viewStackAction(){
+        if let storyId = storyDetails.id{
+            viewModel.getViewsRelay.accept("\(storyId)")
+        }
+        
+    }
+    @objc func updateProgress() {
+        if isInProgress {
+            progress += 0.5 / 600
+            progressView.setProgress(progress, animated: true)
+            
+            if progress >= 1.0 {
+                timer?.invalidate()
+                timer = nil
+                self.dismiss(animated: true)
+            }
+        }
+    }
+
 
 //    MARK: - Privates
     private func setUpBlureEffect(){
@@ -123,27 +134,42 @@ class StoryView: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
     }
     
-    @objc func updateProgress() {
-        if isInProgress {
-            progress += 0.5 / 600
-            progressView.setProgress(progress, animated: true)
-            
-            if progress >= 1.0 {
-                timer?.invalidate()
-                timer = nil
-                self.dismiss(animated: true)
-            }
+    private func setUpUi(){
+        self.hero.isEnabled = true
+        if let indexPath = indexPath{
+            storyImage.heroID = "\(indexPath.row)"
         }
+        viewsStack.isHidden = true
+        userImage.layer.cornerRadius = userImage.frame.width / 2
+        userImage.clipsToBounds = true
+        
+
+        progressView.progress = 0.0
+        
+
+        configureStory()
+        
+        viewsStack.addGestureRecognizer(stackGesture)
+        viewsStack.isUserInteractionEnabled = true
+
     }
     
     private func configureStory(){
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = self?.storyDetails.username
             self?.timeLabel.text = self?.storyDetails.timeAgo
-            self?.numberOfViews.text = "\(self?.storyDetails.numberOfViews ?? 0)"
+            
+            if self?.storyDetails.numberOfViews != nil{
+                self?.viewsStack.isHidden = false
+                self?.numberOfViews.text = "\(self?.storyDetails.numberOfViews ?? 0)"
+            }else{
+                self?.viewsStack.isHidden = true
+            }
         }
         
-        storyImageDisposable = storyImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil)
+        storyImageDisposable = storyImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil){[weak self]_ in
+            self?.startProgress()
+        }
         
         bluredImageDisposable = bluredImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil)
 

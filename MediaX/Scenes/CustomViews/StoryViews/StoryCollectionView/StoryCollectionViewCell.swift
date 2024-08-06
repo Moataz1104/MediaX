@@ -21,7 +21,7 @@ class StoryCollectionViewCell: UICollectionViewCell {
     var indexPath:IndexPath?
     var userImageDisposable:Disposable?
     var viewModel:StoryViewModel?
-    var story:StoryModel?
+    var story:StoryDetailsModel?
     private let disposeBag = DisposeBag()
     
     
@@ -63,21 +63,21 @@ class StoryCollectionViewCell: UICollectionViewCell {
     @objc func handleImageTap(){
         indicator.startAnimating()
         indicator.isHidden = false
-        if let indexPath = indexPath , let story = story , let storyId = story.storyId{
-            viewModel?.getStoryDetailsRelay.accept((indexPath,"\(storyId)"))
+        if let indexPath = indexPath , let story = story{
+            viewModel?.getStoryDetailsRelay.accept((indexPath,"\(story.storyId!)"))
         }
     }
     
     
     
     
-    func configureCell(with story : StoryModel){
+    func configureCell(with story : StoryDetailsModel){
         
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = story.username ?? ""
             
             if story.watched ?? false{
-                self?.backGroundView.layer.borderColor = UIColor.lightGray.cgColor
+                self?.backGroundView.layer.borderColor = UIColor.clear.cgColor
             }else{
                 self?.backGroundView.layer.borderColor = UIColor.main.cgColor
             }

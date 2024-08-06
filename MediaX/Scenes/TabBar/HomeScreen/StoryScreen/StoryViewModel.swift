@@ -18,7 +18,9 @@ class StoryViewModel{
 
     let getStoriesRelay = PublishRelay<Void>()
     let getStoryDetailsRelay = PublishRelay<(IndexPath,String)>()
-    var stories : [StoryModel]?
+    let getViewsRelay = PublishRelay<String>()
+    
+    var stories : StoryModel?
     var storyDetails : StoryDetailsModel?
 
     var reloadTableViewClosure: (() -> Void)?
@@ -31,6 +33,7 @@ class StoryViewModel{
         
         getStories()
         getStoryDetails()
+        getStoryViews()
     }
     
     
@@ -41,7 +44,7 @@ class StoryViewModel{
             return
         }
         getStoriesRelay
-            .flatMapLatest { _ -> Observable<[StoryModel]> in
+            .flatMapLatest { _ -> Observable<StoryModel> in
                 return APIStory.shared.getStories(accessToken: accessToken)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
@@ -52,6 +55,7 @@ class StoryViewModel{
             }
             .subscribe {[weak self] stories in
                 self?.stories = stories
+                print(stories)
                 self?.reloadTableViewClosure?()
                 self?.reloadTableViewClosure2?()
 
@@ -95,7 +99,30 @@ class StoryViewModel{
     }
 
     
-    
+    func getStoryViews(){
+        guard let accessToken = accessToken else {
+            print("Access token is nil")
+            return
+        }
+        
+        getViewsRelay
+            .flatMapLatest { id -> Observable<[UserModel]> in
+                return APIStory.shared.getStoryViews(accessToken: accessToken, id: id)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .subscribe { views in
+                print(views)
+            }
+            .disposed(by: disposeBag)
+            
+
+        
+    }
     
     
     

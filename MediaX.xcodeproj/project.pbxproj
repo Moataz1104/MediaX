@@ -43,6 +43,8 @@
 		00AA8F7B2C5EE4BC00B66E58 /* APIStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F7A2C5EE4BC00B66E58 /* APIStory.swift */; };
 		00AA8F7D2C5EE5FA00B66E58 /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F7C2C5EE5FA00B66E58 /* StoryModel.swift */; };
 		00AA8F7F2C5EE77100B66E58 /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F7E2C5EE77100B66E58 /* StoryViewModel.swift */; };
+		00AA8F832C61645100B66E58 /* GeneralUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F812C61645100B66E58 /* GeneralUsersView.swift */; };
+		00AA8F842C61645100B66E58 /* GeneralUsersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00AA8F822C61645100B66E58 /* GeneralUsersView.xib */; };
 		00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1022C28773600932E44 /* HomeCoordinator.swift */; };
 		00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1052C28775D00932E44 /* SearchCoordinator.swift */; };
 		00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1072C28777300932E44 /* NotificationCoordinator.swift */; };
@@ -132,6 +134,8 @@
 		00AA8F7A2C5EE4BC00B66E58 /* APIStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStory.swift; sourceTree = "<group>"; };
 		00AA8F7C2C5EE5FA00B66E58 /* StoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
 		00AA8F7E2C5EE77100B66E58 /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
+		00AA8F812C61645100B66E58 /* GeneralUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralUsersView.swift; sourceTree = "<group>"; };
+		00AA8F822C61645100B66E58 /* GeneralUsersView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneralUsersView.xib; sourceTree = "<group>"; };
 		00ACB1022C28773600932E44 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1052C28775D00932E44 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1072C28777300932E44 /* NotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCoordinator.swift; sourceTree = "<group>"; };
@@ -285,6 +289,7 @@
 				006A0C5F2C1F851F00457AD9 /* Auth */,
 				00ACB10B2C28779E00932E44 /* TabBar */,
 				00ACB1322C2CF00400932E44 /* CustomViews */,
+				00AA8F802C61643200B66E58 /* GeneralUsersScreen */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -379,6 +384,15 @@
 				00ACCA672C4128EA00EE29AC /* UserInfo */,
 			);
 			path = ProfileCells;
+			sourceTree = "<group>";
+		};
+		00AA8F802C61643200B66E58 /* GeneralUsersScreen */ = {
+			isa = PBXGroup;
+			children = (
+				00AA8F812C61645100B66E58 /* GeneralUsersView.swift */,
+				00AA8F822C61645100B66E58 /* GeneralUsersView.xib */,
+			);
+			path = GeneralUsersScreen;
 			sourceTree = "<group>";
 		};
 		00ACB10B2C28779E00932E44 /* TabBar */ = {
@@ -679,6 +693,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				006A0C5E2C1F84B500457AD9 /* Colors.xcassets in Resources */,
+				00AA8F842C61645100B66E58 /* GeneralUsersView.xib in Resources */,
 				00ACB11A2C28784D00932E44 /* SearchView.xib in Resources */,
 				007258B02C441F7C00662A28 /* Assets.xcassets in Resources */,
 				00ACCA6B2C41291A00EE29AC /* PostsGridCollectionViewCell.xib in Resources */,
@@ -774,6 +789,7 @@
 				00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */,
 				00C92C542C249F5200358924 /* AuthResponses.swift in Sources */,
 				008813B62C38F337006A93B4 /* ErrorsAlertView.swift in Sources */,
+				00AA8F832C61645100B66E58 /* GeneralUsersView.swift in Sources */,
 				00ACCA722C414DD300EE29AC /* ProfileViewModel.swift in Sources */,
 				00C92C4E2C23992200358924 /* APIConstants.swift in Sources */,
 				00F1EBF52C2E39C900CE0DA5 /* PostsViewModel.swift in Sources */,

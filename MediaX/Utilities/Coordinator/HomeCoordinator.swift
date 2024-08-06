@@ -79,7 +79,9 @@ class HomeCoordinator:Coordinator{
     }
 
     func presentStoryScreen(details:StoryDetailsModel,indexPath:IndexPath){
-        let vc = StoryView(storyDetails: details)
+        let disposeBag = DisposeBag()
+        let viewModel = StoryViewModel(disposeBag: disposeBag, coordinator: self)
+        let vc = StoryView(storyDetails: details,viewModel:viewModel)
         vc.indexPath = indexPath
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)

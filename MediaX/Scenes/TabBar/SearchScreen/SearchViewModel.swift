@@ -139,7 +139,7 @@ class SearchViewModel{
             }
             .subscribe {[weak self] (user , id) in
                 if let index = self?.users?.firstIndex(where: { $0.id == Int(id) }) {
-                    print("asdasdasdasdasdasdsa")
+                    
                     self?.users?.remove(at: index)
                     self?.users?.insert(user, at: index)
                 }

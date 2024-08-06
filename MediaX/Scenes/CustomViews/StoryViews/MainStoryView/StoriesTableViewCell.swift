@@ -63,7 +63,7 @@ extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDele
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.stories?.count ?? 0
+        return viewModel?.stories?.storyDetails?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,7 +71,7 @@ extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoryCollectionViewCell.identifier, for: indexPath) as! StoryCollectionViewCell
         cell.indexPath = indexPath
         cell.viewModel = viewModel
-        if let stories = viewModel?.stories{
+        if let stories = viewModel?.stories?.storyDetails{
             cell.story = stories[indexPath.row]
             cell.configureCell(with:stories[indexPath.row] )
         }

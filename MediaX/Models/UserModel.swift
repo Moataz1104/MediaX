@@ -14,5 +14,5 @@ struct UserModel:Codable{
     let bio: String?
     let follow: Bool?
     let numberOfPosts, numberOfFollowing, numberOfFollowers: Int?
-
+    let timeAgo:String?
 }
