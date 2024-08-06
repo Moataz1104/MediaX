@@ -13,10 +13,11 @@ import SwiftKeychainWrapper
 class ProfileViewModel{
     var coordinator:Coordinator?
     let disposeBag:DisposeBag
+    let user : UserModel?
     let isCurrentUser:Bool
     let isFromSearch:Bool
 
-    var user:UserModel?
+    var fetchedUser:UserModel?
     var posts:[PostModel]?
     var userId:String?
     
@@ -34,20 +35,31 @@ class ProfileViewModel{
     var getCurrentUserPostsDisposable:Disposable?
     
     
-    init(coordinator: Coordinator, disposeBag: DisposeBag,isCurrentUser:Bool,userId:String? = nil,isFromSearch:Bool = false) {
+    init(coordinator: Coordinator, disposeBag: DisposeBag,
+         user:UserModel? = nil,isCurrentUser:Bool,userId:String? = nil,isFromSearch:Bool = false) {
         self.coordinator = coordinator
         self.disposeBag = disposeBag
+        self.user = user
         self.isCurrentUser = isCurrentUser
         self.userId = userId
         self.isFromSearch = isFromSearch
         
-        if isCurrentUser{
-            getCurrentUser()
-            getCurrentUserPosts()
-        }else{
-            getOtherUserProfile()
-            getOtherUserPosts()
+        
+        if let user = user{
+            fetchedUser = user
             handleFollow()
+            getOtherUserPosts()
+
+        }else{
+            if isCurrentUser{
+                getCurrentUser()
+                getCurrentUserPosts()
+            }else{
+                
+                getOtherUserProfile()
+                getOtherUserPosts()
+                handleFollow()
+            }
         }
         
         getFollowers()
@@ -69,7 +81,7 @@ class ProfileViewModel{
             })
             .subscribe {[weak self] user in
                 self?.isAnimatingPublisher.accept(true)
-                self?.user = user
+                self?.fetchedUser = user
                 self?.reloadcollectionViewClosure?()
                 self?.isAnimatingPublisher.accept(false)
             }onError: {[weak self] error in
@@ -128,7 +140,7 @@ class ProfileViewModel{
                     }
             }
             .subscribe { [weak self] user in
-                self?.user = user
+                self?.fetchedUser = user
                 self?.reloadcollectionViewClosure?()
             } onError: { [weak self] error in
                 self?.errorPublisher.accept(error)
@@ -236,7 +248,7 @@ class ProfileViewModel{
     }
     
     func pushSettingScreen(){
-        if let user = user , let coordinator = coordinator as? ProfileCoordinator{
+        if let user = fetchedUser , let coordinator = coordinator as? ProfileCoordinator{
             coordinator.pushSettingScreen(user:user)
         }
     }

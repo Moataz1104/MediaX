@@ -19,7 +19,10 @@ struct apiK{
     static let currentUserPostsURL = URL(string:"https://tumbler.onrender.com/v0/posts/current_user-posts")!
     static let updateUserURL = URL(string:"https://tumbler.onrender.com/v0/user/profile")!
     static let getStoriesURL = URL(string:"https://tumbler.onrender.com/v0/story/followers")!
-    
+    static let getNotificationsURL = URL(string: "https://tumbler.onrender.com/v0/notifications")!
+    static let readNotificationForProfileURL = URL(string: "https://tumbler.onrender.com/v0/user/notification-profile")!
+    static let readNotificationForPostURL = URL(string: "https://tumbler.onrender.com/v0/posts/notification-post")!
+
     static let getOnePostStringUrl =  "https://tumbler.onrender.com/v0/posts/"
     static let addCommentStringUrl = "https://tumbler.onrender.com/v0/comments/post/"
     static let commentsStringUrl = "https://tumbler.onrender.com/v0/comments/"
@@ -35,4 +38,5 @@ struct apiK{
     static let getStoryViewsStr = "https://tumbler.onrender.com/v0/story/views/"
     static let getFollowingUsersStr = "https://tumbler.onrender.com/v0/followers/following-details/"
     static let getFollowersUsersStr = "https://tumbler.onrender.com/v0/followers/followers-details/"
+
 }

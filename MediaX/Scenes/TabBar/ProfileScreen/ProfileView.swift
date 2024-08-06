@@ -188,7 +188,7 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
         if indexPath.section == 0{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserInfoCollectionViewCell.identifier, for: indexPath) as! UserInfoCollectionViewCell
             cell.viewModel = viewModel
-            if let user = viewModel.user{
+            if let user = viewModel.fetchedUser{
                 if isCurrentUser{
                     cell.configureCell(with: user,isFollowButtonHidden:true)
                     cell.user = user

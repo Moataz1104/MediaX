@@ -5,11 +5,13 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NotificationView" customModule="MediaX" customModuleProvider="target">
             <connections>
+                <outlet property="tableView" destination="0vL-J3-CBl" id="z2p-hd-jS8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,9 +19,34 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RoY-P0-Hib">
+                    <rect key="frame" x="140.33333333333334" y="59" width="112.66666666666666" height="23"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0vL-J3-CBl">
+                    <rect key="frame" x="0.0" y="102" width="393" height="716"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="0vL-J3-CBl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3Hg-ib-Jh8"/>
+                <constraint firstItem="0vL-J3-CBl" firstAttribute="top" secondItem="RoY-P0-Hib" secondAttribute="bottom" constant="20" id="4PV-ET-ffo"/>
+                <constraint firstItem="RoY-P0-Hib" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CD7-DJ-dX9"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="0vL-J3-CBl" secondAttribute="bottom" id="R0X-8k-wX5"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0vL-J3-CBl" secondAttribute="trailing" id="ZSR-rj-bnB"/>
+                <constraint firstItem="RoY-P0-Hib" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wTc-YW-Ta6"/>
+            </constraints>
             <point key="canvasLocation" x="94" y="20"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-
+import RxSwift
+import RxCocoa
 
 class NotificationCoordinator:Coordinator{
     var childCoordinators = [Coordinator]()
@@ -19,10 +20,19 @@ class NotificationCoordinator:Coordinator{
     }
     
     func start() {
-        let vc = NotificationView()
+        let disposeBag = DisposeBag()
+        let viewModel = NotificationViewModel(disposeBag: disposeBag, coordinator: self)
+        let vc = NotificationView(disposeBag: disposeBag, viewModel: viewModel)
         
         navigationController.pushViewController(vc, animated: true)
     }
     
     
+    func pushProfileScreen(user:UserModel){
+        let disposeBag = DisposeBag()
+        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag,user:user, isCurrentUser: false )
+        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
