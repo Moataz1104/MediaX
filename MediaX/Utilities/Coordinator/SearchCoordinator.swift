@@ -49,5 +49,20 @@ class SearchCoordinator:Coordinator{
         }
     }
 
-    
+    func pushFollowersScreen(followers:[UserModel]){
+        let disposeBag = DisposeBag()
+        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: followers)
+        let vc = GeneralUsersView(viewModel: viewModel, title: "Followers")
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func pushFollowingScreen(followings:[UserModel]){
+        let disposeBag = DisposeBag()
+        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: followings)
+        let vc = GeneralUsersView(viewModel: viewModel, title: "Followings")
+        
+        navigationController.pushViewController(vc, animated: true)
+    }
+
 }

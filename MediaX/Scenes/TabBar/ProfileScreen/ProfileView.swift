@@ -191,8 +191,10 @@ extension ProfileView : UICollectionViewDelegate,UICollectionViewDataSource,UICo
             if let user = viewModel.user{
                 if isCurrentUser{
                     cell.configureCell(with: user,isFollowButtonHidden:true)
+                    cell.user = user
                 }else{
                     cell.configureCell(with: user,isFollowButtonHidden:false)
+                    cell.user = user
                 }
             }
             

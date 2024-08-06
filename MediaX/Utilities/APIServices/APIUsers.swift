@@ -336,7 +336,75 @@ class APIUsers{
             .catch { error in
                 return .error(NetworkingErrors.networkError(error))
             }
-
-        
     }
+    
+    
+    func getFollowersDetails(accessToken:String,id:String)-> Observable<[UserModel]>{
+        let urlStr = apiK.getFollowersUsersStr + id
+        
+        var request = URLRequest(url: URL(string: urlStr)!)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data -> Observable<[UserModel]> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+
+                do{
+                    let decodedUsers = try JSONDecoder().decode([UserModel].self, from: data)
+                    return .just(decodedUsers)
+                }catch{
+                    return .error(NetworkingErrors.decodingError(error))
+                }
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+    }
+    
+    func getFolloweingsDetails(accessToken:String,id:String)-> Observable<[UserModel]>{
+        let urlStr = apiK.getFollowingUsersStr + id
+        
+        var request = URLRequest(url: URL(string: urlStr)!)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+
+        return URLSession.shared.rx.response(request: request)
+            .flatMapLatest { response,data -> Observable<[UserModel]> in
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+
+                do{
+                    let decodedUsers = try JSONDecoder().decode([UserModel].self, from: data)
+                    return .just(decodedUsers)
+                }catch{
+                    return .error(NetworkingErrors.decodingError(error))
+                }
+            }
+            .catch { error in
+                return .error(NetworkingErrors.networkError(error))
+            }
+    }
+
 }

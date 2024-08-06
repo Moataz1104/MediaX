@@ -33,4 +33,6 @@ struct apiK{
     static let getUserFromSearch = "https://tumbler.onrender.com/v0/user/search/profile/"
     static let getStoryDetailsStr = "https://tumbler.onrender.com/v0/story/user/"
     static let getStoryViewsStr = "https://tumbler.onrender.com/v0/story/views/"
+    static let getFollowingUsersStr = "https://tumbler.onrender.com/v0/followers/following-details/"
+    static let getFollowersUsersStr = "https://tumbler.onrender.com/v0/followers/followers-details/"
 }

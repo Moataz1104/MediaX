@@ -166,7 +166,9 @@
                 <outlet property="backImageView" destination="wNQ-iR-z7u" id="fUF-08-VNm"/>
                 <outlet property="followButton" destination="IiF-bh-Spf" id="nO5-Kj-6GC"/>
                 <outlet property="followersNumLabel" destination="E3a-Nt-Bu1" id="nsN-g2-UrL"/>
+                <outlet property="followersStack" destination="k7c-6o-sRq" id="54n-ga-c71"/>
                 <outlet property="followingNumLabel" destination="WsG-9V-WKz" id="6GQ-Gf-qSm"/>
+                <outlet property="followingStack" destination="trw-68-Qm0" id="eyY-R4-6nI"/>
                 <outlet property="postsNumLabel" destination="sqi-yB-Aca" id="Xww-d0-XcO"/>
                 <outlet property="userBio" destination="ZVD-aD-C4k" id="yMU-xG-KPA"/>
                 <outlet property="userImage" destination="gH6-e2-jnL" id="bn9-i0-w85"/>

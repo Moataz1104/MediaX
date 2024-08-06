@@ -25,6 +25,9 @@ class ProfileViewModel{
     let followButtonRelay = PublishRelay<Void>()
     let getUserProfileRelay = PublishRelay<Void>()
     let errorPublisher = PublishRelay<Error>()
+    let followerDetailsRelay = PublishRelay<String>()
+    let followingDetailsRelay = PublishRelay<String>()
+    
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
     
     var getCurrentUserDisposable:Disposable?
@@ -46,6 +49,9 @@ class ProfileViewModel{
             getOtherUserPosts()
             handleFollow()
         }
+        
+        getFollowers()
+        getFollowings()
     }
     
     
@@ -175,7 +181,45 @@ class ProfileViewModel{
             .disposed(by: disposeBag)
     }
     
+    func getFollowers(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+        
+        followerDetailsRelay
+            .flatMapLatest { id -> Observable<[UserModel]> in
+                return APIUsers.shared.getFollowersDetails(accessToken: token, id: id)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .subscribe {[weak self] followers in
+                self?.pushFollowersScreen(followers: followers)
+            }
+            .disposed(by: disposeBag)
+    }
     
+    func getFollowings(){
+        guard let token = accessToken else{print("No tokeeeen"); return}
+        
+        followingDetailsRelay
+            .flatMapLatest { id -> Observable<[UserModel]> in
+                
+                return APIUsers.shared.getFolloweingsDetails(accessToken: token, id: id)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .subscribe {[weak self] followings in
+                self?.pushFollowingsScreen(followings: followings)
+            }
+            .disposed(by: disposeBag)
+    }
+
     
     
 //    MARK: - Navigation
@@ -195,6 +239,31 @@ class ProfileViewModel{
         if let user = user , let coordinator = coordinator as? ProfileCoordinator{
             coordinator.pushSettingScreen(user:user)
         }
+    }
+    
+    
+    private func pushFollowersScreen(followers:[UserModel]){
+        if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.pushFollowersScreen(followers: followers)
+        }else if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.pushFollowersScreen(followers: followers)
+
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.pushFollowersScreen(followers: followers)
+
+        }
+
+    }
+    private func pushFollowingsScreen(followings:[UserModel]){
+        if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.pushFollowingScreen(followings: followings)
+        }else if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.pushFollowingScreen(followings: followings)
+
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.pushFollowingScreen(followings: followings)
+        }
+
     }
 
 }

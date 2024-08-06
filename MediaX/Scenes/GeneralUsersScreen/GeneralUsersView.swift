@@ -9,27 +9,28 @@ import UIKit
 
 class GeneralUsersView: UIViewController {
 
+//    MARK: - Attributes
     
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     
     let viewModel:GeneralUsersViewModel
-    let users : [UserModel]
-    
+    let screenTitle:String
+//    MARK: - ViewController life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        titleLabel.text = screenTitle
         
         setUpTableView()
-        viewModel.reloadTableViewClosure = {[weak self] in
-            self?.tableView.reloadData()
-        }
+        reloadTableView()
     }
     
-    init(viewModel:GeneralUsersViewModel,users:[UserModel]){
-        self.users = users
+    init(viewModel:GeneralUsersViewModel,title:String){
+        
         self.viewModel = viewModel
+        self.screenTitle = title
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -37,7 +38,17 @@ class GeneralUsersView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    MARK: - Actions
     
+    @objc func cellTapAction(_ sender: UITapGestureRecognizer) {
+        guard let cell = sender.view as? UITableViewCell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        viewModel.pushProfileScreen(id: "\(viewModel.users[indexPath.row].id!)")
+    }
+
+//    MARK: - Privates
     
     private func setUpTableView(){
         tableView.delegate = self
@@ -46,12 +57,10 @@ class GeneralUsersView: UIViewController {
         tableView.register(UINib(nibName: GeneralUserTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: GeneralUserTableViewCell.identifier)
     }
 
-    @objc func cellTapAction(_ sender: UITapGestureRecognizer) {
-        guard let cell = sender.view as? UITableViewCell,
-              let indexPath = tableView.indexPath(for: cell) else {
-            return
+    private func reloadTableView(){
+        viewModel.reloadTableViewClosure = {[weak self] in
+            self?.tableView.reloadData()
         }
-        viewModel.pushProfileScreen(id: "\(users[indexPath.row].id!)")
     }
 
 
@@ -61,14 +70,14 @@ class GeneralUsersView: UIViewController {
 extension GeneralUsersView:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        users.count
+        viewModel.users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GeneralUserTableViewCell.identifier, for: indexPath) as! GeneralUserTableViewCell
         cell.generalUsersViewModel = viewModel
-        cell.user = users[indexPath.row]
-        cell.configureUser(user: users[indexPath.row])
+        cell.user = viewModel.users[indexPath.row]
+        cell.configureUser(user: viewModel.users[indexPath.row])
         
         let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTapAction(_:)))
         cell.addGestureRecognizer(cellTapGesture)

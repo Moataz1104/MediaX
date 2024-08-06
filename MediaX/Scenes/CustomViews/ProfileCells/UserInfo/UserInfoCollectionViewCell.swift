@@ -19,15 +19,20 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userBio: UILabel!
     @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var followersStack: UIStackView!
+    @IBOutlet weak var followingStack: UIStackView!
+    
     
     var userImageDisposable : Disposable?
     var viewModel:ProfileViewModel?
-    
+    var user : UserModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
 
+        handleFollowerStackGesture()
+        handleFollowingStackGesture()
     }
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -55,6 +60,32 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         followButton.layer.cornerRadius = followButton.frame.height / 2
         followButton.isHidden = true
     }
+    
+    private func handleFollowerStackGesture(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followerStacksTapAction))
+        
+        followersStack.addGestureRecognizer(tapGesture)
+        followersStack.isUserInteractionEnabled = true
+    }
+    private func handleFollowingStackGesture(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followingStacksTapAction))
+        
+        followingStack.addGestureRecognizer(tapGesture)
+        followingStack.isUserInteractionEnabled = true
+    }
+
+    
+    @objc func followerStacksTapAction(){
+        if let user = user{
+            viewModel?.followerDetailsRelay.accept("\(user.id!)")
+        }
+    }
+    @objc func followingStacksTapAction(){
+        if let user = user{
+            viewModel?.followingDetailsRelay.accept("\(user.id!)")
+        }
+    }
+    
     
     
     func configureCell(with user:UserModel,isFollowButtonHidden:Bool){
