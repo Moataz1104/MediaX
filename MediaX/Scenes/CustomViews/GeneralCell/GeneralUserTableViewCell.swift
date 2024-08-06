@@ -15,9 +15,11 @@ class GeneralUserTableViewCell: UITableViewCell {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var timeLabel: UILabel!
     
     var imageLoadDisposable:Disposable?
-    var viewModel : SearchViewModel?
+    var searchViewModel : SearchViewModel?
+    var generalUsersViewModel : GeneralUsersViewModel?
     var user:UserModel?
     
     override func awakeFromNib() {
@@ -25,7 +27,7 @@ class GeneralUserTableViewCell: UITableViewCell {
         followButton.layer.cornerRadius = followButton.frame.height / 2
         userImage.layer.cornerRadius = userImage.frame.width / 2
         userImage.clipsToBounds = true
-
+        timeLabel.isHidden = true
     }
     
     
@@ -37,7 +39,9 @@ class GeneralUserTableViewCell: UITableViewCell {
     
     
     @IBAction func followButtonAction(_ sender: Any) {
-        if let vm = viewModel, let id = user?.id{
+        if let vm = searchViewModel, let id = user?.id{
+            vm.followButtonRelay.accept("\(id)")
+        }else if let vm = generalUsersViewModel , let id = user?.id{
             vm.followButtonRelay.accept("\(id)")
         }
     }
@@ -51,6 +55,10 @@ class GeneralUserTableViewCell: UITableViewCell {
             self?.userName.text = user.fullName ?? ""
             self?.checkFollowStatus(status: user.follow ?? false)
             
+            if let timeAgo = user.timeAgo{
+                self?.timeLabel.isHidden = false
+                self?.timeLabel.text = timeAgo
+            }
         }
         
         if let urlString = user.image , let url = URL(string: urlString){

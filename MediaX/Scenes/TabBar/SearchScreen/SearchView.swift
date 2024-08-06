@@ -169,7 +169,7 @@ extension SearchView:UITableViewDelegate,UITableViewDataSource{
         }else if let users = viewModel.users{
             let cell = tableView.dequeueReusableCell(withIdentifier: GeneralUserTableViewCell.identifier, for: indexPath) as! GeneralUserTableViewCell
                 
-            cell.viewModel = viewModel
+            cell.searchViewModel = viewModel
             cell.user = users[indexPath.row]
             cell.configureUser(user: users[indexPath.row])
             

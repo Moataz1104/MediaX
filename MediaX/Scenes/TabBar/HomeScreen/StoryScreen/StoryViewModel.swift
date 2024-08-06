@@ -115,8 +115,8 @@ class StoryViewModel{
                         return .empty()
                     }
             }
-            .subscribe { views in
-                print(views)
+            .subscribe {[weak self] viewers in
+                self?.presentViewersScreen(users: viewers)
             }
             .disposed(by: disposeBag)
             
@@ -134,6 +134,14 @@ class StoryViewModel{
         if let coordinator = coordinator as? HomeCoordinator{
             coordinator.presentStoryScreen(details: storyDetials, indexPath:indexPath)
         }
+    }
+    
+    func presentViewersScreen(users:[UserModel]){
+        
+        if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.presentViewersScreen(users: users)
+        }
+
     }
 
 }

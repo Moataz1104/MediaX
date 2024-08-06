@@ -98,7 +98,18 @@ class HomeCoordinator:Coordinator{
         let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false,userId:id)
         let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
         
-        navigationController.pushViewController(vc, animated: true)
+        
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.dismiss(animated: true)
+                topVC.dismiss(animated: false)
+                self?.navigationController.pushViewController(vc, animated: true)
+
+            }else{
+                self?.navigationController.pushViewController(vc, animated: true)
+            }
+        }
+
     }
     
     func pushPostDetailScreen(posts:[PostModel],indexPath:IndexPath){
@@ -112,6 +123,31 @@ class HomeCoordinator:Coordinator{
             self?.navigationController.present(vc, animated: true)
             
         }
+    }
+    
+    func presentViewersScreen(users:[UserModel]){
+        let disposeBag = DisposeBag()
+        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
+        let vc = GeneralUsersView(viewModel: viewModel,users: users)
+        vc.modalPresentationStyle = .pageSheet
+        let multiplier = 0.65
+        let fraction = UISheetPresentationController.Detent.custom { context in
+            UIScreen.main.bounds.height * multiplier
+            
+        }
+
+        vc.sheetPresentationController?.detents = [
+            fraction,
+            .large(),
+            
+        ]
+
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.present(vc, animated: true)
+            } 
+        }
+
     }
 
 }
