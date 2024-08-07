@@ -42,7 +42,7 @@ class ProfileCoordinator:Coordinator{
         }
     }
     
-    func showCommentsScreen(post:PostModel) -> CommentsView{
+    func showCommentsScreen(post:PostModel) {
         let disposeBag = DisposeBag()
         let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
         let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag,post:post)
@@ -59,7 +59,11 @@ class ProfileCoordinator:Coordinator{
             .large(),
             
         ]
-        return vc
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.present(vc, animated: true)
+            }
+        }
     }
     
     func pushSettingScreen(user:UserModel){

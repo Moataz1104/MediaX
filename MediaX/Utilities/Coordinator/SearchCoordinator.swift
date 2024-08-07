@@ -65,4 +65,29 @@ class SearchCoordinator:Coordinator{
         navigationController.pushViewController(vc, animated: true)
     }
 
+    
+    func showCommentsScreen(post:PostModel) {
+        let disposeBag = DisposeBag()
+        let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
+        let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag,post:post)
+        
+        vc.modalPresentationStyle = .pageSheet
+        let multiplier = 0.65
+        let fraction = UISheetPresentationController.Detent.custom { context in
+            UIScreen.main.bounds.height * multiplier
+            
+        }
+
+        vc.sheetPresentationController?.detents = [
+            fraction,
+            .large(),
+            
+        ]
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.present(vc, animated: true)
+            }
+        }
+    }
+
 }

@@ -26,7 +26,6 @@ class PostDetailView: UIViewController {
         navigationController?.navigationBar.isHidden = true
 
         self.hero.isEnabled = true
-        postVM.delegate = self
         postVM.posts = posts
 
         setUpTableView()
@@ -117,10 +116,3 @@ extension PostDetailView:UITableViewDelegate,UITableViewDataSource{
 }
 
 
-extension PostDetailView:PostsViewModelDelegate{
-    func didTapCommentButtonInProfile(post: PostModel) {
-        if let coordinator = postVM.coordinator as? ProfileCoordinator{
-            present(coordinator.showCommentsScreen(post: post), animated: true)
-        }
-    }
-}

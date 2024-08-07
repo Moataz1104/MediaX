@@ -76,9 +76,7 @@ class PostTableViewCell: UITableViewCell {
     }
     @IBAction func commentButtonAction(_ sender: Any) {
         if let post = post{
-            viewModel?.showCommentsScreenFromHome(post:post)
-            viewModel?.showCommentsScreenFromProfile(post:post)
-            
+            viewModel?.showCommentsScreen(post:post)            
         }
     }
     @objc func doubletapLike() {

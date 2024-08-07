@@ -53,7 +53,7 @@ class GeneralUserTableViewCell: UITableViewCell {
         
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = user.fullName ?? ""
-            self?.checkFollowStatus(status: user.follow ?? false)
+            self?.checkFollowStatus(followStatus: user.follow)
             
             if let timeAgo = user.timeAgo{
                 self?.timeLabel.isHidden = false
@@ -68,16 +68,20 @@ class GeneralUserTableViewCell: UITableViewCell {
         
     }
     
-    private func checkFollowStatus(status:Bool){
-        if !status{
-            followButton.backgroundColor = .main
-            followButton.setTitle("Follow", for: .normal)
-
-        }else{
-            followButton.backgroundColor = .lightGray
-            followButton.setTitle("UnFollow", for: .normal)
-        }
+    private func checkFollowStatus(followStatus:Bool?){
         
+        
+        if let followStatus = followStatus{
+            if !followStatus{
+                followButton.backgroundColor = .main
+                followButton.setTitle("Follow", for: .normal)
+            }else{
+                followButton.backgroundColor = .lightGray
+                followButton.setTitle("UnFollow", for: .normal)
+            }
+        }else{
+            followButton.isHidden = true
+        }
     }
 
 

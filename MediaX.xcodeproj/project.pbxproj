@@ -51,6 +51,8 @@
 		00AA8F8D2C62C12C00B66E58 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F8C2C62C12C00B66E58 /* NotificationViewModel.swift */; };
 		00AA8F8F2C62C1B900B66E58 /* APINotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F8E2C62C1B900B66E58 /* APINotification.swift */; };
 		00AA8F912C62C3FF00B66E58 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F902C62C3FF00B66E58 /* NotificationModel.swift */; };
+		00AA8F952C62D30700B66E58 /* SinglePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AA8F932C62D30700B66E58 /* SinglePostView.swift */; };
+		00AA8F962C62D30700B66E58 /* SinglePostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00AA8F942C62D30700B66E58 /* SinglePostView.xib */; };
 		00ACB1032C28773600932E44 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1022C28773600932E44 /* HomeCoordinator.swift */; };
 		00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1052C28775D00932E44 /* SearchCoordinator.swift */; };
 		00ACB1082C28777300932E44 /* NotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ACB1072C28777300932E44 /* NotificationCoordinator.swift */; };
@@ -148,6 +150,8 @@
 		00AA8F8C2C62C12C00B66E58 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		00AA8F8E2C62C1B900B66E58 /* APINotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINotification.swift; sourceTree = "<group>"; };
 		00AA8F902C62C3FF00B66E58 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
+		00AA8F932C62D30700B66E58 /* SinglePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostView.swift; sourceTree = "<group>"; };
+		00AA8F942C62D30700B66E58 /* SinglePostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SinglePostView.xib; sourceTree = "<group>"; };
 		00ACB1022C28773600932E44 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1052C28775D00932E44 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		00ACB1072C28777300932E44 /* NotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCoordinator.swift; sourceTree = "<group>"; };
@@ -303,6 +307,7 @@
 				00ACB10B2C28779E00932E44 /* TabBar */,
 				00ACB1322C2CF00400932E44 /* CustomViews */,
 				00AA8F802C61643200B66E58 /* GeneralUsersScreen */,
+				00AA8F922C62D2DD00B66E58 /* SinglePostScreen */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -416,6 +421,15 @@
 				00AA8F892C62B49100B66E58 /* NotificationTableViewCell.xib */,
 			);
 			path = NotificationCell;
+			sourceTree = "<group>";
+		};
+		00AA8F922C62D2DD00B66E58 /* SinglePostScreen */ = {
+			isa = PBXGroup;
+			children = (
+				00AA8F932C62D30700B66E58 /* SinglePostView.swift */,
+				00AA8F942C62D30700B66E58 /* SinglePostView.xib */,
+			);
+			path = SinglePostScreen;
 			sourceTree = "<group>";
 		};
 		00ACB10B2C28779E00932E44 /* TabBar */ = {
@@ -727,6 +741,7 @@
 				0071B29B2C55569600A46838 /* GeneralUserTableViewCell.xib in Resources */,
 				00BA3A522C3219C8001592B6 /* AddPostView.xib in Resources */,
 				00ACB1262C289B5E00932E44 /* HomeView.xib in Resources */,
+				00AA8F962C62D30700B66E58 /* SinglePostView.xib in Resources */,
 				00E8C9EE2C2331F6008A3996 /* RegisterView.xib in Resources */,
 				006A0C552C1F7E0E00457AD9 /* Launch Screen.storyboard in Resources */,
 				00D8272B2C309DE80033B6E4 /* StoriesTableViewCell.xib in Resources */,
@@ -850,6 +865,7 @@
 				00ACCA6E2C414C1600EE29AC /* APIUsers.swift in Sources */,
 				00ACB1062C28775D00932E44 /* SearchCoordinator.swift in Sources */,
 				006A0C682C1F918000457AD9 /* MainCoordinator.swift in Sources */,
+				00AA8F952C62D30700B66E58 /* SinglePostView.swift in Sources */,
 				009160242C41155A00DF7850 /* UserInfoCollectionViewCell.swift in Sources */,
 				006A0C6A2C1F921600457AD9 /* AuthCoordinator.swift in Sources */,
 				00ACB10A2C28777E00932E44 /* ProfileCoordinator.swift in Sources */,

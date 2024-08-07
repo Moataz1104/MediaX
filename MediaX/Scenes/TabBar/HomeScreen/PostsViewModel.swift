@@ -11,15 +11,11 @@ import RxCocoa
 import SwiftKeychainWrapper
 
 
-protocol PostsViewModelDelegate:AnyObject{
-    func didTapCommentButtonInProfile(post:PostModel)
-}
 
 class PostsViewModel {
     let disposeBag: DisposeBag
     let coordinator: Coordinator
     let accessToken: String?
-    weak var delegate:PostsViewModelDelegate?
     
     var posts = [PostModel]()
     var reloadTableViewClosure: (() -> Void)?
@@ -113,15 +109,17 @@ class PostsViewModel {
     
 //    MARK: - Navigation
     
-    func showCommentsScreenFromHome(post:PostModel){
+    func showCommentsScreen(post:PostModel){
         if let coordinator = coordinator as? HomeCoordinator{
             coordinator.showCommentsScreen(post:post)
+        }else if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.showCommentsScreen(post: post)
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.showCommentsScreen(post: post)
+
         }
     }
     
-    func showCommentsScreenFromProfile(post:PostModel){
-        delegate?.didTapCommentButtonInProfile(post:post)
-    }
     
     
     func showOtherUserScreen(id:String){

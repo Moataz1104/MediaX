@@ -35,4 +35,13 @@ class NotificationCoordinator:Coordinator{
         
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func pushSinglePostScreen(post:PostModel){
+        let disposeBag = DisposeBag()
+        let postVM = PostsViewModel(disposeBag: disposeBag, coordinator: self)
+        let commentVM = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
+        
+        let vc = SinglePostView(postVM: postVM, commentVM: commentVM, post: post)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
