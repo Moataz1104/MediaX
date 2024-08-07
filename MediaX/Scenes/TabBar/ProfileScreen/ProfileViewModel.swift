@@ -48,6 +48,7 @@ class ProfileViewModel{
         if let user = user{
             fetchedUser = user
             handleFollow()
+            getOtherUserProfile()
             getOtherUserPosts()
 
         }else{
@@ -58,7 +59,6 @@ class ProfileViewModel{
                 
                 getOtherUserProfile()
                 getOtherUserPosts()
-                handleFollow()
             }
         }
         
@@ -116,17 +116,20 @@ class ProfileViewModel{
             print("No token")
             return
         }
-        guard let userId = userId else {
-            print("No userId")
-            return
+            
+        var id = ""
+        if let user = user{
+            id = "\(user.id!)"
+        }else if let userId = userId{
+            id = "\(userId)"
         }
-        
+
         let fetchUser: Observable<UserModel>
         
         if isFromSearch {
-            fetchUser = APIUsers.shared.getUserFromSearch(by: userId, accessToken: token)
+            fetchUser = APIUsers.shared.getUserFromSearch(by: id, accessToken: token)
         } else {
-            fetchUser = APIUsers.shared.getOtherUserProfile(by: userId, accessToken: token)
+            fetchUser = APIUsers.shared.getOtherUserProfile(by: id, accessToken: token)
         }
         
         getUserProfileRelay
@@ -150,9 +153,14 @@ class ProfileViewModel{
 
     func getOtherUserPosts(){
         guard let token = accessToken else{print("No tokeeeen"); return}
-        guard let userId = userId else{return}
+        var id = ""
+        if let user = user{
+            id = "\(user.id!)"
+        }else if let userId = userId{
+            id = "\(userId)"
+        }
 
-        APIUsers.shared.getOtherUserPosts(by: userId, accessToken: token)
+        APIUsers.shared.getOtherUserPosts(by: id, accessToken: token)
             .observe(on: MainScheduler.instance)
             .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .catch({[weak self] error in
@@ -170,11 +178,16 @@ class ProfileViewModel{
     
     func handleFollow(){
         guard let token = accessToken else{print("No tokeeeen"); return}
-        guard let userId = userId else{return}
+        var id = ""
+        if let user = user{
+            id = "\(user.id!)"
+        }else if let userId = userId{
+            id = "\(userId)"
+        }
 
         followButtonRelay
             .flatMapLatest { _ -> Observable<Void> in
-                APIUsers.shared.followUser(accessToken: token, userId: userId)
+                APIUsers.shared.followUser(accessToken: token, userId: id)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch {[weak self]error in
@@ -243,7 +256,8 @@ class ProfileViewModel{
             coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath) 
         }else if let posts = posts , let coordinator = coordinator as? SearchCoordinator{
             coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
-
+        }else if let posts = posts , let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
         }
     }
     
@@ -262,7 +276,8 @@ class ProfileViewModel{
 
         }else if let coordinator = coordinator as? SearchCoordinator{
             coordinator.pushFollowersScreen(followers: followers)
-
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.pushFollowersScreen(followers: followers)
         }
 
     }
@@ -274,6 +289,9 @@ class ProfileViewModel{
 
         }else if let coordinator = coordinator as? SearchCoordinator{
             coordinator.pushFollowingScreen(followings: followings)
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.pushFollowingScreen(followings: followings)
+
         }
 
     }

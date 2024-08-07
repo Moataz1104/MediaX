@@ -21,7 +21,8 @@ class NotificationViewModel{
     let getProfileNotiRelay = PublishRelay<(String,String)>()
     let getPostNotiRelay = PublishRelay<(String,String)>()
 
-    
+    var notifications:[NotificationModel]?
+    var reloadTableClosure:(() -> Void)?
     
     
     
@@ -50,8 +51,9 @@ class NotificationViewModel{
                         return .empty()
                     }
             }
-            .subscribe { notifications in
-                print(notifications)
+            .subscribe {[weak self] notifications in
+                self?.notifications = notifications
+                self?.reloadTableClosure?()
             }
             .disposed(by: disposeBag)
     }
@@ -71,6 +73,7 @@ class NotificationViewModel{
             }
             .subscribe {[weak self] user in
                 self?.pushProfileScreen(user: user)
+                
             }
             .disposed(by: disposeBag)
     }

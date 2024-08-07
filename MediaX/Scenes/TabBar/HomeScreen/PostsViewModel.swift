@@ -116,6 +116,8 @@ class PostsViewModel {
             coordinator.showCommentsScreen(post: post)
         }else if let coordinator = coordinator as? SearchCoordinator{
             coordinator.showCommentsScreen(post: post)
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.showCommentsScreen(post: post)
 
         }
     }

@@ -34,7 +34,8 @@ class GeneralUserTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        imageLoadDisposable?.dispose()
+        userImage.image = nil
     }
     
     
