@@ -57,21 +57,6 @@ class NotificationCoordinator:Coordinator{
         }
     }
 
-    func pushFollowersScreen(followers:[UserModel]){
-        let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: followers)
-        let vc = GeneralUsersView(viewModel: viewModel, title: "Followers")
-        
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func pushFollowingScreen(followings:[UserModel]){
-        let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: followings)
-        let vc = GeneralUsersView(viewModel: viewModel, title: "Followings")
-        
-        navigationController.pushViewController(vc, animated: true)
-    }
 
     
     func showCommentsScreen(post:PostModel) {
@@ -104,6 +89,26 @@ class NotificationCoordinator:Coordinator{
         let disposeBag = DisposeBag()
         let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false,userId:id)
         let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        
+        
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.dismiss(animated: true)
+                topVC.dismiss(animated: false)
+                self?.navigationController.pushViewController(vc, animated: true)
+
+            }else{
+                self?.navigationController.pushViewController(vc, animated: true)
+            }
+        }
+
+    }
+
+    
+    func PushGeneralScreen(users:[UserModel],screenTitle:String,isLikeScreen:Bool = false){
+        let disposeBag = DisposeBag()
+        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
+        let vc = GeneralUsersView(viewModel: viewModel, title: screenTitle,isLikeScreen : isLikeScreen)
         
         
         DispatchQueue.main.async { [weak self] in

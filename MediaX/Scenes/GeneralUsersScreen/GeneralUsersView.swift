@@ -17,7 +17,7 @@ class GeneralUsersView: UIViewController {
     
     let viewModel:GeneralUsersViewModel
     let screenTitle:String
-    
+    let isLikeScreen:Bool
     var isFollow:Bool?
     
 
@@ -32,10 +32,11 @@ class GeneralUsersView: UIViewController {
         reloadTableView()
     }
     
-    init(viewModel:GeneralUsersViewModel,title:String){
+    init(viewModel:GeneralUsersViewModel,title:String,isLikeScreen : Bool = false){
         
         self.viewModel = viewModel
         self.screenTitle = title
+        self.isLikeScreen = isLikeScreen
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,7 +51,12 @@ class GeneralUsersView: UIViewController {
               let indexPath = tableView.indexPath(for: cell) else {
             return
         }
-        viewModel.pushProfileScreen(id: "\(viewModel.users[indexPath.row].id!)")
+        
+        if isLikeScreen{
+            viewModel.pushProfileScreen(id: "\(viewModel.users[indexPath.row].userId!)")
+        }else{
+            viewModel.pushProfileScreen(id: "\(viewModel.users[indexPath.row].id!)")
+        }
     }
 
 //    MARK: - Privates
@@ -83,7 +89,7 @@ extension GeneralUsersView:UITableViewDelegate,UITableViewDataSource{
         cell.generalUsersViewModel = viewModel
         cell.user = viewModel.users[indexPath.row]
         cell.configureUser(user: viewModel.users[indexPath.row])
-        
+        print(viewModel.users)
         let cellTapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTapAction(_:)))
         cell.addGestureRecognizer(cellTapGesture)
         cell.isUserInteractionEnabled = true

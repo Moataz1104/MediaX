@@ -43,7 +43,9 @@ class CommentTableViewCell: UITableViewCell {
         userImage.layer.cornerRadius = userImage.frame.width / 2
         userImage.clipsToBounds = true
         
-        setupTapGesture()
+        setupContentTapGesture()
+        setUpNumberOfLikesGesture()
+        setUpUserImageGesture()
     }
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -54,7 +56,7 @@ class CommentTableViewCell: UITableViewCell {
     
     
 //    MARK: - Actions
-    private func setupTapGesture() {
+    private func setupContentTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(contentLabelTapped))
         content.isUserInteractionEnabled = true
         content.addGestureRecognizer(tapGesture)
@@ -71,6 +73,22 @@ class CommentTableViewCell: UITableViewCell {
             viewModel?.likeButtonRelay.accept(("\(comment.id!)",indexPath))
         }
     }
+    
+    
+    @objc func numberOfLikesLabelAction(){
+        if let comment = comment{
+            viewModel?.showLikesScreen(users: comment.likeResponseDtos!)
+        }
+    }
+    
+    
+    @objc func handleUserImageTap(){
+        if let comment = comment{
+            viewModel?.showOtherUserScreen(id:"\(comment.userId!)")
+        }
+    }
+
+
     
     
 //    MARK: - Privates
@@ -108,6 +126,19 @@ class CommentTableViewCell: UITableViewCell {
 
         }
     }
+    private func setUpNumberOfLikesGesture(){
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(numberOfLikesLabelAction))
+        numberOfLikes.addGestureRecognizer(gesture)
+        numberOfLikes.isUserInteractionEnabled = true
+    }
+    
+    private func setUpUserImageGesture(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleUserImageTap))
+        userImage.addGestureRecognizer(tapGesture)
+        userImage.isUserInteractionEnabled = true
+    }
+
+
     
     
 //    MARK: - Configuration

@@ -18,4 +18,6 @@ struct PostModel:Codable {
     let numberOfLikes, numberOfComments: Int?
     let comments: [CommentModel]?
     let liked: Bool?
+    let likeResponseDtos: [UserModel]?
+
 }

@@ -55,8 +55,10 @@ class GeneralUserTableViewCell: UITableViewCell {
             vm.followButtonRelay.accept("\(id)")
         }
         
-        isFollow?.toggle()
-        followRelay.accept(isFollow!)
+        if var isFollow = isFollow{
+            isFollow.toggle()
+            followRelay.accept(isFollow)
+        }
 
     }
     
@@ -66,7 +68,7 @@ class GeneralUserTableViewCell: UITableViewCell {
     func configureUser(user:UserModel){
         
         DispatchQueue.main.async{[weak self] in
-            self?.userName.text = user.fullName ?? ""
+            self?.userName.text = user.fullName ?? user.username ?? ""
             
             if let timeAgo = user.timeAgo{
                 self?.timeLabel.isHidden = false
@@ -87,10 +89,9 @@ class GeneralUserTableViewCell: UITableViewCell {
         
         if let urlString = user.image , let url = URL(string: urlString){
             imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
+        }else if let urlString = user.userImage , let url = URL(string: urlString){
+            imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
         }
-        
-        
-        
     }
     
     private func checkFollowStatus(followStatus:Bool?){

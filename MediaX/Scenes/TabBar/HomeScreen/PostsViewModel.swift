@@ -122,7 +122,6 @@ class PostsViewModel {
             coordinator.showCommentsScreen(post: post)
         }else if let coordinator = coordinator as? NotificationCoordinator{
             coordinator.showCommentsScreen(post: post)
-
         }
     }
     
@@ -132,6 +131,22 @@ class PostsViewModel {
         if let coordinator = coordinator as? HomeCoordinator{
             coordinator.showOtherUsersScreen(id:id)
         }
+    }
+    
+    func showLikesScreen(users:[UserModel]){
+        if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+        }else if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+
+        }
+
     }
 
     

@@ -46,6 +46,7 @@ class PostTableViewCell: UITableViewCell {
         setUpDoupleTapRecognaizer()
         setUpUserImageGesture()
         setGestureForCommentLabel()
+        setUpNumberOfLikesGesture()
         if let indexPath = indexPath{
             postImage.heroID = "\(indexPath.row)"
         }
@@ -131,6 +132,12 @@ class PostTableViewCell: UITableViewCell {
         }
 
     }
+    
+    @objc func numberOfLikesLabelAction(){
+        if let post = post{
+            viewModel?.showLikesScreen(users: post.likeResponseDtos!)
+        }
+    }
 
     //    MARK: - Privates
     private func setUpDoupleTapRecognaizer(){
@@ -166,6 +173,13 @@ class PostTableViewCell: UITableViewCell {
         numberOfCommentsLabel.isUserInteractionEnabled = true
     }
     
+    private func setUpNumberOfLikesGesture(){
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(numberOfLikesLabelAction))
+        numberOfLikesLabel.addGestureRecognizer(gesture)
+        numberOfLikesLabel.isUserInteractionEnabled = true
+    }
+    
+//    MARK: - Configuration
     func configureCell(with post: PostModel) {
         
         if let imageUrlString = post.image, let url = URL(string: imageUrlString) {

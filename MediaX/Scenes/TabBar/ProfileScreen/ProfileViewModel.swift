@@ -284,27 +284,25 @@ class ProfileViewModel{
     
     private func pushFollowersScreen(followers:[UserModel]){
         if let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.pushFollowersScreen(followers: followers)
+            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
         }else if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.pushFollowersScreen(followers: followers)
+            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
 
         }else if let coordinator = coordinator as? SearchCoordinator{
-            coordinator.pushFollowersScreen(followers: followers)
+            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
         }else if let coordinator = coordinator as? NotificationCoordinator{
-            coordinator.pushFollowersScreen(followers: followers)
+            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
         }
 
     }
     private func pushFollowingsScreen(followings:[UserModel]){
         if let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.pushFollowingScreen(followings: followings)
-        }else if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.pushFollowingScreen(followings: followings)
+            coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")        }else if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")
 
         }else if let coordinator = coordinator as? SearchCoordinator{
-            coordinator.pushFollowingScreen(followings: followings)
-        }else if let coordinator = coordinator as? NotificationCoordinator{
-            coordinator.pushFollowingScreen(followings: followings)
+            coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")        }else if let coordinator = coordinator as? NotificationCoordinator{
+                coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")
 
         }
 

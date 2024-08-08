@@ -139,7 +139,7 @@ class StoryViewModel{
     func presentViewersScreen(users:[UserModel]){
         
         if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.presentViewersScreen(users: users)
+            coordinator.presentStoryViewersScreen(users: users)
         }
 
     }

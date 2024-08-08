@@ -121,4 +121,38 @@ class CommentsViewModel{
 
             
     }
+    
+    func showLikesScreen(users:[UserModel]){
+        if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+        }else if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
+
+        }
+
+    }
+    
+    func showOtherUserScreen(id:String){
+        if let coordinator = coordinator as? HomeCoordinator{
+            coordinator.showOtherUsersScreen(id:id)
+        }else if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.showOtherUsersScreen(id:id)
+
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.showOtherUsersScreen(id:id)
+
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.showOtherUsersScreen(id:id)
+
+        }
+    }
+
+
+
 }

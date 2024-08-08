@@ -126,7 +126,7 @@ class HomeCoordinator:Coordinator{
         }
     }
     
-    func presentViewersScreen(users:[UserModel]){
+    func presentStoryViewersScreen(users:[UserModel]){
         let disposeBag = DisposeBag()
         let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
         let vc = GeneralUsersView(viewModel: viewModel, title: "Views")
@@ -151,20 +151,24 @@ class HomeCoordinator:Coordinator{
 
     }
 
-    func pushFollowersScreen(followers:[UserModel]){
-        let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: followers)
-        let vc = GeneralUsersView(viewModel: viewModel, title: "Followers")
-        
-        navigationController.pushViewController(vc, animated: true)
-    }
 
-    func pushFollowingScreen(followings:[UserModel]){
+    func PushGeneralScreen(users:[UserModel],screenTitle:String,isLikeScreen:Bool = false){
         let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: followings)
-        let vc = GeneralUsersView(viewModel: viewModel, title: "Followings")
+        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
+        let vc = GeneralUsersView(viewModel: viewModel, title: screenTitle,isLikeScreen : isLikeScreen)
         
-        navigationController.pushViewController(vc, animated: true)
+        
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.dismiss(animated: true)
+                topVC.dismiss(animated: false)
+                self?.navigationController.pushViewController(vc, animated: true)
+
+            }else{
+                self?.navigationController.pushViewController(vc, animated: true)
+            }
+        }
+
     }
 
 }
