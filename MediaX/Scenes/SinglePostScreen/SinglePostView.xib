@@ -20,9 +20,12 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wXy-an-kWv">
-                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wXy-an-kWv">
+                    <rect key="frame" x="0.0" y="59" width="393" height="580"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="580" id="ovn-Ex-54N"/>
+                    </constraints>
                 </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -31,7 +34,6 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wXy-an-kWv" secondAttribute="trailing" id="4fy-eR-qy0"/>
                 <constraint firstItem="wXy-an-kWv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="McQ-73-8RB"/>
                 <constraint firstItem="wXy-an-kWv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="SWg-Op-hOB"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wXy-an-kWv" secondAttribute="bottom" id="YBV-6j-E2y"/>
             </constraints>
             <point key="canvasLocation" x="126" y="20"/>
         </view>

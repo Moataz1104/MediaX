@@ -26,7 +26,12 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     var userImageDisposable : Disposable?
     var viewModel:ProfileViewModel?
     var user : UserModel?
+    var isFollow:Bool?
     
+    var followSubscription:Disposable?
+    let followRelay = PublishRelay<Bool>()
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
@@ -38,10 +43,15 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         userImageDisposable?.dispose()
         userImage.image = nil
+        
+        followSubscription?.dispose()
     }
     
     @IBAction func followButtonAction(_ sender: Any) {
         viewModel?.followButtonRelay.accept(())
+        isFollow?.toggle()
+        followRelay.accept(isFollow!)
+
     }
     
     
@@ -101,6 +111,23 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
             self?.userName.text = user.fullName ?? ""
             self?.userBio.text = user.bio
             self?.checkFollowStatus(followStatus: user.follow ,isFollowButtonHidden:isFollowButtonHidden)
+            
+            self?.isFollow = user.follow
+            
+            self?.followSubscription =
+            self?.followRelay
+                .observe(on: MainScheduler.instance)
+                .subscribe(onNext: { isFollow in
+                    self?.checkFollowStatus(followStatus: isFollow, isFollowButtonHidden: isFollowButtonHidden)
+                    
+                    if isFollow{
+                        self?.followersNumLabel.text = "\((user.numberOfFollowers!) + 1)"
+                    }else{
+                        self?.followersNumLabel.text = "\((user.numberOfFollowers!) - 1)"
+                    }
+
+                })
+
         }
     }
     

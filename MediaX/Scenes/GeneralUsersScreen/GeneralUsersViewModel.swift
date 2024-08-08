@@ -89,6 +89,16 @@ class GeneralUsersViewModel{
     func pushProfileScreen(id:String){
         if let coordinator = coordinator as? HomeCoordinator{
             coordinator.showOtherUsersScreen(id: id)
+            
+        }else if let coordinator = coordinator as? NotificationCoordinator{
+            coordinator.showOtherUsersScreen(id: id)
+
+        }else if let coordinator = coordinator as? SearchCoordinator{
+            coordinator.showOtherUsersScreen(id: id)
+
+        }else if let coordinator = coordinator as? ProfileCoordinator{
+            coordinator.showOtherUsersScreen(id: id)
+
         }
     }
 }

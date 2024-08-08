@@ -19,9 +19,10 @@ class PostsViewModel {
     
     var posts = [PostModel]()
     var reloadTableViewClosure: (() -> Void)?
+    var reloadTableAtIndex : ((IndexPath) -> Void)?
     
     let errorPublisher = PublishRelay<Error>()
-    let likeButtonSubject = PublishRelay<String>()
+    let likeButtonSubject = PublishRelay<(String,IndexPath)>()
     let commentButtonSubject = PublishRelay<Void>()
     let indicatorPublisher = PublishRelay<Bool>()
 
@@ -74,29 +75,32 @@ class PostsViewModel {
     
     private func subscribeToLikeButton() {
         likeButtonSubject
-            .flatMapLatest { [weak self] id -> Observable<String> in
+            .flatMapLatest { [weak self] id , indexPath -> Observable<(String,IndexPath)> in
                 guard let self = self else { return .empty() }
                 return APIInterActions.shared.handleLikes(for: id, accessToken: self.accessToken!)
-                    .map { id }
+                    .map { _ in
+                        return (id,indexPath)
+                    }
                     .catch { error in
                         self.errorPublisher.accept(error)
                         return .empty()
                     }
             }
-            .flatMapLatest { [weak self] id -> Observable<PostModel> in
+            .flatMapLatest { [weak self] id , indexPath -> Observable<(PostModel,IndexPath)> in
                 guard let self = self else { return .empty() }
                 return APIPosts.shared.getPost(by: id, accessToken: self.accessToken!)
+                    .map{($0 , indexPath)}
                     .catch { error in
                         self.errorPublisher.accept(error)
                         return .empty()
                     }
             }
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] post in
+            .subscribe(onNext: { [weak self] post,indexPath in
                 guard let self = self else { return }
                 if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
                     self.posts[index] = post
-                    self.reloadTableViewClosure?()
+                    self.reloadTableAtIndex?(indexPath)
                 }
             },onError: {[weak self] error in
                 self?.errorPublisher.accept(error)

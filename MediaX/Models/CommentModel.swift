@@ -15,5 +15,6 @@ struct CommentModel:Codable{
     let userImage: String?
     let timeAgo: String?
     let liked: Bool?
+    let numberOfLikes:Int?
 
 }

@@ -43,7 +43,6 @@ class CommentsViewModel{
         
     }
     
-    
     func addComment(){
         guard let token = accessToken else {print("No token"); return}
 

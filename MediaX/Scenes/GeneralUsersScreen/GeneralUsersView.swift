@@ -17,6 +17,11 @@ class GeneralUsersView: UIViewController {
     
     let viewModel:GeneralUsersViewModel
     let screenTitle:String
+    
+    var isFollow:Bool?
+    
+
+    
 //    MARK: - ViewController life cycle
     override func viewDidLoad() {
         super.viewDidLoad()

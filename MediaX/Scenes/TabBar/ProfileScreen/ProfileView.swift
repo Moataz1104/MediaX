@@ -49,11 +49,13 @@ class ProfileView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isCurrentUser{
-            viewModel.getCurrentUser()
-            viewModel.getCurrentUserPosts()
+            viewModel.getCurrentProfileRelay.accept(())
+            viewModel.getCurrentPostsRelay.accept(())
+
         }else{
             viewModel.getUserProfileRelay.accept(())
-            viewModel.getOtherUserPosts()
+            viewModel.getUserPostsRelay.accept(())
+
         }
     }
     
@@ -151,16 +153,16 @@ class ProfileView: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
     }
-    
+
     @objc func refreshData() {
         DispatchQueue.main.async{[weak self] in
             self?.refreshControl.beginRefreshing()
             if self?.isCurrentUser == true{
-                self?.viewModel.getCurrentUser()
-                self?.viewModel.getCurrentUserPosts()
+                self?.viewModel.getCurrentProfileRelay.accept(())
+                self?.viewModel.getCurrentPostsRelay.accept(())
             }else{
                 self?.viewModel.getUserProfileRelay.accept(())
-                self?.viewModel.getOtherUserPosts()
+                self?.viewModel.getUserPostsRelay.accept(())
 
             }
             self?.refreshControl.endRefreshing()

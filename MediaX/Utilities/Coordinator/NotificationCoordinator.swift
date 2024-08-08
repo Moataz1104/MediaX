@@ -39,9 +39,8 @@ class NotificationCoordinator:Coordinator{
     func pushSinglePostScreen(post:PostModel){
         let disposeBag = DisposeBag()
         let postVM = PostsViewModel(disposeBag: disposeBag, coordinator: self)
-        let commentVM = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
         
-        let vc = SinglePostView(postVM: postVM, commentVM: commentVM, post: post)
+        let vc = SinglePostView(postVM: postVM, post: post)
         navigationController.pushViewController(vc, animated: true)
     }
     
@@ -95,8 +94,29 @@ class NotificationCoordinator:Coordinator{
         DispatchQueue.main.async { [weak self] in
             if let topVC = self?.navigationController.presentedViewController {
                 topVC.present(vc, animated: true)
+            }else{
+                self?.navigationController.present(vc, animated: true)
             }
         }
+    }
+
+    func showOtherUsersScreen(id:String){
+        let disposeBag = DisposeBag()
+        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false,userId:id)
+        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        
+        
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.dismiss(animated: true)
+                topVC.dismiss(animated: false)
+                self?.navigationController.pushViewController(vc, animated: true)
+
+            }else{
+                self?.navigationController.pushViewController(vc, animated: true)
+            }
+        }
+
     }
 
 

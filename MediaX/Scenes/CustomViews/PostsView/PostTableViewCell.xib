@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhU-yT-dtP" userLabel="mainStack">
-                        <rect key="frame" x="142" y="75" width="340" height="514"/>
+                        <rect key="frame" x="142" y="52.333333333333314" width="340" height="559.33333333333348"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="GDn-i3-5sU">
                                 <rect key="frame" x="0.0" y="0.0" width="340" height="40"/>
@@ -45,7 +45,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="5 min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RM-6R-rp5">
-                                                        <rect key="frame" x="0.0" y="22" width="56.666666666666664" height="18"/>
+                                                        <rect key="frame" x="0.0" y="21.999999999999993" width="56.666666666666664" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" name="sublabel"/>
                                                         <nil key="highlightedColor"/>
@@ -69,40 +69,78 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="RWs-Gy-1Vd">
-                                <rect key="frame" x="0.0" y="444" width="340" height="53"/>
+                                <rect key="frame" x="0.0" y="444" width="340" height="115.33333333333337"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="G92-9F-290">
-                                        <rect key="frame" x="0.0" y="0.0" width="340" height="29.666666666666668"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="G92-9F-290">
+                                        <rect key="frame" x="0.0" y="0.0" width="340" height="115.33333333333333"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vpt-8J-G3h">
-                                                <rect key="frame" x="0.0" y="3.6666666666666288" width="65.666666666666671" height="26"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="UX3-vF-phc">
+                                                <rect key="frame" x="0.0" y="0.0" width="157.66666666666666" height="115.33333333333333"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCd-Hs-gqm">
-                                                        <rect key="frame" x="0.0" y="0.0" width="26.666666666666668" height="26"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
-                                                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal">
-                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="likeButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WPl-Eq-bY3"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zF-9Y-tVy">
-                                                        <rect key="frame" x="36.666666666666657" y="0.0" width="29" height="26"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
-                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal">
-                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <imageReference key="image" image="text.bubble" catalog="system" symbolScale="large"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="commentButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="j8e-Dd-GlK"/>
-                                                        </connections>
-                                                    </button>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Vpt-8J-G3h">
+                                                        <rect key="frame" x="0.0" y="0.0" width="63.666666666666664" height="23"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCd-Hs-gqm">
+                                                                <rect key="frame" x="0.0" y="0.0" width="26.666666666666668" height="23"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="likeButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WPl-Eq-bY3"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zF-9Y-tVy">
+                                                                <rect key="frame" x="41.666666666666657" y="0.0" width="22" height="23"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="WcO-tC-Xcv"/>
+                                                                    <constraint firstAttribute="height" constant="23" id="ro5-aP-0T9"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                <state key="normal">
+                                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <imageReference key="image" image="commentIcon" symbolScale="large"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="commentButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="j8e-Dd-GlK"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="28 Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amg-WI-3uT">
+                                                        <rect key="frame" x="0.0" y="33.000000000000057" width="64" height="20.333333333333329"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pEQ-Md-yLf">
+                                                        <rect key="frame" x="0.0" y="63.333333333333307" width="111" height="21.666666666666664"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moataz" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cK-xL-Zq9">
+                                                                <rect key="frame" x="0.0" y="0.0" width="63.666666666666664" height="21.666666666666668"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpq-sC-bbI">
+                                                                <rect key="frame" x="73.666666666666657" y="0.0" width="37.333333333333343" height="18"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="view all 8 Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaM-Q3-Ofe">
+                                                        <rect key="frame" x="0.0" y="95.000000000000057" width="157.66666666666666" height="20.333333333333329"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" white="0.34999999999999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TxK-8o-qQR">
@@ -117,24 +155,12 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Liked by 500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VML-FG-ojF">
-                                        <rect key="frame" x="0.0" y="33.666666666666629" width="340" height="19.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAx-ts-Jz0">
-                                <rect key="frame" x="0.0" y="514" width="340" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                     </stackView>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bigLike" translatesAutoresizingMaskIntoConstraints="NO" id="C71-dy-34t">
-                        <rect key="frame" x="262" y="267" width="100" height="100"/>
+                        <rect key="frame" x="262" y="244.33333333333337" width="100" height="100"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="100" id="3kW-b9-kt5"/>
                             <constraint firstAttribute="width" constant="100" id="brj-MX-lym"/>
@@ -158,27 +184,29 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="bigHeartImage" destination="C71-dy-34t" id="ceH-fN-3nS"/>
+                <outlet property="bottomUserName" destination="5cK-xL-Zq9" id="oim-7P-QsW"/>
                 <outlet property="commentButton" destination="3zF-9Y-tVy" id="hGG-EN-XmW"/>
                 <outlet property="indicator" destination="6XU-x1-lLi" id="v5Z-dW-cTK"/>
                 <outlet property="likeButton" destination="eCd-Hs-gqm" id="hxM-sC-FOI"/>
-                <outlet property="numberOfLikesLabel" destination="VML-FG-ojF" id="0So-j2-R40"/>
-                <outlet property="postContent" destination="UAx-ts-Jz0" id="wCw-CT-NKT"/>
+                <outlet property="numberOfCommentsLabel" destination="SaM-Q3-Ofe" id="7fU-O7-6BM"/>
+                <outlet property="numberOfLikesLabel" destination="amg-WI-3uT" id="aXg-IR-P3L"/>
+                <outlet property="postContent" destination="hpq-sC-bbI" id="yzC-Rh-m1j"/>
                 <outlet property="postImage" destination="B6N-ha-aJW" id="1Pw-bv-ep0"/>
                 <outlet property="postTime" destination="1RM-6R-rp5" id="8Ec-gP-Wj7"/>
                 <outlet property="settingButton" destination="anM-wp-7pb" id="oet-MU-DjI"/>
                 <outlet property="userImage" destination="WBU-sn-hYM" id="qO8-7w-WsF"/>
-                <outlet property="userName" destination="XHn-Um-Y6y" id="KBg-Wf-Rs0"/>
+                <outlet property="userName" destination="XHn-Um-Y6y" id="EUv-xw-aVb"/>
             </connections>
             <point key="canvasLocation" x="326.71755725190837" y="238.02816901408451"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="bigLike" width="213.33332824707031" height="213.33332824707031"/>
+        <image name="commentIcon" width="24" height="24"/>
         <image name="detailImage" width="20" height="20.333333969116211"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="profileIcon" width="82.333335876464844" height="82.333335876464844"/>
         <image name="square.and.arrow.up" catalog="system" width="108" height="128"/>
-        <image name="text.bubble" catalog="system" width="128" height="110"/>
         <namedColor name="Main">
             <color red="0.0039215688593685627" green="0.70196080207824707" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -24,15 +24,18 @@ class CommentTableViewCell: UITableViewCell {
     var userImageDisposable : Disposable?
     var viewModel : CommentsViewModel?
     var comment:CommentModel?
-
+    var isLiked:Bool?
     
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var numberOfLikes: UILabel!
     @IBOutlet weak var commentTime: UILabel!
     @IBOutlet weak var content: TopAlignedLabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var contentLabelHeightCons: NSLayoutConstraint!
     
+    var likeSubscription:Disposable?
+    let likeRelay = PublishRelay<Bool>()
 //    MARK: - Cell life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,13 +44,12 @@ class CommentTableViewCell: UITableViewCell {
         userImage.clipsToBounds = true
         
         setupTapGesture()
-        
-
     }
     override func prepareForReuse() {
         super.prepareForReuse()
         
         userImageDisposable?.dispose()
+        likeSubscription?.dispose()
     }
     
     
@@ -64,6 +66,8 @@ class CommentTableViewCell: UITableViewCell {
     
     @IBAction func likeButtonAction(_ sender: Any) {
         if let comment = comment , let indexPath = indexPath{
+            isLiked?.toggle()
+            likeRelay.accept(isLiked!)
             viewModel?.likeButtonRelay.accept(("\(comment.id!)",indexPath))
         }
     }
@@ -107,7 +111,7 @@ class CommentTableViewCell: UITableViewCell {
     
     
 //    MARK: - Configuration
-    func configureCell(with comment : CommentModel,token:String){
+    func configureCell(with comment : CommentModel){
         
         DispatchQueue.main.async{[weak self] in
             UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
@@ -120,21 +124,42 @@ class CommentTableViewCell: UITableViewCell {
             self?.userName.text = comment.username ?? ""
             self?.content.text = comment.content ?? ""
             self?.commentTime.text = comment.timeAgo ?? ""
+            self?.numberOfLikes.text = "\(comment.numberOfLikes!)"
+
+            self?.checkForLikeStatus(status: comment.liked!)
+
+            self?.isLiked = comment.liked!
             
-            if comment.liked!{
-                UIView.animate(withDuration: 0.3) {[weak self] in
-                    self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
-                    
-                }
-                
-            }else{
-                UIView.animate(withDuration: 0.3) {[weak self] in
-                    self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
-                    
-                }
+            self?.likeSubscription = self?.likeRelay
+                .observe(on: MainScheduler.instance)
+                .subscribe(onNext: { isLiked in
+                    self?.checkForLikeStatus(status: isLiked)
+                    if isLiked{
+                        self?.numberOfLikes.text = "\(comment.numberOfLikes! + 1)"
+                    }else{
+                        self?.numberOfLikes.text = "\(comment.numberOfLikes! - 1)"
+                    }
+
+                })
+
+        }
+    }
+    
+    private func checkForLikeStatus(status:Bool){
+        if status{
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
                 
             }
+            
+        }else{
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
+                
+            }
+            
         }
+
     }
 }
 

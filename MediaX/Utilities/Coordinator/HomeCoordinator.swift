@@ -63,9 +63,10 @@ class HomeCoordinator:Coordinator{
         }
 
         let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-
+        DispatchQueue.main.async{
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+        }
         if let networkingError = error as? NetworkingErrors {
             vc.loadViewIfNeeded()
             vc.errorTitle?.text = networkingError.title

@@ -16,12 +16,15 @@ class PostTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var postTime: UILabel!
+    @IBOutlet weak var bottomUserName: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var postContent: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var numberOfLikesLabel: UILabel!
+    @IBOutlet weak var numberOfCommentsLabel: UILabel!
+    
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var bigHeartImage: UIImageView!
@@ -32,18 +35,20 @@ class PostTableViewCell: UITableViewCell {
     var post:PostModel?
     var indexPath:IndexPath?
     weak var delegate:HomeViewDelegate?
-    
+    var isLiked:Bool?
+
+    var likeSubscription:Disposable?
+    let likeRelay = PublishRelay<Bool>()
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configUi()
         setUpDoupleTapRecognaizer()
         setUpUserImageGesture()
+        setGestureForCommentLabel()
         if let indexPath = indexPath{
             postImage.heroID = "\(indexPath.row)"
         }
-        
-        
-        
     }
     
     override func prepareForReuse() {
@@ -54,7 +59,8 @@ class PostTableViewCell: UITableViewCell {
         userImageLoadDisposable?.dispose()
         userImage.image = nil
         
-        
+        likeSubscription?.dispose()
+
     }
     
     override func layoutSubviews() {
@@ -68,9 +74,11 @@ class PostTableViewCell: UITableViewCell {
     
     @IBAction func likeButtonAction(_ sender: Any) {
         
-        if let post = post{
+        if let post = post , let indexPath = indexPath{
             let id = String(describing: post.id!)
-            viewModel?.likeButtonSubject.accept(id)
+            isLiked?.toggle()
+            likeRelay.accept(isLiked!)
+            viewModel?.likeButtonSubject.accept((id,indexPath))
         }
         
     }
@@ -102,9 +110,11 @@ class PostTableViewCell: UITableViewCell {
             }
         }
 
-        if let post = post {
+        if let post = post,let indexPath = indexPath {
             let id = String(describing: post.id!)
-            viewModel?.likeButtonSubject.accept(id)
+            isLiked?.toggle()
+            likeRelay.accept(isLiked!)
+            viewModel?.likeButtonSubject.accept((id,indexPath))
         }
     }
     
@@ -113,6 +123,13 @@ class PostTableViewCell: UITableViewCell {
             viewModel?.showOtherUserScreen(id:"\(post.userId!)")
             delegate?.didScrollUp()
         }
+    }
+    
+    @objc func commentLabelAction(){
+        if let post = post{
+            viewModel?.showCommentsScreen(post:post)
+        }
+
     }
 
     //    MARK: - Privates
@@ -130,6 +147,7 @@ class PostTableViewCell: UITableViewCell {
         userImage.isUserInteractionEnabled = true
     }
     private func configUi(){
+        settingButton.isHidden = true
         userImage.layer.cornerRadius = userImage.bounds.width / 2
         userImage.clipsToBounds = true
         postImage.layer.cornerRadius = 25
@@ -140,6 +158,12 @@ class PostTableViewCell: UITableViewCell {
         indicator.isHidden = true
         indicator.stopAnimating()
         
+    }
+    
+    private func setGestureForCommentLabel(){
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(commentLabelAction))
+        numberOfCommentsLabel.addGestureRecognizer(gesture)
+        numberOfCommentsLabel.isUserInteractionEnabled = true
     }
     
     func configureCell(with post: PostModel) {
@@ -160,26 +184,66 @@ class PostTableViewCell: UITableViewCell {
         }
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = post.username ?? "No user name"
-            self?.postContent.text = post.content ?? "No Content"
-            self?.numberOfLikesLabel.text = "Liked by \(post.numberOfLikes ?? -1)"
+            self?.numberOfLikesLabel.text = "\(post.numberOfLikes ?? -1) Likes"
+            if let count = post.numberOfComments{
+                if count == 0{
+                    self?.numberOfCommentsLabel.isHidden = true
+                }else{
+                    self?.numberOfCommentsLabel.isHidden = false
+                    self?.numberOfCommentsLabel.text = "View all \(count) Comments"
+
+                }
+            }
+            if let content = post.content{
+                if content == " "{
+                    self?.postContent.isHidden = true
+                    self?.bottomUserName.isHidden = true
+                }else{
+                    self?.postContent.isHidden = false
+                    self?.bottomUserName.isHidden = false
+                    self?.bottomUserName.text = post.username ?? "No user name"
+                    self?.postContent.text = post.content ?? "No Content"
+
+                }
+            }
             self?.postTime.text = post.timeAgo ?? ""
             
-            if post.liked!{
-                UIView.animate(withDuration: 0.3) {[weak self] in
-                    self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
+            self?.checkForLikeStatus(status: post.liked!)
+            
+            self?.isLiked = post.liked!
+            self?.likeSubscription = self?.likeRelay
+                .observe(on: MainScheduler.instance)
+                .subscribe(onNext: { isLiked in
+                    self?.checkForLikeStatus(status: isLiked)
                     
-                }
-                
-            }else{
-                UIView.animate(withDuration: 0.3) {[weak self] in
-                    self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
-                    
-                }
-                
-            }
+                    if isLiked{
+                        self?.numberOfLikesLabel.text = "\(post.numberOfLikes! + 1) Likes"
+                    }else{
+                        self?.numberOfLikesLabel.text = "\(post.numberOfLikes! - 1) Likes"
+                    }
+                })
+
+
         }
         
     }
     
+    
+    private func checkForLikeStatus(status:Bool){
+        if status{
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                self?.likeButton.setImage(UIImage.systemImage(named: "heart.fill", withSymbolConfiguration: .large), for: .normal)
+                
+            }
+            
+        }else{
+            UIView.animate(withDuration: 0.3) {[weak self] in
+                self?.likeButton.setImage(UIImage.systemImage(named: "heart", withSymbolConfiguration: .large), for: .normal)
+                
+            }
+            
+        }
+
+    }
 }
 

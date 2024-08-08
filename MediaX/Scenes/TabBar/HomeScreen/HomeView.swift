@@ -55,6 +55,11 @@ class HomeView: UIViewController {
         reloadTableView()
         subscribeToIndicatorPublisher()
         subscribeToErrorPublisher()
+        
+        
+        postsViewModel.reloadTableAtIndex = {[weak self] indexPath in
+            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,6 +186,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             cell.post = postsViewModel.posts[indexPath.row]
             cell.configureCell(with: postsViewModel.posts[indexPath.row])
             cell.delegate = delegate
+            cell.indexPath = indexPath
             cell.settingButton.isHidden = true
             return cell
         }
@@ -230,7 +236,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     private func showLogoStack() {
         UIView.animate(withDuration: 0.5) {[weak self] in
             self?.logoStackHeightConstraint.constant = 30
-            self?.tableViewTopConstraint.constant = 50
+            self?.tableViewTopConstraint.constant = 40
             self?.view.layoutIfNeeded()
         }
         isLogoStackHidden = false

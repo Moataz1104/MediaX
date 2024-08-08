@@ -91,8 +91,8 @@ class NotificationViewModel{
                         return .empty()
                     }
             }
-            .subscribe { post in
-                print(post)
+            .subscribe {[weak self] post in
+                self?.pushSinglePostScreen(post: post)
             }
             .disposed(by: disposeBag)
     }
@@ -102,4 +102,9 @@ class NotificationViewModel{
     func pushProfileScreen(user:UserModel){
         coordinator.pushProfileScreen(user: user)
     }
+    
+    func pushSinglePostScreen(post:PostModel){
+        coordinator.pushSinglePostScreen(post: post)
+    }
+
 }

@@ -83,10 +83,9 @@ class PostDetailView: UIViewController {
         }
     
     private func reloadTableView(){
-        postVM.reloadTableViewClosure = {[weak self] in
-            self?.tableView.reloadData()
+        postVM.reloadTableAtIndex = {[weak self] indexPath in
+            self?.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-
     }
     
 
@@ -103,9 +102,10 @@ extension PostDetailView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
         cell.viewModel = postVM
+        cell.indexPath = indexPath
         cell.post = postVM.posts[indexPath.row]
         cell.configureCell(with: postVM.posts[indexPath.row])
-         cell.indexPath = indexPath
+        
         return cell
     }
     

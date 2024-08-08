@@ -10,30 +10,31 @@ import RxSwift
 import RxCocoa
 
 class NotificationView: UIViewController {
-
+    
+//    MARK: - Attributes
     @IBOutlet weak var tableView: UITableView!
     
     let disposeBag:DisposeBag
     let viewModel:NotificationViewModel
+    
+    var refreshControl = UIRefreshControl()
+    
+//    MARK: - ViewController life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        refreshControl.tintColor = UIColor.main
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.register(UINib(nibName: NotificationTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: NotificationTableViewCell.identifier)
-        
-        viewModel.reloadTableClosure = {[weak self] in
-            self?.tableView.reloadData()
-        }
+        refreshCollectionView()
+        setUpTableView()
+        reloadTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.getAllNotificationsRelay.accept(())
     }
-
+    
     init( disposeBag: DisposeBag, viewModel: NotificationViewModel) {
         self.disposeBag = disposeBag
         self.viewModel = viewModel
@@ -44,6 +45,15 @@ class NotificationView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    MARK: - Actions
+    
+    @objc func refreshData() {
+        DispatchQueue.main.async{[weak self] in
+            self?.refreshControl.beginRefreshing()
+            self?.viewModel.getAllNotificationsRelay.accept(())
+            self?.refreshControl.endRefreshing()
+        }
+    }
     @objc func cellTapAction(_ sender: UITapGestureRecognizer) {
         guard let cell = sender.view as? UITableViewCell,
               let indexPath = tableView.indexPath(for: cell) else {
@@ -60,6 +70,26 @@ class NotificationView: UIViewController {
     }
 
 
+//    MARK: - Privates
+    private func refreshCollectionView(){
+        tableView.refreshControl = refreshControl
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        
+    }
+    private func setUpTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(UINib(nibName: NotificationTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: NotificationTableViewCell.identifier)
+        
+    }
+    
+    private func reloadTableView(){
+        viewModel.reloadTableClosure = {[weak self] in
+            self?.tableView.reloadData()
+        }
+    }
 
 }
 
@@ -87,7 +117,6 @@ extension NotificationView : UITableViewDelegate , UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

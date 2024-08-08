@@ -21,7 +21,12 @@ class GeneralUserTableViewCell: UITableViewCell {
     var searchViewModel : SearchViewModel?
     var generalUsersViewModel : GeneralUsersViewModel?
     var user:UserModel?
+    var isFollow:Bool?
     
+    var followSubscription:Disposable?
+    let followRelay = PublishRelay<Bool>()
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
         followButton.layer.cornerRadius = followButton.frame.height / 2
@@ -36,15 +41,23 @@ class GeneralUserTableViewCell: UITableViewCell {
         super.prepareForReuse()
         imageLoadDisposable?.dispose()
         userImage.image = nil
+        
+        followSubscription?.dispose()
+
     }
     
     
     @IBAction func followButtonAction(_ sender: Any) {
         if let vm = searchViewModel, let id = user?.id{
             vm.followButtonRelay.accept("\(id)")
+
         }else if let vm = generalUsersViewModel , let id = user?.id{
             vm.followButtonRelay.accept("\(id)")
         }
+        
+        isFollow?.toggle()
+        followRelay.accept(isFollow!)
+
     }
     
  
@@ -54,17 +67,28 @@ class GeneralUserTableViewCell: UITableViewCell {
         
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = user.fullName ?? ""
-            self?.checkFollowStatus(followStatus: user.follow)
             
             if let timeAgo = user.timeAgo{
                 self?.timeLabel.isHidden = false
                 self?.timeLabel.text = timeAgo
             }
+            self?.checkFollowStatus(followStatus: user.follow )
+            
+            self?.isFollow = user.follow
+            
+            self?.followSubscription =
+            self?.followRelay
+                .observe(on: MainScheduler.instance)
+                .subscribe(onNext: { isFollow in
+                    self?.checkFollowStatus(followStatus: isFollow)
+                })
+
         }
         
         if let urlString = user.image , let url = URL(string: urlString){
             imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
         }
+        
         
         
     }

@@ -25,15 +25,16 @@ class ProfileViewModel{
     let isAnimatingPublisher = PublishRelay<Bool>()
     let followButtonRelay = PublishRelay<Void>()
     let getUserProfileRelay = PublishRelay<Void>()
+    let getUserPostsRelay = PublishRelay<Void>()
+    let getCurrentProfileRelay = PublishRelay<Void>()
+    let getCurrentPostsRelay = PublishRelay<Void>()
+
     let errorPublisher = PublishRelay<Error>()
     let followerDetailsRelay = PublishRelay<String>()
     let followingDetailsRelay = PublishRelay<String>()
     
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
-    
-    var getCurrentUserDisposable:Disposable?
-    var getCurrentUserPostsDisposable:Disposable?
-    
+        
     
     init(coordinator: Coordinator, disposeBag: DisposeBag,
          user:UserModel? = nil,isCurrentUser:Bool,userId:String? = nil,isFromSearch:Bool = false) {
@@ -59,6 +60,8 @@ class ProfileViewModel{
                 
                 getOtherUserProfile()
                 getOtherUserPosts()
+                handleFollow()
+
             }
         }
         
@@ -71,14 +74,17 @@ class ProfileViewModel{
     
     func getCurrentUser(){
         guard let token = accessToken else{print("No TOKEN"); return}
-        getCurrentUserDisposable?.dispose()
-        getCurrentUserDisposable = APIUsers.shared.getCurrentUser(accessToken: token)
-            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
-            .observe(on: MainScheduler.instance)
-            .catch({[weak self] error in
-                self?.errorPublisher.accept(error)
-                return .empty()
-            })
+        
+        getCurrentProfileRelay
+            .flatMapLatest { _ -> Observable<UserModel> in
+                return APIUsers.shared.getCurrentUser(accessToken: token)
+                    .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch({[weak self] error in
+                        self?.errorPublisher.accept(error)
+                        return .empty()
+                    })
+            }
             .subscribe {[weak self] user in
                 self?.isAnimatingPublisher.accept(true)
                 self?.fetchedUser = user
@@ -87,27 +93,32 @@ class ProfileViewModel{
             }onError: {[weak self] error in
                 self?.errorPublisher.accept(error)
                 self?.isAnimatingPublisher.accept(false)
-
+                
             }
+            .disposed(by: disposeBag)
     }
     
     func getCurrentUserPosts(){
         guard let token = accessToken else{print("No TOKEN"); return}
-        getCurrentUserPostsDisposable?.dispose()
-        getCurrentUserPostsDisposable =  APIUsers.shared.getCurrentUserPosts(accessToken: token)
-            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
-            .observe(on: MainScheduler.instance)
-            .catch({[weak self] error in
-                self?.errorPublisher.accept(error)
-                return .empty()
-            })
+        
+        getCurrentPostsRelay
+            .flatMapLatest { _ -> Observable<[PostModel]> in
+                APIUsers.shared.getCurrentUserPosts(accessToken: token)
+                    .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch({[weak self] error in
+                        self?.errorPublisher.accept(error)
+                        return .empty()
+                    })
+            }
             .subscribe {[weak self] posts in
                 self?.posts = posts
                 self?.reloadcollectionViewClosure?()
             }onError: {[weak self] error in
                 self?.errorPublisher.accept(error)
             }
-
+            .disposed(by: disposeBag)
+        
     }
 
     
@@ -160,13 +171,16 @@ class ProfileViewModel{
             id = "\(userId)"
         }
 
-        APIUsers.shared.getOtherUserPosts(by: id, accessToken: token)
-            .observe(on: MainScheduler.instance)
-            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .catch({[weak self] error in
-                self?.errorPublisher.accept(error)
-                return .empty()
-            })
+        getUserPostsRelay
+            .flatMapLatest { _ -> Observable<[PostModel]> in
+                APIUsers.shared.getOtherUserPosts(by: id, accessToken: token)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .catch({[weak self] error in
+                        self?.errorPublisher.accept(error)
+                        return .empty()
+                    })
+            }
             .subscribe {[weak self] posts in
                 self?.posts = posts
                 self?.reloadcollectionViewClosure?()
@@ -198,7 +212,7 @@ class ProfileViewModel{
             .retry()
             .subscribe {[weak self] _ in
                 self?.getUserProfileRelay.accept(())
-                self?.reloadcollectionViewClosure?()
+                
             }onError: {[weak self] error in
                 
                 self?.errorPublisher.accept(error)

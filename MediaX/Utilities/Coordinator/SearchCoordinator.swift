@@ -90,4 +90,23 @@ class SearchCoordinator:Coordinator{
         }
     }
 
+    func showOtherUsersScreen(id:String){
+        let disposeBag = DisposeBag()
+        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false,userId:id)
+        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        
+        
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.dismiss(animated: true)
+                topVC.dismiss(animated: false)
+                self?.navigationController.pushViewController(vc, animated: true)
+
+            }else{
+                self?.navigationController.pushViewController(vc, animated: true)
+            }
+        }
+
+    }
+
 }
