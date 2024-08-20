@@ -15,7 +15,7 @@ class StoriesTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var viewModel : StoryViewModel?
-    
+    weak var delegate : StoryCellDelegate?
 //    MARK: - Cell life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -63,7 +63,7 @@ extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDele
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.stories?.storyDetails?.count ?? 0
+        return viewModel?.stories?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,7 +71,8 @@ extension StoriesTableViewCell: UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoryCollectionViewCell.identifier, for: indexPath) as! StoryCollectionViewCell
         cell.indexPath = indexPath
         cell.viewModel = viewModel
-        if let stories = viewModel?.stories?.storyDetails{
+        cell.delegate = delegate
+        if let stories = viewModel?.stories{
             cell.story = stories[indexPath.row]
             cell.configureCell(with:stories[indexPath.row] )
         }

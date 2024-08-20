@@ -15,16 +15,18 @@ class StoryViewModel{
     let disposeBag: DisposeBag
     let coordinator: Coordinator
     let accessToken: String?
-
+    
+    
     let getStoriesRelay = PublishRelay<Void>()
     let getStoryDetailsRelay = PublishRelay<(IndexPath,String)>()
     let getViewsRelay = PublishRelay<String>()
     
-    var stories : StoryModel?
-    var storyDetails : StoryDetailsModel?
+    var stories : [StoryModel]?
 
     var reloadTableViewClosure: (() -> Void)?
-    var reloadTableViewClosure2: (() -> Void)?
+    var dissmisPickerClosure: (() -> Void)?
+
+    let selectedImageDataRelay = PublishRelay<Data>()
 
     init(disposeBag: DisposeBag, coordinator: Coordinator) {
         self.disposeBag = disposeBag
@@ -32,6 +34,7 @@ class StoryViewModel{
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
         
         getStories()
+        addStory()
         getStoryDetails()
         getStoryViews()
     }
@@ -44,7 +47,7 @@ class StoryViewModel{
             return
         }
         getStoriesRelay
-            .flatMapLatest { _ -> Observable<StoryModel> in
+            .flatMapLatest { _ -> Observable<[StoryModel]> in
                 return APIStory.shared.getStories(accessToken: accessToken)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
@@ -57,8 +60,6 @@ class StoryViewModel{
                 self?.stories = stories
                 print(stories)
                 self?.reloadTableViewClosure?()
-                self?.reloadTableViewClosure2?()
-
             }onError: { error in
                 print(error.localizedDescription)
             }
@@ -66,7 +67,28 @@ class StoryViewModel{
 
     }
     
-    
+    func addStory(){
+        guard let accessToken = accessToken else {
+            print("Access token is nil")
+            return
+        }
+
+        selectedImageDataRelay
+            .flatMapLatest { imageData -> Observable<Void> in
+                return APIStory.shared.addStory(accessToken: accessToken, imageData: imageData)
+                    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+                    .observe(on: MainScheduler.instance)
+                    .catch { error in
+                        print(error.localizedDescription)
+                        return .empty()
+                    }
+            }
+            .subscribe {[weak self] _ in
+                self?.reloadTableViewClosure?()
+                self?.dissmisPickerClosure?()
+            }
+            .disposed(by: disposeBag)
+    }
     
     func getStoryDetails(){
         guard let accessToken = accessToken else {
@@ -74,7 +96,7 @@ class StoryViewModel{
             return
         }
         getStoryDetailsRelay
-            .flatMapLatest { indexPath,id -> Observable<(StoryDetailsModel,IndexPath)> in
+            .flatMapLatest { indexPath,id -> Observable<(StoryModel,IndexPath)> in
                 
                 return APIStory.shared.getStoryDetails(by: id, accessToken: accessToken)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
@@ -130,7 +152,7 @@ class StoryViewModel{
     
     
     
-    func presentStoryScreen(storyDetials:StoryDetailsModel,indexPath:IndexPath){
+    func presentStoryScreen(storyDetials:StoryModel,indexPath:IndexPath){
         if let coordinator = coordinator as? HomeCoordinator{
             coordinator.presentStoryScreen(details: storyDetials, indexPath:indexPath)
         }

@@ -79,7 +79,7 @@ class HomeCoordinator:Coordinator{
         topVC.present(vc, animated: true)
     }
 
-    func presentStoryScreen(details:StoryDetailsModel,indexPath:IndexPath){
+    func presentStoryScreen(details:StoryModel,indexPath:IndexPath){
         let disposeBag = DisposeBag()
         let viewModel = StoryViewModel(disposeBag: disposeBag, coordinator: self)
         let vc = StoryView(storyDetails: details,viewModel:viewModel)

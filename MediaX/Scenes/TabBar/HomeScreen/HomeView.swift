@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Hero
+import Photos
 
 protocol HomeViewDelegate: AnyObject {
     func didScrollDown()
@@ -60,6 +61,9 @@ class HomeView: UIViewController {
         postsViewModel.reloadTableAtIndex = {[weak self] indexPath in
             self?.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
+        
+            
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -178,6 +182,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             let cell = tableView.dequeueReusableCell(withIdentifier: StoriesTableViewCell.identifier, for: indexPath) as! StoriesTableViewCell
             
             cell.viewModel = storyViewModel
+            cell.delegate = self
             cell.reloadData()
             return cell
         } else {
@@ -243,4 +248,72 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     }
 
         
+}
+
+
+extension HomeView :UIImagePickerControllerDelegate, UINavigationControllerDelegate,StoryCellDelegate{
+    
+    func didTapSelectImage() {
+        checkPhotoLibraryPermission()
+    }
+    
+    func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            openPhotoLibrary()
+        case .denied, .restricted:
+            
+            showPermissionDeniedAlert()
+        case .notDetermined:
+            
+            PHPhotoLibrary.requestAuthorization {[weak self] newStatus in
+                if newStatus == .authorized {
+                    DispatchQueue.main.async {
+                        self?.openPhotoLibrary()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.showPermissionDeniedAlert()
+                    }
+                }
+            }
+        default:
+            break
+        }
+    }
+    
+    func openPhotoLibrary() {
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.modalPresentationStyle = .fullScreen
+            imagePicker.modalTransitionStyle = .crossDissolve
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        } else {
+            
+            let alert = UIAlertController(title: "Error", message: "Photo library is not available.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func showPermissionDeniedAlert() {
+        let alert = UIAlertController(title: "Permission Denied", message: "Please allow photo library access in settings.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        if let selectedImage = info[.originalImage] as? UIImage {
+            if let imageData = selectedImage.jpegData(compressionQuality: 0.99) {
+                storyViewModel.selectedImageDataRelay.accept(imageData)
+            }
+            
+        }
+    }
 }

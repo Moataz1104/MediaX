@@ -10,6 +10,11 @@ import Hero
 import RxSwift
 import RxCocoa
 
+protocol StoryCellDelegate: AnyObject {
+    func didTapSelectImage()
+}
+
+
 class StoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "StoryCollectionViewCell"
     
@@ -21,7 +26,9 @@ class StoryCollectionViewCell: UICollectionViewCell {
     var indexPath:IndexPath?
     var userImageDisposable:Disposable?
     var viewModel:StoryViewModel?
-    var story:StoryDetailsModel?
+    var story:StoryModel?
+    weak var delegate: StoryCellDelegate?
+
     private let disposeBag = DisposeBag()
     
     
@@ -63,15 +70,17 @@ class StoryCollectionViewCell: UICollectionViewCell {
     @objc func handleImageTap(){
         indicator.startAnimating()
         indicator.isHidden = false
-        if let indexPath = indexPath , let story = story{
-            viewModel?.getStoryDetailsRelay.accept((indexPath,"\(story.storyId!)"))
+        if let indexPath = indexPath , let story = story, let id = story.storyId{
+            viewModel?.getStoryDetailsRelay.accept((indexPath,"\(id)"))
+        }else{
+            delegate?.didTapSelectImage()
         }
     }
     
     
     
     
-    func configureCell(with story : StoryDetailsModel){
+    func configureCell(with story : StoryModel){
         
         DispatchQueue.main.async{[weak self] in
             self?.userName.text = story.username ?? ""
@@ -88,3 +97,5 @@ class StoryCollectionViewCell: UICollectionViewCell {
 
     }
 }
+
+

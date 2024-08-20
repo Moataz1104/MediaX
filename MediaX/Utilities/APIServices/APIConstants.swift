@@ -22,6 +22,7 @@ struct apiK{
     static let getNotificationsURL = URL(string: "https://tumbler.onrender.com/v0/notifications")!
     static let readNotificationForProfileURL = URL(string: "https://tumbler.onrender.com/v0/user/notification-profile")!
     static let readNotificationForPostURL = URL(string: "https://tumbler.onrender.com/v0/posts/notification-post")!
+    static let addStoryURL =  URL(string: "https://tumbler.onrender.com/v0/story")!
 
     static let getOnePostStringUrl =  "https://tumbler.onrender.com/v0/posts/"
     static let addCommentStringUrl = "https://tumbler.onrender.com/v0/comments/post/"

@@ -30,7 +30,7 @@ class StoryView: UIViewController {
     var progress: Float = 0.0
     var isInProgress = true
     
-    let storyDetails:StoryDetailsModel
+    let storyDetails:StoryModel
     let viewModel:StoryViewModel
     
     var storyImageDisposable:Disposable?
@@ -51,7 +51,7 @@ class StoryView: UIViewController {
         setUpBlureEffect()
     }
     
-    init(storyDetails:StoryDetailsModel,viewModel:StoryViewModel){
+    init(storyDetails:StoryModel,viewModel:StoryViewModel){
         self.storyDetails = storyDetails
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)

@@ -95,5 +95,28 @@ struct MultiPartFile {
         return body
 
     }
+    
+    static func addStoryMultipartFormDataBody(boundary: String, imageData:Data)-> Data{
+        let lineBreak = "\r\n"
+        var body = Data()
+
+        body.append("--\(boundary + lineBreak)")
+        body.append("Content-Type: application/json\(lineBreak + lineBreak)")
+        body.append(lineBreak)
+
+        
+        if let uuid = UUID().uuidString.components(separatedBy: "-").first {
+            body.append("--\(boundary + lineBreak)")
+            body.append("Content-Disposition: form-data; name=\"imageFile\"; filename=\"\(uuid).jpg\"\(lineBreak)")
+            body.append("Content-Type: image/jpeg\(lineBreak + lineBreak)")
+            body.append(imageData)
+            body.append(lineBreak)
+        }
+
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        return body
+
+    }
 
 }
