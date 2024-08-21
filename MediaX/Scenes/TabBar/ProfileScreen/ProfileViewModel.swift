@@ -11,12 +11,14 @@ import RxCocoa
 import SwiftKeychainWrapper
 
 class ProfileViewModel{
-    var coordinator:Coordinator?
-    let disposeBag:DisposeBag
+    let coordinator:Coordinator
+    let apiService : APIUsersprotocol
+    
     let user : UserModel?
     let isCurrentUser:Bool
     let isFromSearch:Bool
-
+    
+    let disposeBag = DisposeBag()
     var fetchedUser:UserModel?
     var posts:[PostModel]?
     var userId:String?
@@ -36,10 +38,10 @@ class ProfileViewModel{
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
         
     
-    init(coordinator: Coordinator, disposeBag: DisposeBag,
+    init(apiService:APIUsersprotocol,coordinator: Coordinator,
          user:UserModel? = nil,isCurrentUser:Bool,userId:String? = nil,isFromSearch:Bool = false) {
+        self.apiService = apiService
         self.coordinator = coordinator
-        self.disposeBag = disposeBag
         self.user = user
         self.isCurrentUser = isCurrentUser
         self.userId = userId
@@ -76,12 +78,13 @@ class ProfileViewModel{
         guard let token = accessToken else{print("No TOKEN"); return}
         
         getCurrentProfileRelay
-            .flatMapLatest { _ -> Observable<UserModel> in
-                return APIUsers.shared.getCurrentUser(accessToken: token)
+            .flatMapLatest {[weak self] _ -> Observable<UserModel> in
+                guard let self = self else { return .empty()}
+                return self.apiService.getCurrentUser(accessToken: token)
                     .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .catch({[weak self] error in
-                        self?.errorPublisher.accept(error)
+                    .catch({ error in
+                        self.errorPublisher.accept(error)
                         return .empty()
                     })
             }
@@ -102,12 +105,13 @@ class ProfileViewModel{
         guard let token = accessToken else{print("No TOKEN"); return}
         
         getCurrentPostsRelay
-            .flatMapLatest { _ -> Observable<[PostModel]> in
-                APIUsers.shared.getCurrentUserPosts(accessToken: token)
+            .flatMapLatest {[weak self] _ -> Observable<[PostModel]> in
+                guard let self = self else { return .empty()}
+                return self.apiService.getCurrentUserPosts(accessToken: token)
                     .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .catch({[weak self] error in
-                        self?.errorPublisher.accept(error)
+                    .catch({ error in
+                        self.errorPublisher.accept(error)
                         return .empty()
                     })
             }
@@ -138,9 +142,9 @@ class ProfileViewModel{
         let fetchUser: Observable<UserModel>
         
         if isFromSearch {
-            fetchUser = APIUsers.shared.getUserFromSearch(by: id, accessToken: token)
+            fetchUser = apiService.getUserFromSearch(by: id, accessToken: token)
         } else {
-            fetchUser = APIUsers.shared.getOtherUserProfile(by: id, accessToken: token)
+            fetchUser = apiService.getOtherUserProfile(by: id, accessToken: token)
         }
         
         getUserProfileRelay
@@ -172,12 +176,13 @@ class ProfileViewModel{
         }
 
         getUserPostsRelay
-            .flatMapLatest { _ -> Observable<[PostModel]> in
-                APIUsers.shared.getOtherUserPosts(by: id, accessToken: token)
+            .flatMapLatest {[weak self] _ -> Observable<[PostModel]> in
+                guard let self = self else { return .empty()}
+                return apiService.getOtherUserPosts(by: id, accessToken: token)
                     .observe(on: MainScheduler.instance)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-                    .catch({[weak self] error in
-                        self?.errorPublisher.accept(error)
+                    .catch({ error in
+                        self.errorPublisher.accept(error)
                         return .empty()
                     })
             }
@@ -200,12 +205,13 @@ class ProfileViewModel{
         }
 
         followButtonRelay
-            .flatMapLatest { _ -> Observable<Void> in
-                APIUsers.shared.followUser(accessToken: token, userId: id)
+            .flatMapLatest {[weak self] _ -> Observable<Void> in
+                guard let self = self else { return .empty()}
+                return apiService.followUser(accessToken: token, userId: id)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .catch {[weak self]error in
-                        self?.errorPublisher.accept(error)
+                    .catch {error in
+                        self.errorPublisher.accept(error)
                         return Observable.empty()
                     }
             }
@@ -224,8 +230,9 @@ class ProfileViewModel{
         guard let token = accessToken else{print("No tokeeeen"); return}
         
         followerDetailsRelay
-            .flatMapLatest { id -> Observable<[UserModel]> in
-                return APIUsers.shared.getFollowersDetails(accessToken: token, id: id)
+            .flatMapLatest {[weak self] id -> Observable<[UserModel]> in
+                guard let self = self else { return .empty()}
+                return apiService.getFollowersDetails(accessToken: token, id: id)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch { error in
@@ -243,9 +250,9 @@ class ProfileViewModel{
         guard let token = accessToken else{print("No tokeeeen"); return}
         
         followingDetailsRelay
-            .flatMapLatest { id -> Observable<[UserModel]> in
-                
-                return APIUsers.shared.getFolloweingsDetails(accessToken: token, id: id)
+            .flatMapLatest {[weak self] id -> Observable<[UserModel]> in
+                guard let self = self else { return .empty()}
+                return apiService.getFolloweingsDetails(accessToken: token, id: id)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch { error in

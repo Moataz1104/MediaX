@@ -25,10 +25,10 @@ class HomeCoordinator:Coordinator{
     
     
     func start() {
-        let disposeBag = DisposeBag()
-        let viewModel = PostsViewModel(disposeBag: disposeBag, coordinator: self)
-        let storyViewModel = StoryViewModel(disposeBag: disposeBag, coordinator: self)
-        let vc = HomeView(disposeBag: disposeBag, viewModel: viewModel,storyViewModel: storyViewModel)
+        
+        let viewModel = PostsViewModel(apiService:APIPosts(), coordinator: self)
+        let storyViewModel = StoryViewModel(apiService:APIStory(),coordinator: self)
+        let vc = HomeView( viewModel: viewModel,storyViewModel: storyViewModel)
         vc.delegate = delegate
         
         navigationController.pushViewController(vc, animated: true)
@@ -36,9 +36,9 @@ class HomeCoordinator:Coordinator{
     
     
     func showCommentsScreen(post:PostModel){
-        let disposeBag = DisposeBag()
-        let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
-        let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag,post:post)
+        
+        let viewModel = CommentsViewModel(apiService:APIInComments(), coordinator: self, post: post)
+        let vc = CommentsView(viewModel: viewModel,post:post)
         
         vc.modalPresentationStyle = .pageSheet
         let multiplier = 0.65
@@ -80,8 +80,8 @@ class HomeCoordinator:Coordinator{
     }
 
     func presentStoryScreen(details:StoryModel,indexPath:IndexPath){
-        let disposeBag = DisposeBag()
-        let viewModel = StoryViewModel(disposeBag: disposeBag, coordinator: self)
+        
+        let viewModel = StoryViewModel(apiService:APIStory(), coordinator: self)
         let vc = StoryView(storyDetails: details,viewModel:viewModel)
         vc.indexPath = indexPath
         vc.modalPresentationStyle = .fullScreen
@@ -95,9 +95,8 @@ class HomeCoordinator:Coordinator{
     }
     
     func showOtherUsersScreen(id:String){
-        let disposeBag = DisposeBag()
-        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false,userId:id)
-        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        let viewModel = ProfileViewModel(apiService:APIUsers(),coordinator: self, isCurrentUser: false,userId:id)
+        let vc = ProfileView(viewModel: viewModel, isCurrentUser: false)
         
         
         DispatchQueue.main.async { [weak self] in
@@ -114,8 +113,8 @@ class HomeCoordinator:Coordinator{
     }
     
     func pushPostDetailScreen(posts:[PostModel],indexPath:IndexPath){
-        let disposeBag = DisposeBag()
-        let postVM = PostsViewModel(disposeBag: disposeBag, coordinator: self)
+        
+        let postVM = PostsViewModel(apiService: APIPosts(), coordinator: self)
 
         let vc = PostDetailView(posts: posts,postVM: postVM, indexPath: indexPath)
         vc.modalPresentationStyle = .fullScreen
@@ -127,8 +126,8 @@ class HomeCoordinator:Coordinator{
     }
     
     func presentStoryViewersScreen(users:[UserModel]){
-        let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
+        
+        let viewModel = GeneralUsersViewModel(apiService:APIUsers(), coordinator: self, users: users)
         let vc = GeneralUsersView(viewModel: viewModel, title: "Views")
         vc.modalPresentationStyle = .pageSheet
         let multiplier = 0.65
@@ -153,8 +152,8 @@ class HomeCoordinator:Coordinator{
 
 
     func PushGeneralScreen(users:[UserModel],screenTitle:String,isLikeScreen:Bool = false){
-        let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
+        
+        let viewModel = GeneralUsersViewModel(apiService:APIUsers(), coordinator: self, users: users)
         let vc = GeneralUsersView(viewModel: viewModel, title: screenTitle,isLikeScreen : isLikeScreen)
         
         

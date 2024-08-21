@@ -14,7 +14,7 @@ class SettingView: UIViewController {
 
     
 //    MARK: - Attributes
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     let viewModel:SettingViewModel
     let user :UserModel
     var userImageLoadDisposable : Disposable?
@@ -56,8 +56,7 @@ class SettingView: UIViewController {
         super.viewWillDisappear(animated)
         userImageLoadDisposable?.dispose()
     }
-    init(disposeBag: DisposeBag, viewModel: SettingViewModel,user:UserModel) {
-        self.disposeBag = disposeBag
+    init(viewModel: SettingViewModel,user:UserModel) {
         self.viewModel = viewModel
         self.user = user
         super.init(nibName: nil, bundle: nil)

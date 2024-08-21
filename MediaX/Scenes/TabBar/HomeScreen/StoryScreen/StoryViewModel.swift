@@ -12,11 +12,13 @@ import SwiftKeychainWrapper
 
 
 class StoryViewModel{
-    let disposeBag: DisposeBag
+    
+    let apiService:APIStoryprotocol
     let coordinator: Coordinator
     let accessToken: String?
     
     
+    let disposeBag = DisposeBag()
     let getStoriesRelay = PublishRelay<Void>()
     let getStoryDetailsRelay = PublishRelay<(IndexPath,String)>()
     let getViewsRelay = PublishRelay<String>()
@@ -28,8 +30,8 @@ class StoryViewModel{
 
     let selectedImageDataRelay = PublishRelay<Data>()
 
-    init(disposeBag: DisposeBag, coordinator: Coordinator) {
-        self.disposeBag = disposeBag
+    init(apiService:APIStoryprotocol, coordinator: Coordinator) {
+        self.apiService = apiService
         self.coordinator = coordinator
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
         
@@ -47,8 +49,9 @@ class StoryViewModel{
             return
         }
         getStoriesRelay
-            .flatMapLatest { _ -> Observable<[StoryModel]> in
-                return APIStory.shared.getStories(accessToken: accessToken)
+            .flatMapLatest {[weak self] _ -> Observable<[StoryModel]> in
+                guard let self = self else{return .empty()}
+                return apiService.getStories(accessToken: accessToken)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch { error in
@@ -74,8 +77,9 @@ class StoryViewModel{
         }
 
         selectedImageDataRelay
-            .flatMapLatest { imageData -> Observable<Void> in
-                return APIStory.shared.addStory(accessToken: accessToken, imageData: imageData)
+            .flatMapLatest {[weak self] imageData -> Observable<Void> in
+                guard let self = self else{return .empty()}
+                return apiService.addStory(accessToken: accessToken, imageData: imageData)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch { error in
@@ -96,9 +100,9 @@ class StoryViewModel{
             return
         }
         getStoryDetailsRelay
-            .flatMapLatest { indexPath,id -> Observable<(StoryModel,IndexPath)> in
-                
-                return APIStory.shared.getStoryDetails(by: id, accessToken: accessToken)
+            .flatMapLatest {[weak self] indexPath,id -> Observable<(StoryModel,IndexPath)> in
+                guard let self = self else{return .empty()}
+                return apiService.getStoryDetails(by: id, accessToken: accessToken)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .map { storyDetails in
@@ -128,8 +132,9 @@ class StoryViewModel{
         }
         
         getViewsRelay
-            .flatMapLatest { id -> Observable<[UserModel]> in
-                return APIStory.shared.getStoryViews(accessToken: accessToken, id: id)
+            .flatMapLatest {[weak self] id -> Observable<[UserModel]> in
+                guard let self = self else{return .empty()}
+                return apiService.getStoryViews(accessToken: accessToken, id: id)
                     .observe(on: MainScheduler.instance)
                     .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
                     .catch { error in

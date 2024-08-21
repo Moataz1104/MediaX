@@ -17,7 +17,7 @@
 		0016E7382C352801007EFADF /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0016E7372C352801007EFADF /* CommentTableViewCell.xib */; };
 		0016E7392C352801007EFADF /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016E7362C352801007EFADF /* CommentTableViewCell.swift */; };
 		0018FB2C2C367DDB00CA8168 /* TopAlignedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018FB2B2C367DDB00CA8168 /* TopAlignedLabel.swift */; };
-		0018FB2E2C368CCB00CA8168 /* APIInterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018FB2D2C368CCB00CA8168 /* APIInterActions.swift */; };
+		0018FB2E2C368CCB00CA8168 /* APIComments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018FB2D2C368CCB00CA8168 /* APIComments.swift */; };
 		0034E0C52C46CC5A0064FD4E /* SearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0034E0C42C46CC5A0064FD4E /* SearchTableViewCell.xib */; };
 		0034E0C62C46CC5A0064FD4E /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E0C32C46CC5A0064FD4E /* SearchTableViewCell.swift */; };
 		0034E0C82C46CFEC0064FD4E /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0034E0C72C46CFEC0064FD4E /* SearchViewModel.swift */; };
@@ -114,7 +114,7 @@
 		0016E7362C352801007EFADF /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		0016E7372C352801007EFADF /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		0018FB2B2C367DDB00CA8168 /* TopAlignedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopAlignedLabel.swift; sourceTree = "<group>"; };
-		0018FB2D2C368CCB00CA8168 /* APIInterActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInterActions.swift; sourceTree = "<group>"; };
+		0018FB2D2C368CCB00CA8168 /* APIComments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIComments.swift; sourceTree = "<group>"; };
 		0034E0C32C46CC5A0064FD4E /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		0034E0C42C46CC5A0064FD4E /* SearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTableViewCell.xib; sourceTree = "<group>"; };
 		0034E0C72C46CFEC0064FD4E /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -580,7 +580,7 @@
 				00C92C4D2C23992200358924 /* APIConstants.swift */,
 				00C92C512C239C0100358924 /* APIAuth.swift */,
 				00BA3A562C323477001592B6 /* APIPosts.swift */,
-				0018FB2D2C368CCB00CA8168 /* APIInterActions.swift */,
+				0018FB2D2C368CCB00CA8168 /* APIComments.swift */,
 				00ACCA6D2C414C1600EE29AC /* APIUsers.swift */,
 				00AA8F7A2C5EE4BC00B66E58 /* APIStory.swift */,
 				00AA8F8E2C62C1B900B66E58 /* APINotification.swift */,
@@ -823,7 +823,7 @@
 				00ACB11D2C28785D00932E44 /* NotificationView.swift in Sources */,
 				00C92C522C239C0100358924 /* APIAuth.swift in Sources */,
 				0034E0C62C46CC5A0064FD4E /* SearchTableViewCell.swift in Sources */,
-				0018FB2E2C368CCB00CA8168 /* APIInterActions.swift in Sources */,
+				0018FB2E2C368CCB00CA8168 /* APIComments.swift in Sources */,
 				0034E0C82C46CFEC0064FD4E /* SearchViewModel.swift in Sources */,
 				006A0C662C1F913400457AD9 /* Coordinator.swift in Sources */,
 				00ACB1252C289B5E00932E44 /* HomeView.swift in Sources */,

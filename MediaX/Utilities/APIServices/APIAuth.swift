@@ -12,17 +12,33 @@ import SwiftKeychainWrapper
 import UIKit
 
 
-class APIAuth {
-    static let shared = APIAuth()
-    private init(){}
+protocol APIAuthProtocol{
+    //    for log in
+    var logInErrorPublisher : PublishRelay<Error>{get}
+    var logInSuccessPublisher : PublishRelay<Void>{get}
+
+    //    for register
+    var registerErrorPublisher : PublishRelay<Error>{get}
+    var registerSuccessPublisher : PublishRelay<Void>{get}
     
-//    for log in
+    func logInUser(email: String, password: String)
+}
+
+extension APIAuthProtocol{
+    func registerUser(userName: String, email: String, password: String, images: [UIImage] = [UIImage(named:"profileIcon")!]){
+        
+    }
+}
+
+
+class APIAuth : APIAuthProtocol{
+    
     let logInErrorPublisher = PublishRelay<Error>()
     let logInSuccessPublisher = PublishRelay<Void>()
-
-//    for register
     let registerErrorPublisher = PublishRelay<Error>()
     let registerSuccessPublisher = PublishRelay<Void>()
+
+    
 
     
     func logInUser(email: String, password: String){

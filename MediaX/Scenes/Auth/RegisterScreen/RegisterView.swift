@@ -14,7 +14,7 @@ class RegisterView: UIViewController {
     //    MARK: - Attributes
     
     private var viewModel : RegisterViewModel
-    let disposeBag: DisposeBag
+    let disposeBag = DisposeBag()
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var mainView: UIView!
@@ -57,9 +57,8 @@ class RegisterView: UIViewController {
         
     }
     
-    init(viewModel : RegisterViewModel,disposeBag: DisposeBag){
+    init(viewModel : RegisterViewModel){
         self.viewModel = viewModel
-        self.disposeBag = disposeBag
         super.init(nibName: nil, bundle: nil)
         
     }

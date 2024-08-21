@@ -10,9 +10,12 @@ import RxSwift
 import RxCocoa
 
 class LogInViewModel {
-    weak var coordinator : AuthCoordinator?
-    let disposeBag:DisposeBag
     
+    let apiService:APIAuthProtocol
+    weak var coordinator : AuthCoordinator?
+    
+    
+    let disposeBag = DisposeBag()
     let emailSubject = PublishSubject<String>()
     let passwordSubject = PublishSubject<String>()
     let errorPublisher = PublishSubject<Error>()
@@ -20,9 +23,10 @@ class LogInViewModel {
     let activityIndicatorRelay = BehaviorRelay(value: false)
     
     
-    init(coordinator: AuthCoordinator,disposeBag:DisposeBag) {
+    init(apiService:APIAuthProtocol,coordinator: AuthCoordinator) {
+        self.apiService = apiService
         self.coordinator = coordinator
-        self.disposeBag = disposeBag
+        
         
         subscribeToErrorPublisher()
         subscribeToLogInSuccPublisher()
@@ -42,7 +46,7 @@ class LogInViewModel {
             .withLatestFrom(combineFields())
             .do {[weak self]email,password in
                 self?.activityIndicatorRelay.accept(true)
-                APIAuth.shared.logInUser(email: email, password: password)
+                self?.apiService.logInUser(email: email, password: password)
                 
             }
             .subscribe()
@@ -52,7 +56,7 @@ class LogInViewModel {
     }
     
     private func subscribeToErrorPublisher(){
-        APIAuth.shared.logInErrorPublisher
+        apiService.logInErrorPublisher
             .subscribe {[weak self] error in
                 self?.errorPublisher.onNext(error)
                 self?.activityIndicatorRelay.accept(false)
@@ -61,7 +65,7 @@ class LogInViewModel {
     }
     
     private func subscribeToLogInSuccPublisher(){
-        APIAuth.shared.logInSuccessPublisher
+        apiService.logInSuccessPublisher
             .subscribe { [weak self] event in
                 self?.coordinator?.delegate?.didLoginSuccessfully()
                 self?.activityIndicatorRelay.accept(false)

@@ -20,25 +20,23 @@ class SearchCoordinator:Coordinator{
     }
     
     func start() {
-        let disposeBag = DisposeBag()
-        let viewModel = SearchViewModel(coordinator: self, disposeBag: disposeBag)
-        let vc = SearchView(viewModel: viewModel, disposeBag: disposeBag)
+        let viewModel = SearchViewModel(apiService:APIUsers(),coordinator: self)
+        let vc = SearchView(viewModel: viewModel)
         
         navigationController.pushViewController(vc, animated: true)
     }
     
     
     func pushProfileScreen(id:String){
-        let disposeBag = DisposeBag()
-        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false, userId: id,isFromSearch: true)
-        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        let viewModel = ProfileViewModel(apiService:APIUsers(),coordinator: self, isCurrentUser: false, userId: id,isFromSearch: true)
+        let vc = ProfileView(viewModel: viewModel, isCurrentUser: false)
         
         navigationController.pushViewController(vc, animated: true)
     }
     
     func pushPostDetailScreen(posts:[PostModel],indexPath:IndexPath){
-        let disposeBag = DisposeBag()
-        let postVM = PostsViewModel(disposeBag: disposeBag, coordinator: self)
+        
+        let postVM = PostsViewModel(apiService:APIPosts(), coordinator: self)
 
         let vc = PostDetailView(posts: posts,postVM: postVM, indexPath: indexPath)
         vc.modalPresentationStyle = .fullScreen
@@ -50,8 +48,8 @@ class SearchCoordinator:Coordinator{
     }
 
     func PushGeneralScreen(users:[UserModel],screenTitle:String,isLikeScreen:Bool = false){
-        let disposeBag = DisposeBag()
-        let viewModel = GeneralUsersViewModel(disposeBag: disposeBag, coordinator: self, users: users)
+        
+        let viewModel = GeneralUsersViewModel(apiService:APIUsers(), coordinator: self, users: users)
         let vc = GeneralUsersView(viewModel: viewModel, title: screenTitle,isLikeScreen : isLikeScreen)
         
         
@@ -70,9 +68,9 @@ class SearchCoordinator:Coordinator{
 
     
     func showCommentsScreen(post:PostModel) {
-        let disposeBag = DisposeBag()
-        let viewModel = CommentsViewModel(disposeBag: disposeBag, coordinator: self, post: post)
-        let vc = CommentsView(viewModel: viewModel, disposeBag: disposeBag,post:post)
+        
+        let viewModel = CommentsViewModel(apiService: APIInComments(), coordinator: self, post: post)
+        let vc = CommentsView(viewModel: viewModel,post:post)
         
         vc.modalPresentationStyle = .pageSheet
         let multiplier = 0.65
@@ -94,9 +92,8 @@ class SearchCoordinator:Coordinator{
     }
 
     func showOtherUsersScreen(id:String){
-        let disposeBag = DisposeBag()
-        let viewModel = ProfileViewModel(coordinator: self, disposeBag: disposeBag, isCurrentUser: false,userId:id)
-        let vc = ProfileView(viewModel: viewModel, disposeBag: disposeBag, isCurrentUser: false)
+        let viewModel = ProfileViewModel(apiService:APIUsers(),coordinator: self, isCurrentUser: false,userId:id)
+        let vc = ProfileView(viewModel: viewModel, isCurrentUser: false)
         
         
         DispatchQueue.main.async { [weak self] in
@@ -111,5 +108,29 @@ class SearchCoordinator:Coordinator{
         }
 
     }
+    
+    func showErrorInCommentScreen(_ error: Error) {
+        guard let topVC = navigationController.presentedViewController else {
+            print("No presented view controller to present over.")
+            return
+        }
+
+        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+        DispatchQueue.main.async{
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+        }
+        if let networkingError = error as? NetworkingErrors {
+            vc.loadViewIfNeeded()
+            vc.errorTitle?.text = networkingError.title
+            vc.errorMessage?.text = networkingError.localizedDescription
+        } else {
+            vc.loadViewIfNeeded()
+            vc.errorMessage?.text = error.localizedDescription
+        }
+
+        topVC.present(vc, animated: true)
+    }
+
 
 }

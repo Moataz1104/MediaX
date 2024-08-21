@@ -22,7 +22,7 @@ class HomeView: UIViewController {
     
 //    MARK: - Attributes
     
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     let postsViewModel:PostsViewModel
     let storyViewModel:StoryViewModel
     
@@ -72,8 +72,7 @@ class HomeView: UIViewController {
         storyViewModel.getStoriesRelay.accept(())
 
     }
-    init(disposeBag:DisposeBag,viewModel:PostsViewModel,storyViewModel:StoryViewModel) {
-        self.disposeBag = disposeBag
+    init(viewModel:PostsViewModel,storyViewModel:StoryViewModel) {
         self.postsViewModel = viewModel
         self.storyViewModel = storyViewModel
         super.init(nibName: nil, bundle: nil)

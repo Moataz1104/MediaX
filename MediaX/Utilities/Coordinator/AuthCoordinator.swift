@@ -40,18 +40,16 @@ class AuthCoordinator : Coordinator {
     
     
     func showLogInScreen(){
-        let disposeBag = DisposeBag()
-        let viewModel = LogInViewModel(coordinator: self, disposeBag: disposeBag)
-        let vc = LogInView(viewModel: viewModel, disposeBag: disposeBag)
+        let viewModel = LogInViewModel(apiService:APIAuth(),coordinator: self)
+        let vc = LogInView(viewModel: viewModel)
         
         navigationController.setViewControllers([vc], animated: true)
     }
 
     
     func showSignUpScreen(){
-        let disposeBag = DisposeBag()
-        let viewModel = RegisterViewModel(coordinator: self, disposeBage: disposeBag)
-        let vc = RegisterView(viewModel: viewModel, disposeBag: disposeBag)
+        let viewModel = RegisterViewModel(apiService:APIAuth(),coordinator: self)
+        let vc = RegisterView(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
 }

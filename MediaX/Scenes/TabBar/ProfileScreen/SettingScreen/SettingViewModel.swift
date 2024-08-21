@@ -11,10 +11,11 @@ import RxCocoa
 import SwiftKeychainWrapper
 class SettingViewModel{
     
-    let disposeBag:DisposeBag
+    let apiService:APIUsersprotocol
     let coordinator : ProfileCoordinator
     let user:UserModel
 
+    let disposeBag = DisposeBag()
     let userNameRelay = PublishRelay<String>()
     let phoneNumberRelay = PublishRelay<String>()
     let bioRelay = PublishRelay<String>()
@@ -29,8 +30,8 @@ class SettingViewModel{
     var dismissView:(()->Void)?
     var resetUserInfo:(()-> Void)?
     
-    init(disposeBag: DisposeBag, coordinator: ProfileCoordinator,user:UserModel) {
-        self.disposeBag = disposeBag
+    init(apiService:APIUsersprotocol, coordinator: ProfileCoordinator,user:UserModel) {
+        self.apiService = apiService
         self.coordinator = coordinator
         self.user = user
         subscribeToUserName()
@@ -56,15 +57,16 @@ class SettingViewModel{
         updateButtonRelay
             .withLatestFrom(combinedFields())
             .flatMapLatest { [weak self] userName, phone, bio, imageData -> Observable<Void> in
-                self?.indicatorPublisher.accept(true)
-                return APIUsers.shared.updateUser(userName: userName, phoneNumber: phone, bio: bio, imageData: imageData, accessToken: token)
+                guard let self = self else{return .empty()}
+                self.indicatorPublisher.accept(true)
+                return apiService.updateUser(userName: userName, phoneNumber: phone, bio: bio, imageData: imageData, accessToken: token)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch {error in
                         print(error.localizedDescription)
-                        self?.indicatorPublisher.accept(false)
-                        self?.coordinator.showErrorInSettingScreen(error)
-                        self?.resetUserInfo?()
+                        self.indicatorPublisher.accept(false)
+                        self.coordinator.showErrorInSettingScreen(error)
+                        self.resetUserInfo?()
                         return Observable.empty()
                     }
                     .retry()

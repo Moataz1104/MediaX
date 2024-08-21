@@ -19,7 +19,7 @@ class SearchView: UIViewController {
     @IBOutlet weak var tableViewBottomCons: NSLayoutConstraint!
     
     let viewModel:SearchViewModel
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     
 
 //    MARK: - View Controller life cycle
@@ -41,9 +41,8 @@ class SearchView: UIViewController {
         subscribeToErrorPublisher()
     }
 
-    init(viewModel: SearchViewModel, disposeBag: DisposeBag) {
+    init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
-        self.disposeBag = disposeBag
         super.init(nibName: nil, bundle: nil)
     }
     

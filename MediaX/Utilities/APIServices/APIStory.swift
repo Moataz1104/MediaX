@@ -9,12 +9,16 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class APIStory{
-    
-    static let shared = APIStory()
-    private init(){}
-    
-    
+
+protocol APIStoryprotocol{
+    func getStories(accessToken:String)-> Observable<[StoryModel]>
+    func addStory(accessToken:String,imageData:Data)-> Observable<Void>
+    func getStoryDetails(by id:String,accessToken:String)->Observable<StoryModel>
+    func getStoryViews(accessToken:String,id:String)-> Observable<[UserModel]>
+}
+
+
+class APIStory:APIStoryprotocol{
     
     func getStories(accessToken:String)-> Observable<[StoryModel]>{
         

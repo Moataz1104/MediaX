@@ -13,7 +13,7 @@ class LogInView: UIViewController {
 
 //    MARK: - Attributes
     private var viewModel : LogInViewModel
-    private let disposeBag:DisposeBag
+    private let disposeBag = DisposeBag()
     
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var emailTextField: UITextField!
@@ -40,9 +40,8 @@ class LogInView: UIViewController {
 
     }
     
-    init(viewModel : LogInViewModel,disposeBag:DisposeBag){
+    init(viewModel : LogInViewModel){
         self.viewModel = viewModel
-        self.disposeBag = disposeBag
         super.init(nibName: nil, bundle: nil)
         
     }

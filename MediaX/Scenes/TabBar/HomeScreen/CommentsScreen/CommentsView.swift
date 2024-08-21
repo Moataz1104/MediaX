@@ -15,7 +15,7 @@ class CommentsView: UIViewController {
     //    MARK: - Attributes
     
     let viewModel:CommentsViewModel
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     let post:PostModel
     var commentsCellHeights: [IndexPath: CGFloat] = [:]
 
@@ -60,9 +60,8 @@ class CommentsView: UIViewController {
     }
     
     
-    init(viewModel: CommentsViewModel, disposeBag: DisposeBag,post:PostModel) {
+    init(viewModel: CommentsViewModel,post:PostModel) {
         self.viewModel = viewModel
-        self.disposeBag = disposeBag
         self.post = post
         super.init(nibName: nil, bundle: nil)
     }

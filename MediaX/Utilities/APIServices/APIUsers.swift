@@ -9,14 +9,25 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class APIUsers{
-    static let shared = APIUsers()
-    private init(){}
+
+
+
+protocol APIUsersprotocol{
+    func getCurrentUser(accessToken:String)-> Observable<UserModel>
+    func getCurrentUserPosts(accessToken:String)->Observable<[PostModel]>
+    func getOtherUserProfile(by id:String , accessToken:String) -> Observable<UserModel>
+    func getOtherUserPosts(by id:String , accessToken:String)-> Observable<[PostModel]>
+    func updateUser(userName:String,phoneNumber:String, bio:String,imageData:Data , accessToken:String)-> Observable<Void>
+    func followUser(accessToken:String,userId:String)-> Observable<Void>
     
+    func searchUser(userName:String,accessToken:String)-> Observable<[UserModel]>
+    func deleteUserFromRecent(accessToken:String,id:String)-> Observable<Void>
+    func getUserFromSearch(by id:String , accessToken:String) -> Observable<UserModel>
     
-    
-    
-    
+    func getFollowersDetails(accessToken:String,id:String)-> Observable<[UserModel]>
+    func getFolloweingsDetails(accessToken:String,id:String)-> Observable<[UserModel]>
+}
+class APIUsers : APIUsersprotocol{
     
     func getCurrentUser(accessToken:String)-> Observable<UserModel>{
         let url = apiK.currentUserURL

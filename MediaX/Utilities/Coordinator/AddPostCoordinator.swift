@@ -19,9 +19,8 @@ class AddPostCoordinator:Coordinator{
     }
     
     func start() {
-        let disposeBag = DisposeBag()
-        let viewModel = AddPostViewModel(coordinator: self, disposeBag: disposeBag)
-        let vc = AddPostView(disposeBag: disposeBag, viewModel: viewModel)
+        let viewModel = AddPostViewModel(apiService: APIPosts(), coordinator: self)
+        let vc = AddPostView( viewModel: viewModel)
         vc.delegate = delegate
         navigationController.pushViewController(vc, animated: true)
     }

@@ -10,12 +10,16 @@ import RxSwift
 import RxCocoa
 
 
-class APINotification{
-    static let shared = APINotification()
-    private init(){}
+
+protocol APINotificationProtocol{
+    func getAllNotifications(token:String)-> Observable<[NotificationModel]>
+    func readAndGetProfileNotification(token:String,userId:String,notificationId:String) -> Observable<UserModel>
+    func readAndGetPostNotification(token:String,postId:String,notificationId:String) -> Observable<PostModel>
+}
+
+class APINotification:APINotificationProtocol{
     
-    
-    
+
     func getAllNotifications(token:String)-> Observable<[NotificationModel]>{
         
         var request = URLRequest(url: apiK.getNotificationsURL)

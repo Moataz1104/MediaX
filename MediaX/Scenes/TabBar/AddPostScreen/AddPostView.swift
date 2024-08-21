@@ -20,7 +20,7 @@ class AddPostView: UIViewController {
     
     weak var delegate : AddPostDelegate?
     let viewModel : AddPostViewModel
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     
     
     @IBOutlet weak var newPostImage: UIImageView!
@@ -60,8 +60,7 @@ class AddPostView: UIViewController {
         resetView()
     }
     
-    init(disposeBag:DisposeBag,viewModel:AddPostViewModel){
-        self.disposeBag = disposeBag
+    init(viewModel:AddPostViewModel){
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

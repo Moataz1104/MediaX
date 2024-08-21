@@ -14,7 +14,7 @@ class NotificationView: UIViewController {
 //    MARK: - Attributes
     @IBOutlet weak var tableView: UITableView!
     
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     let viewModel:NotificationViewModel
     
     var refreshControl = UIRefreshControl()
@@ -35,8 +35,7 @@ class NotificationView: UIViewController {
         viewModel.getAllNotificationsRelay.accept(())
     }
     
-    init( disposeBag: DisposeBag, viewModel: NotificationViewModel) {
-        self.disposeBag = disposeBag
+    init( viewModel: NotificationViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

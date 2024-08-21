@@ -19,7 +19,7 @@ class ProfileView: UIViewController {
 
     
     let viewModel:ProfileViewModel
-    let disposeBag:DisposeBag
+    let disposeBag = DisposeBag()
     let isCurrentUser:Bool
     var refreshControl = UIRefreshControl()
     
@@ -59,9 +59,8 @@ class ProfileView: UIViewController {
         }
     }
     
-    init(viewModel:ProfileViewModel,disposeBag:DisposeBag,isCurrentUser:Bool){
+    init(viewModel:ProfileViewModel,isCurrentUser:Bool){
         self.viewModel = viewModel
-        self.disposeBag = disposeBag
         self.isCurrentUser = isCurrentUser
         super.init(nibName: nil, bundle: nil)
     }

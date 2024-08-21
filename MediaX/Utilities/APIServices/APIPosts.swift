@@ -10,14 +10,18 @@ import SwiftKeychainWrapper
 import RxRelay
 import RxSwift
 
-class APIPosts {
-    static let shared = APIPosts()
-    private init() {
-        print("apiPosts init")
-    }
-    
 
-    
+protocol APIPostsProtocol{
+    func getAllPosts(accessToken: String,size:String) -> Observable<[PostModel]>
+    func getPost(by id: String, accessToken: String) -> Observable<PostModel>
+    func addPost( content:String , imageData:Data,accessToken:String) -> Observable<Void>
+    func handleLikes(for postId: String, accessToken: String) -> Observable<Void>
+
+}
+
+
+class APIPosts :APIPostsProtocol {
+        
     func getAllPosts(accessToken: String,size:String) -> Observable<[PostModel]> {
         print("getallPosts")
         print(accessToken)
@@ -127,4 +131,35 @@ class APIPosts {
                 return .error(NetworkingErrors.networkError(error))
             }
     }
+    
+    func handleLikes(for postId: String, accessToken: String) -> Observable<Void> {
+        let url = URL(string: apiK.likeUrlString + postId)!
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "POST"
+        
+        return URLSession.shared.rx.response(request: request)
+            .flatMap{ response,data -> Observable<Void> in
+                
+                if !(200..<300).contains(response.statusCode) && response.statusCode != 500 {
+                    return .error(NetworkingErrors.serverError(response.statusCode))
+                }
+                if response.statusCode == 500 {
+                    do {
+                        let decodedMessage = try JSONDecoder().decode(responseErrorsMessage.self, from: data)
+                        return .error(NetworkingErrors.customError(decodedMessage.message))
+                    } catch {
+                        return .error(NetworkingErrors.decodingError(error))
+                    }
+                }
+                
+                return .just(())
+                
+            }
+            .catch { error in
+                    .error(NetworkingErrors.networkError(error))
+            }
+    }
+
 }

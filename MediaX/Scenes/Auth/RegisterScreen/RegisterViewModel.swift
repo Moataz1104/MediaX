@@ -10,9 +10,12 @@ import RxSwift
 import RxCocoa
 
 class RegisterViewModel {
-    let disposeBag : DisposeBag
+    
+    let apiService : APIAuthProtocol
     weak var coordinator : AuthCoordinator?
     
+    
+    let disposeBag = DisposeBag()
     let userNameSubject = PublishSubject<String>()
     let emailSubject = PublishSubject<String>()
     let passwordSubject = PublishSubject<String>()
@@ -23,9 +26,10 @@ class RegisterViewModel {
     let showRegisterAlertSubject = PublishSubject<Void>()
 
 
-    init(coordinator: AuthCoordinator,disposeBage : DisposeBag) {
+    init(apiService : APIAuthProtocol,coordinator: AuthCoordinator) {
+        self.apiService = apiService
         self.coordinator = coordinator
-        self.disposeBag = disposeBage
+        
         
         subscribeToErrorPublisher()
         subscribeToRegisterSuccPublisher()
@@ -81,14 +85,14 @@ class RegisterViewModel {
             .do {[weak self] userName,email,password in
                 self?.activityIndicatorRelay.accept(true)
                 print(userName,email,password)
-                APIAuth.shared.registerUser(userName: userName, email: email, password: password)
+                self?.apiService.registerUser(userName: userName, email: email, password: password)
             }
             .subscribe()
             .disposed(by: disposeBag)
     }
     
     private func subscribeToErrorPublisher(){
-        APIAuth.shared.registerErrorPublisher
+        apiService.registerErrorPublisher
             .subscribe {[weak self] error in
                 
                 self?.errorPublisher.onNext(error)
@@ -99,7 +103,7 @@ class RegisterViewModel {
     }
     
     private func subscribeToRegisterSuccPublisher(){
-        APIAuth.shared.registerSuccessPublisher
+        apiService.registerSuccessPublisher
             .subscribe { [weak self] event in
                 self?.activityIndicatorRelay.accept(false)
                 self?.showRegisterAlertSubject.onNext(())

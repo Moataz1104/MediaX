@@ -12,21 +12,22 @@ import SwiftKeychainWrapper
 
 
 class AddPostViewModel{
+    let apiService : APIPostsProtocol
     weak var coordinator:AddPostCoordinator?
-    let disposeBag:DisposeBag
+    
     let token = KeychainWrapper.standard.string(forKey: "token")
     var selectedImageData: Data?
 
     var successClosure:(()->Void)?
-    
+    let disposeBag = DisposeBag()
     let contentTextViewBinder = PublishRelay<String>()
     let postButtonBinder = PublishRelay<Void>()
     let indicatorPublisher = PublishRelay<Bool>()
     let errorPublisher = PublishRelay<Error>()
 
-    init(coordinator: AddPostCoordinator, disposeBag: DisposeBag) {
+    init(apiService : APIPostsProtocol,coordinator: AddPostCoordinator) {
+        self.apiService = apiService
         self.coordinator = coordinator
-        self.disposeBag = disposeBag
             
         addPost()
         
@@ -42,7 +43,7 @@ class AddPostViewModel{
                 guard let self = self, let imageData = self.selectedImageData else { return .empty() }
                 self.indicatorPublisher.accept(true)
                 
-                return APIPosts.shared.addPost(content: content, imageData: imageData, accessToken: token)
+                return self.apiService.addPost(content: content, imageData: imageData, accessToken: token)
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
                     .catch {error  in

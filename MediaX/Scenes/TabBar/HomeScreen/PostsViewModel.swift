@@ -13,11 +13,13 @@ import SwiftKeychainWrapper
 
 
 class PostsViewModel {
-    let disposeBag: DisposeBag
+    
+    let apiService : APIPostsProtocol
     let coordinator: Coordinator
     let accessToken: String?
     
     var posts = [PostModel]()
+    let disposeBag = DisposeBag()
     var reloadTableViewClosure: (() -> Void)?
     var reloadTableAtIndex : ((IndexPath) -> Void)?
     
@@ -30,8 +32,8 @@ class PostsViewModel {
     var sizeReciver = PublishRelay<Int>()
     
     
-    init(disposeBag: DisposeBag, coordinator: Coordinator) {
-        self.disposeBag = disposeBag
+    init(apiService: APIPostsProtocol, coordinator: Coordinator) {
+        self.apiService = apiService
         self.coordinator = coordinator
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
 
@@ -47,12 +49,13 @@ class PostsViewModel {
         
         sizeReciver
             .flatMapLatest {[weak self] size ->Observable<[PostModel]> in
-                self?.indicatorPublisher.accept(true)
-                return APIPosts.shared.getAllPosts(accessToken: accessToken, size: "\(size)")
+                guard let self = self else{return .empty()}
+                self.indicatorPublisher.accept(true)
+                return self.apiService.getAllPosts(accessToken: accessToken, size: "\(size)")
                     .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
                     .observe(on: MainScheduler.instance)
-                    .catch {[weak self] error in
-                        self?.errorPublisher.accept(error)
+                    .catch {error in
+                        self.errorPublisher.accept(error)
                         return Observable.empty()
                     }
             }
@@ -77,7 +80,7 @@ class PostsViewModel {
         likeButtonSubject
             .flatMapLatest { [weak self] id , indexPath -> Observable<(String,IndexPath)> in
                 guard let self = self else { return .empty() }
-                return APIInterActions.shared.handleLikes(for: id, accessToken: self.accessToken!)
+                return self.apiService.handleLikes(for: id, accessToken: self.accessToken!)
                     .map { _ in
                         return (id,indexPath)
                     }
@@ -88,7 +91,7 @@ class PostsViewModel {
             }
             .flatMapLatest { [weak self] id , indexPath -> Observable<(PostModel,IndexPath)> in
                 guard let self = self else { return .empty() }
-                return APIPosts.shared.getPost(by: id, accessToken: self.accessToken!)
+                return self.apiService.getPost(by: id, accessToken: self.accessToken!)
                     .map{($0 , indexPath)}
                     .catch { error in
                         self.errorPublisher.accept(error)
