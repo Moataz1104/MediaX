@@ -11,7 +11,7 @@ import RxCocoa
 import SwiftKeychainWrapper
 
 class ProfileViewModel{
-    let coordinator:Coordinator
+    let coordinator:SharedNavigationCoordinatorProtocol
     let apiService : APIUsersprotocol
     
     let user : UserModel?
@@ -38,7 +38,7 @@ class ProfileViewModel{
     let accessToken = KeychainWrapper.standard.string(forKey: "token")
         
     
-    init(apiService:APIUsersprotocol,coordinator: Coordinator,
+    init(apiService:APIUsersprotocol,coordinator: SharedNavigationCoordinatorProtocol,
          user:UserModel? = nil,isCurrentUser:Bool,userId:String? = nil,isFromSearch:Bool = false) {
         self.apiService = apiService
         self.coordinator = coordinator
@@ -271,48 +271,23 @@ class ProfileViewModel{
 //    MARK: - Navigation
     
     func pushPostDetailScreen(indexPath:IndexPath){
-        if let posts = posts , let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
-        }else if let posts = posts ,  let coordinator = coordinator as? HomeCoordinator{
-            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath) 
-        }else if let posts = posts , let coordinator = coordinator as? SearchCoordinator{
-            coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
-        }else if let posts = posts , let coordinator = coordinator as? NotificationCoordinator{
+        if let posts = posts {
             coordinator.pushPostDetailScreen(posts: posts, indexPath: indexPath)
         }
     }
     
     func pushSettingScreen(){
-        if let user = fetchedUser , let coordinator = coordinator as? ProfileCoordinator{
+        if let user = fetchedUser{
             coordinator.pushSettingScreen(user:user)
         }
     }
     
     
     private func pushFollowersScreen(followers:[UserModel]){
-        if let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
-        }else if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
-
-        }else if let coordinator = coordinator as? SearchCoordinator{
-            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
-        }else if let coordinator = coordinator as? NotificationCoordinator{
-            coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers")
-        }
-
+        coordinator.PushGeneralScreen(users: followers, screenTitle: "Followers", isLikeScreen: false)
     }
     private func pushFollowingsScreen(followings:[UserModel]){
-        if let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")        }else if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")
-
-        }else if let coordinator = coordinator as? SearchCoordinator{
-            coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")        }else if let coordinator = coordinator as? NotificationCoordinator{
-                coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings")
-
-        }
-
+        coordinator.PushGeneralScreen(users: followings, screenTitle: "Followings", isLikeScreen: false)
     }
 
 }

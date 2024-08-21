@@ -14,7 +14,7 @@ import SwiftKeychainWrapper
 class StoryViewModel{
     
     let apiService:APIStoryprotocol
-    let coordinator: Coordinator
+    let coordinator: StoryNavigationCoordinatorProtocol
     let accessToken: String?
     
     
@@ -30,7 +30,7 @@ class StoryViewModel{
 
     let selectedImageDataRelay = PublishRelay<Data>()
 
-    init(apiService:APIStoryprotocol, coordinator: Coordinator) {
+    init(apiService:APIStoryprotocol, coordinator: StoryNavigationCoordinatorProtocol) {
         self.apiService = apiService
         self.coordinator = coordinator
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
@@ -155,20 +155,14 @@ class StoryViewModel{
     
     
     
-    
+//    MARK: - Navigation
     
     func presentStoryScreen(storyDetials:StoryModel,indexPath:IndexPath){
-        if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.presentStoryScreen(details: storyDetials, indexPath:indexPath)
-        }
+        coordinator.presentStoryScreen(details: storyDetials, indexPath:indexPath)
     }
     
     func presentViewersScreen(users:[UserModel]){
-        
-        if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.presentStoryViewersScreen(users: users)
-        }
-
+        coordinator.presentStoryViewersScreen(users: users)
     }
 
 }

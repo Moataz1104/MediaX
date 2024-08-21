@@ -13,7 +13,7 @@ import SwiftKeychainWrapper
 class SearchViewModel{
     
     let apiService:APIUsersprotocol
-    let coordinator:SearchCoordinator
+    let coordinator:SearchNavigationProtocol
     
     
     let disposeBag = DisposeBag()
@@ -31,7 +31,7 @@ class SearchViewModel{
     
     
     
-    init(apiService:APIUsersprotocol,coordinator: SearchCoordinator) {
+    init(apiService:APIUsersprotocol,coordinator: SearchNavigationProtocol) {
         self.apiService = apiService
         self.coordinator = coordinator
         

@@ -13,7 +13,7 @@ import SwiftKeychainWrapper
 
 class NotificationViewModel{
     
-    weak var coordinator:NotificationCoordinator?
+    let coordinator:NotificationNavigationProtocol
     let apiService : APINotificationProtocol
     let accessToken: String?
 
@@ -27,7 +27,7 @@ class NotificationViewModel{
     
     
     
-    init(coordinator: NotificationCoordinator,apiService : APINotificationProtocol) {
+    init(coordinator: NotificationNavigationProtocol,apiService : APINotificationProtocol) {
         self.coordinator = coordinator
         self.apiService = apiService
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
@@ -103,12 +103,14 @@ class NotificationViewModel{
 
     
     
+//    MARK: - Navigation
+    
     func pushProfileScreen(user:UserModel){
-        coordinator?.pushProfileScreen(user: user)
+        coordinator.pushProfileScreen(user: user)
     }
     
     func pushSinglePostScreen(post:PostModel){
-        coordinator?.pushSinglePostScreen(post: post)
+        coordinator.pushSinglePostScreen(post: post)
     }
 
 }

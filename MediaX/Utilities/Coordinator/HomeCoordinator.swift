@@ -11,8 +11,14 @@ import RxCocoa
 import RxSwift
 
 
+protocol StoryNavigationCoordinatorProtocol{
+    func presentStoryViewersScreen(users:[UserModel])
+    func presentStoryScreen(details:StoryModel,indexPath:IndexPath)
+}
 
-class HomeCoordinator:Coordinator{
+
+class HomeCoordinator:Coordinator,SharedNavigationCoordinatorProtocol,
+                      StoryNavigationCoordinatorProtocol{
     var childCoordinators = [Coordinator]()
     
     var navigationController: UINavigationController
@@ -61,38 +67,19 @@ class HomeCoordinator:Coordinator{
             print("No presented view controller to present over.")
             return
         }
-
-        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
-        DispatchQueue.main.async{
-            vc.modalPresentationStyle = .overFullScreen
-            vc.modalTransitionStyle = .crossDissolve
-        }
+        let vc: ErrorsAlertView
         if let networkingError = error as? NetworkingErrors {
-            vc.loadViewIfNeeded()
-            vc.errorTitle?.text = networkingError.title
-            vc.errorMessage?.text = networkingError.localizedDescription
+            vc = ErrorsAlertView(errorTitleString: networkingError.title, message: networkingError.localizedDescription)
         } else {
-            vc.loadViewIfNeeded()
-            vc.errorMessage?.text = error.localizedDescription
+            vc = ErrorsAlertView(errorTitleString: "Error", message: error.localizedDescription)
         }
-
-        topVC.present(vc, animated: true)
-    }
-
-    func presentStoryScreen(details:StoryModel,indexPath:IndexPath){
         
-        let viewModel = StoryViewModel(apiService:APIStory(), coordinator: self)
-        let vc = StoryView(storyDetails: details,viewModel:viewModel)
-        vc.indexPath = indexPath
-        vc.modalPresentationStyle = .fullScreen
-        vc.heroModalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
 
-        DispatchQueue.main.async{[weak self] in
-            self?.navigationController.present(vc, animated: true)
-            
-        }
-
+        topVC.present(vc, animated: true, completion: nil)
     }
+
     
     func showOtherUsersScreen(id:String){
         let viewModel = ProfileViewModel(apiService:APIUsers(),coordinator: self, isCurrentUser: false,userId:id)
@@ -125,6 +112,26 @@ class HomeCoordinator:Coordinator{
         }
     }
     
+    func PushGeneralScreen(users:[UserModel],screenTitle:String,isLikeScreen:Bool = false){
+        
+        let viewModel = GeneralUsersViewModel(apiService:APIUsers(), coordinator: self, users: users)
+        let vc = GeneralUsersView(viewModel: viewModel, title: screenTitle,isLikeScreen : isLikeScreen)
+        
+        
+        DispatchQueue.main.async { [weak self] in
+            if let topVC = self?.navigationController.presentedViewController {
+                topVC.dismiss(animated: true)
+                topVC.dismiss(animated: false)
+                self?.navigationController.pushViewController(vc, animated: true)
+
+            }else{
+                self?.navigationController.pushViewController(vc, animated: true)
+            }
+        }
+
+    }
+
+    
     func presentStoryViewersScreen(users:[UserModel]){
         
         let viewModel = GeneralUsersViewModel(apiService:APIUsers(), coordinator: self, users: users)
@@ -151,21 +158,18 @@ class HomeCoordinator:Coordinator{
     }
 
 
-    func PushGeneralScreen(users:[UserModel],screenTitle:String,isLikeScreen:Bool = false){
+    
+    func presentStoryScreen(details:StoryModel,indexPath:IndexPath){
         
-        let viewModel = GeneralUsersViewModel(apiService:APIUsers(), coordinator: self, users: users)
-        let vc = GeneralUsersView(viewModel: viewModel, title: screenTitle,isLikeScreen : isLikeScreen)
-        
-        
-        DispatchQueue.main.async { [weak self] in
-            if let topVC = self?.navigationController.presentedViewController {
-                topVC.dismiss(animated: true)
-                topVC.dismiss(animated: false)
-                self?.navigationController.pushViewController(vc, animated: true)
+        let viewModel = StoryViewModel(apiService:APIStory(), coordinator: self)
+        let vc = StoryView(storyDetails: details,viewModel:viewModel)
+        vc.indexPath = indexPath
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
 
-            }else{
-                self?.navigationController.pushViewController(vc, animated: true)
-            }
+        DispatchQueue.main.async{[weak self] in
+            self?.navigationController.present(vc, animated: true)
+            
         }
 
     }

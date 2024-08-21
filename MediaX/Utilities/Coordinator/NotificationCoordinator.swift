@@ -10,7 +10,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class NotificationCoordinator:Coordinator{
+
+protocol NotificationNavigationProtocol{
+    func pushSinglePostScreen(post:PostModel)
+    func pushProfileScreen(user:UserModel)
+}
+
+class NotificationCoordinator:Coordinator,SharedNavigationCoordinatorProtocol,
+                              NotificationNavigationProtocol{
     var childCoordinators = [Coordinator]()
     
     var navigationController: UINavigationController
@@ -126,22 +133,17 @@ class NotificationCoordinator:Coordinator{
             print("No presented view controller to present over.")
             return
         }
-
-        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
-        DispatchQueue.main.async{
-            vc.modalPresentationStyle = .overFullScreen
-            vc.modalTransitionStyle = .crossDissolve
-        }
+        let vc: ErrorsAlertView
         if let networkingError = error as? NetworkingErrors {
-            vc.loadViewIfNeeded()
-            vc.errorTitle?.text = networkingError.title
-            vc.errorMessage?.text = networkingError.localizedDescription
+            vc = ErrorsAlertView(errorTitleString: networkingError.title, message: networkingError.localizedDescription)
         } else {
-            vc.loadViewIfNeeded()
-            vc.errorMessage?.text = error.localizedDescription
+            vc = ErrorsAlertView(errorTitleString: "Error", message: error.localizedDescription)
         }
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
 
-        topVC.present(vc, animated: true)
+        topVC.present(vc, animated: true, completion: nil)
     }
 
 }

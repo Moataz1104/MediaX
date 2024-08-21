@@ -11,7 +11,10 @@ import RxCocoa
 import RxSwift
 import Hero
 
-class ProfileCoordinator:Coordinator{
+
+
+
+class ProfileCoordinator:Coordinator,SharedNavigationCoordinatorProtocol{
     var childCoordinators = [Coordinator]()
     
     var navigationController: UINavigationController
@@ -82,22 +85,19 @@ class ProfileCoordinator:Coordinator{
             print("No presented view controller to present over.")
             return
         }
-
-        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+        let vc: ErrorsAlertView
+        if let networkingError = error as? NetworkingErrors {
+            vc = ErrorsAlertView(errorTitleString: networkingError.title, message: networkingError.localizedDescription)
+        } else {
+            vc = ErrorsAlertView(errorTitleString: "Error", message: error.localizedDescription)
+        }
+        
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
-
-        if let networkingError = error as? NetworkingErrors {
-            vc.loadViewIfNeeded()
-            vc.errorTitle?.text = networkingError.title
-            vc.errorMessage?.text = networkingError.localizedDescription
-        } else {
-            vc.loadViewIfNeeded()
-            vc.errorMessage?.text = error.localizedDescription
-        }
-
-        topVC.present(vc, animated: true)
+        
+        topVC.present(vc, animated: true, completion: nil)
     }
+    
     
     
 
@@ -144,22 +144,17 @@ class ProfileCoordinator:Coordinator{
             print("No presented view controller to present over.")
             return
         }
-
-        let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
-        DispatchQueue.main.async{
-            vc.modalPresentationStyle = .overFullScreen
-            vc.modalTransitionStyle = .crossDissolve
-        }
+        let vc: ErrorsAlertView
         if let networkingError = error as? NetworkingErrors {
-            vc.loadViewIfNeeded()
-            vc.errorTitle?.text = networkingError.title
-            vc.errorMessage?.text = networkingError.localizedDescription
+            vc = ErrorsAlertView(errorTitleString: networkingError.title, message: networkingError.localizedDescription)
         } else {
-            vc.loadViewIfNeeded()
-            vc.errorMessage?.text = error.localizedDescription
+            vc = ErrorsAlertView(errorTitleString: "Error", message: error.localizedDescription)
         }
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
 
-        topVC.present(vc, animated: true)
+        topVC.present(vc, animated: true, completion: nil)
     }
 
 

@@ -15,7 +15,7 @@ import SwiftKeychainWrapper
 class PostsViewModel {
     
     let apiService : APIPostsProtocol
-    let coordinator: Coordinator
+    let coordinator: SharedNavigationCoordinatorProtocol
     let accessToken: String?
     
     var posts = [PostModel]()
@@ -32,7 +32,7 @@ class PostsViewModel {
     var sizeReciver = PublishRelay<Int>()
     
     
-    init(apiService: APIPostsProtocol, coordinator: Coordinator) {
+    init(apiService: APIPostsProtocol, coordinator: SharedNavigationCoordinatorProtocol) {
         self.apiService = apiService
         self.coordinator = coordinator
         self.accessToken = KeychainWrapper.standard.string(forKey: "token")
@@ -117,39 +117,17 @@ class PostsViewModel {
 //    MARK: - Navigation
     
     func showCommentsScreen(post:PostModel){
-        if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.showCommentsScreen(post:post)
-        }else if let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.showCommentsScreen(post: post)
-        }else if let coordinator = coordinator as? SearchCoordinator{
-            coordinator.showCommentsScreen(post: post)
-        }else if let coordinator = coordinator as? NotificationCoordinator{
-            coordinator.showCommentsScreen(post: post)
-        }
+        coordinator.showCommentsScreen(post:post)
     }
     
     
     
     func showOtherUserScreen(id:String){
-        if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.showOtherUsersScreen(id:id)
-        }
+        coordinator.showOtherUsersScreen(id:id)
     }
     
     func showLikesScreen(users:[UserModel]){
-        if let coordinator = coordinator as? HomeCoordinator{
-            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
-        }else if let coordinator = coordinator as? ProfileCoordinator{
-            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
-
-        }else if let coordinator = coordinator as? SearchCoordinator{
-            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
-
-        }else if let coordinator = coordinator as? NotificationCoordinator{
-            coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
-
-        }
-
+        coordinator.PushGeneralScreen(users: users, screenTitle: "\(users.count) Likes",isLikeScreen: true)
     }
 
     

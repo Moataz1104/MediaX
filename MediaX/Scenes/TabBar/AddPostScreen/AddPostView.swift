@@ -109,7 +109,6 @@ class AddPostView: UIViewController {
 
     }
     
-    
     private func subscribeToErrorPublisher() {
         viewModel.errorPublisher
             .observe(on: MainScheduler.instance)
@@ -118,20 +117,16 @@ class AddPostView: UIViewController {
                     print("Error element is nil")
                     return
                 }
-                let vc = ErrorsAlertView(nibName: "ErrorsAlertView", bundle: nil)
+                
+                let vc: ErrorsAlertView
+                if let networkingError = error as? NetworkingErrors {
+                    vc = ErrorsAlertView(errorTitleString: networkingError.title, message: networkingError.localizedDescription)
+                } else {
+                    vc = ErrorsAlertView(errorTitleString: "Error", message: error.localizedDescription)
+                }
+                
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
-
-                if let networkingError = error as? NetworkingErrors {
-                    DispatchQueue.main.async {
-                        vc.errorTitle.text = networkingError.title
-                        vc.errorMessage.text = networkingError.localizedDescription
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        vc.errorMessage.text = error.localizedDescription
-                    }
-                }
 
                 self?.present(vc, animated: true, completion: nil)
             }
