@@ -18,8 +18,8 @@ class NotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
     
-    var userImageDisposable:Disposable?
-    var postImageDisposable:Disposable?
+    
+    var disposeBag = DisposeBag()
     override func awakeFromNib() {
         super.awakeFromNib()
         userImage.layer.cornerRadius = userImage.bounds.width / 2
@@ -29,10 +29,10 @@ class NotificationTableViewCell: UITableViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
-        postImageDisposable?.dispose()
+        
         postImage.image = nil
-        userImageDisposable?.dispose()
         userImage.image = nil
+        disposeBag = DisposeBag()
         
         self.backgroundColor = .clear
 
@@ -54,12 +54,14 @@ class NotificationTableViewCell: UITableViewCell {
         
         if let fromUserImage = notification.fromUserImage,
            let userImageURL = URL(string: fromUserImage) {
-            userImageDisposable = userImage.loadImage(url: userImageURL, indicator: nil)
+            userImage.loadImage(url: userImageURL, indicator: nil)
+                .disposed(by: disposeBag)
         }
         
         if let postImageStr = notification.postImage,
            let postImageURL = URL(string: postImageStr) {
-            postImageDisposable = postImage.loadImage(url: postImageURL, indicator: nil)
+            postImage.loadImage(url: postImageURL, indicator: nil)
+                .disposed(by: disposeBag)
         }
     }
 

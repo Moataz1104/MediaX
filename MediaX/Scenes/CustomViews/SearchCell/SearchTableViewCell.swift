@@ -14,8 +14,8 @@ class SearchTableViewCell: UITableViewCell {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     
-    var imageLoadDisposable:Disposable?
-    var viewModel:SearchViewModel?
+    var disposeBag = DisposeBag()
+    weak var viewModel:SearchViewModel?
     var user:UserModel?
     
     override func awakeFromNib() {
@@ -26,8 +26,8 @@ class SearchTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageLoadDisposable?.dispose()
         userImage.image = nil
+        disposeBag = DisposeBag()
     }
     
     @IBAction func xButtonAction(_ sender: Any) {
@@ -45,7 +45,8 @@ class SearchTableViewCell: UITableViewCell {
         }
         
         if let urlString = user.image , let url = URL(string: urlString){
-            imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
+            userImage.loadImage(url: url, indicator: nil)
+                .disposed(by: disposeBag)
         }
         
         

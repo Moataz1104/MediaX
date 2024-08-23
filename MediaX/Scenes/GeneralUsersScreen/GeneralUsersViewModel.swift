@@ -54,8 +54,7 @@ class GeneralUsersViewModel{
             .retry()
             .subscribe(onNext: { [weak self] (_, id) in
                 self?.getUserRelay.accept(id)
-            },onError: {[weak self] error in
-                
+            }, onError: { [weak self] error in
                 self?.errorPublisher.accept(error)
             })
             .disposed(by: disposeBag)

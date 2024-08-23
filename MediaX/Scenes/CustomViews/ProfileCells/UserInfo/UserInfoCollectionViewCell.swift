@@ -23,12 +23,10 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var followingStack: UIStackView!
     
     
-    var userImageDisposable : Disposable?
-    var viewModel:ProfileViewModel?
+    var disposeBag = DisposeBag()
+    weak var viewModel:ProfileViewModel?
     var user : UserModel?
     var isFollow:Bool?
-    
-    var followSubscription:Disposable?
     let followRelay = PublishRelay<Bool>()
 
 
@@ -41,10 +39,8 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
-        userImageDisposable?.dispose()
         userImage.image = nil
-        
-        followSubscription?.dispose()
+        disposeBag = DisposeBag()
     }
     
     @IBAction func followButtonAction(_ sender: Any) {
@@ -102,33 +98,37 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         
         if let stringUrl = user.image,
            let url = URL(string: stringUrl){
-            userImageDisposable = userImage.loadImage(url: url, indicator: nil)
+            userImage.loadImage(url: url, indicator: nil)
+                .disposed(by: disposeBag)
         }
         DispatchQueue.main.async{[weak self] in
-            self?.postsNumLabel.text = "\(user.numberOfPosts ?? 0)"
-            self?.followersNumLabel.text = "\(user.numberOfFollowers ?? 0)"
-            self?.followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
-            self?.userName.text = user.fullName ?? ""
-            self?.userBio.text = user.bio
-            self?.checkFollowStatus(followStatus: user.follow ,isFollowButtonHidden:isFollowButtonHidden)
+            guard let self = self else{return}
+            self.postsNumLabel.text = "\(user.numberOfPosts ?? 0)"
+            self.followersNumLabel.text = "\(user.numberOfFollowers ?? 0)"
+            self.followingNumLabel.text = "\(user.numberOfFollowing ?? 0)"
+            self.userName.text = user.fullName ?? ""
+            self.userBio.text = user.bio
+            self.checkFollowStatus(followStatus: user.follow ,isFollowButtonHidden:isFollowButtonHidden)
             
-            self?.isFollow = user.follow
+            self.isFollow = user.follow
             
-            self?.followSubscription =
-            self?.followRelay
-                .observe(on: MainScheduler.instance)
-                .subscribe(onNext: { isFollow in
-                    self?.checkFollowStatus(followStatus: isFollow, isFollowButtonHidden: isFollowButtonHidden)
-                    
-                    if isFollow{
-                        self?.followersNumLabel.text = "\((user.numberOfFollowers!) + 1)"
-                    }else{
-                        self?.followersNumLabel.text = "\((user.numberOfFollowers!) - 1)"
-                    }
-
-                })
-
         }
+        
+        followRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: {[weak self] isFollow in
+                self?.checkFollowStatus(followStatus: isFollow, isFollowButtonHidden: isFollowButtonHidden)
+                
+                if isFollow{
+                    self?.followersNumLabel.text = "\((user.numberOfFollowers!) + 1)"
+                }else{
+                    self?.followersNumLabel.text = "\((user.numberOfFollowers!) - 1)"
+                }
+
+            })
+            .disposed(by: disposeBag)
+
     }
     
     

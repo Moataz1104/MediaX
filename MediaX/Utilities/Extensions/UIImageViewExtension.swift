@@ -78,7 +78,7 @@ class ImageCache {
     static let shared = ImageCache()
     
     private let cache = NSCache<NSString, UIImage>()
-    private let maxCacheSize = 20
+    private let maxCacheSize = 50
     
     private init() {
         cache.countLimit = maxCacheSize

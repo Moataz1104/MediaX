@@ -16,15 +16,14 @@ class GeneralUserTableViewCell: UITableViewCell {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var timeLabel: UILabel!
-    
-    var imageLoadDisposable:Disposable?
-    var searchViewModel : SearchViewModel?
-    var generalUsersViewModel : GeneralUsersViewModel?
+
+    weak var searchViewModel : SearchViewModel?
+    weak var generalUsersViewModel : GeneralUsersViewModel?
     var user:UserModel?
     var isFollow:Bool?
     
-    var followSubscription:Disposable?
     let followRelay = PublishRelay<Bool>()
+    var disposeBag = DisposeBag()
 
 
     override func awakeFromNib() {
@@ -39,10 +38,8 @@ class GeneralUserTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageLoadDisposable?.dispose()
         userImage.image = nil
-        
-        followSubscription?.dispose()
+        disposeBag = DisposeBag()
 
     }
     
@@ -65,32 +62,31 @@ class GeneralUserTableViewCell: UITableViewCell {
  
     
     
-    func configureUser(user:UserModel){
-        
-        DispatchQueue.main.async{[weak self] in
-            self?.userName.text = user.fullName ?? user.username ?? ""
+    func configureUser(user: UserModel) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             
-            if let timeAgo = user.timeAgo{
-                self?.timeLabel.isHidden = false
-                self?.timeLabel.text = timeAgo
+            self.userName.text = user.fullName ?? user.username ?? ""
+            
+            if let timeAgo = user.timeAgo {
+                self.timeLabel.isHidden = false
+                self.timeLabel.text = timeAgo
             }
-            self?.checkFollowStatus(followStatus: user.follow )
-            
-            self?.isFollow = user.follow
-            
-            self?.followSubscription =
-            self?.followRelay
-                .observe(on: MainScheduler.instance)
-                .subscribe(onNext: { isFollow in
-                    self?.checkFollowStatus(followStatus: isFollow)
-                })
-
+            self.checkFollowStatus(followStatus: user.follow)
+            self.isFollow = user.follow
         }
+        followRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { [weak self] isFollow in
+                self?.checkFollowStatus(followStatus: isFollow)
+            })
+            .disposed(by: disposeBag)
+
         
-        if let urlString = user.image , let url = URL(string: urlString){
-            imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
-        }else if let urlString = user.userImage , let url = URL(string: urlString){
-            imageLoadDisposable = userImage.loadImage(url: url, indicator: nil)
+        if let urlString = user.image ?? user.userImage, let url = URL(string: urlString) {
+             userImage.loadImage(url: url, indicator: nil)
+                .disposed(by: disposeBag)
         }
     }
     

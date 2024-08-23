@@ -47,6 +47,7 @@ class SearchViewModel{
         guard let accessToken = accessToken else{return}
         searchTextFieldRelay
             .debounce(RxTimeInterval.milliseconds(200), scheduler: MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .retry()
             .flatMapLatest {[weak self] query -> Observable<(String, [UserModel])> in
                 guard let self = self else{return .empty()}

@@ -21,11 +21,13 @@ class CommentTableViewCell: UITableViewCell {
     weak var delegate : CommentCellDelegate?
     var indexPath : IndexPath?
     var isShrink = false
-    var userImageDisposable : Disposable?
-    var viewModel : CommentsViewModel?
+    weak var viewModel : CommentsViewModel?
     var comment:CommentModel?
     var isLiked:Bool?
     
+    var disposeBag = DisposeBag()
+    let likeRelay = PublishRelay<Bool>()
+
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var numberOfLikes: UILabel!
@@ -34,8 +36,6 @@ class CommentTableViewCell: UITableViewCell {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var contentLabelHeightCons: NSLayoutConstraint!
     
-    var likeSubscription:Disposable?
-    let likeRelay = PublishRelay<Bool>()
 //    MARK: - Cell life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,11 +47,10 @@ class CommentTableViewCell: UITableViewCell {
         setUpNumberOfLikesGesture()
         setUpUserImageGesture()
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        userImageDisposable?.dispose()
-        likeSubscription?.dispose()
+        disposeBag = DisposeBag()
     }
     
     
@@ -145,8 +144,10 @@ class CommentTableViewCell: UITableViewCell {
     func configureCell(with comment : CommentModel){
         
         DispatchQueue.main.async{[weak self] in
-            UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
-                self?.userImageDisposable = self?.userImage.loadImage(url: URL(string:comment.userImage!)!, indicator: nil)
+            guard let self = self else{return}
+            UIView.transition(with: self.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
+                self.userImage.loadImage(url: URL(string:comment.userImage!)!, indicator: nil)
+                    .disposed(by: self.disposeBag)
                     
             }
         }
@@ -161,19 +162,23 @@ class CommentTableViewCell: UITableViewCell {
 
             self?.isLiked = comment.liked!
             
-            self?.likeSubscription = self?.likeRelay
-                .observe(on: MainScheduler.instance)
-                .subscribe(onNext: { isLiked in
-                    self?.checkForLikeStatus(status: isLiked)
-                    if isLiked{
-                        self?.numberOfLikes.text = "\(comment.numberOfLikes! + 1)"
-                    }else{
-                        self?.numberOfLikes.text = "\(comment.numberOfLikes! - 1)"
-                    }
-
-                })
 
         }
+        likeRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: {[weak self] isLiked in
+                guard let self = self else{return}
+                self.checkForLikeStatus(status: isLiked)
+                if isLiked{
+                    self.numberOfLikes.text = "\((comment.numberOfLikes ?? 0) + 1)"
+                }else{
+                    self.numberOfLikes.text = "\((comment.numberOfLikes ?? 0) - 1)"
+                }
+
+            })
+            .disposed(by: disposeBag)
+
     }
     
     private func checkForLikeStatus(status:Bool){

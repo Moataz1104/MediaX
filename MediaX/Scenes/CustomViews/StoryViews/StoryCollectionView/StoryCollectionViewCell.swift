@@ -24,12 +24,11 @@ class StoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     var indexPath:IndexPath?
-    var userImageDisposable:Disposable?
-    var viewModel:StoryViewModel?
+    weak var viewModel:StoryViewModel?
     var story:StoryModel?
     weak var delegate: StoryCellDelegate?
 
-    private let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     
     override func awakeFromNib() {
@@ -42,8 +41,8 @@ class StoryCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        userImageDisposable?.dispose()
         
+        disposeBag = DisposeBag()
         indicator.isHidden = true
         indicator.stopAnimating()
 
@@ -92,7 +91,8 @@ class StoryCollectionViewCell: UICollectionViewCell {
             }
         }
         if let userImageStr = story.userImage , let url = URL(string: userImageStr){
-            userImageDisposable = userImage.loadImage(url: url, indicator: nil)
+            userImage.loadImage(url: url, indicator: nil)
+                .disposed(by: disposeBag)
         }
 
     }

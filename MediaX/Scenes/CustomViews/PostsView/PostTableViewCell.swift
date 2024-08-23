@@ -29,15 +29,14 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var bigHeartImage: UIImageView!
     
-    var imageLoadDisposable: Disposable?
-    var userImageLoadDisposable: Disposable?
-    var viewModel:PostsViewModel?
+    
+    var disposeBag = DisposeBag()
+    weak var viewModel:PostsViewModel?
     var post:PostModel?
     var indexPath:IndexPath?
     weak var delegate:HomeViewDelegate?
     var isLiked:Bool?
 
-    var likeSubscription:Disposable?
     let likeRelay = PublishRelay<Bool>()
 
     override func awakeFromNib() {
@@ -54,13 +53,13 @@ class PostTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageLoadDisposable?.dispose()
+        
         postImage.image = nil
-        
-        userImageLoadDisposable?.dispose()
         userImage.image = nil
+        disposeBag = DisposeBag()
+
         
-        likeSubscription?.dispose()
+        likeRelay.accept(false)
 
     }
     
@@ -95,13 +94,13 @@ class PostTableViewCell: UITableViewCell {
             bigHeartImage.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             
             DispatchQueue.main.async{[weak self] in
-                UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
+                UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {[weak self] in
                     self?.bigHeartImage.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
                 }) { (completed) in
-                    UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut], animations: {
+                    UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut], animations: {[weak self] in
                         self?.bigHeartImage.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                     }) { (completed) in
-                        UIView.animate(withDuration: 0.2, delay: 0.5, options: [.curveEaseInOut], animations: {
+                        UIView.animate(withDuration: 0.2, delay: 0.5, options: [.curveEaseInOut], animations: {[weak self] in
                             self?.bigHeartImage.alpha = 0
                         }) { (completed) in
                             self?.bigHeartImage.isHidden = true
@@ -181,66 +180,52 @@ class PostTableViewCell: UITableViewCell {
     
 //    MARK: - Configuration
     func configureCell(with post: PostModel) {
-        
         if let imageUrlString = post.image, let url = URL(string: imageUrlString) {
-            DispatchQueue.main.async{[weak self] in
-                self?.imageLoadDisposable = self?.postImage.loadImage(url: url,indicator:self?.indicator)
-            }
+            postImage.loadImage(url: url, indicator: indicator)
+                .disposed(by: disposeBag)
         }
-        
+
         if let userImageString = post.userImage, let url = URL(string: userImageString) {
-            DispatchQueue.main.async{[weak self] in
-                UIView.transition(with: self?.userImage ?? UIImageView(), duration: 0.5,options: .transitionCrossDissolve) {
-                    self?.userImageLoadDisposable = self?.userImage.loadImage(url: url, indicator: nil)
-                }
-            }
-            
-        }
-        DispatchQueue.main.async{[weak self] in
-            self?.userName.text = post.username ?? "No user name"
-            self?.numberOfLikesLabel.text = "\(post.numberOfLikes ?? -1) Likes"
-            if let count = post.numberOfComments{
-                if count == 0{
-                    self?.numberOfCommentsLabel.isHidden = true
-                }else{
-                    self?.numberOfCommentsLabel.isHidden = false
-                    self?.numberOfCommentsLabel.text = "View all \(count) Comments"
-
-                }
-            }
-            if let content = post.content{
-                if content == " "{
-                    self?.postContent.isHidden = true
-                    self?.bottomUserName.isHidden = true
-                }else{
-                    self?.postContent.isHidden = false
-                    self?.bottomUserName.isHidden = false
-                    self?.bottomUserName.text = post.username ?? "No user name"
-                    self?.postContent.text = post.content ?? "No Content"
-
-                }
-            }
-            self?.postTime.text = post.timeAgo ?? ""
-            
-            self?.checkForLikeStatus(status: post.liked!)
-            
-            self?.isLiked = post.liked!
-            self?.likeSubscription = self?.likeRelay
-                .observe(on: MainScheduler.instance)
-                .subscribe(onNext: { isLiked in
-                    self?.checkForLikeStatus(status: isLiked)
-                    
-                    if isLiked{
-                        self?.numberOfLikesLabel.text = "\(post.numberOfLikes! + 1) Likes"
-                    }else{
-                        self?.numberOfLikesLabel.text = "\(post.numberOfLikes! - 1) Likes"
-                    }
-                })
-
-
+            userImage.loadImage(url: url, indicator: nil)
+                .disposed(by: disposeBag)
         }
         
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.userName.text = post.username ?? "No user name"
+            self.numberOfLikesLabel.text = "\(post.numberOfLikes ?? -1) Likes"
+            
+            if let count = post.numberOfComments {
+                self.numberOfCommentsLabel.isHidden = count == 0
+                self.numberOfCommentsLabel.text = count == 0 ? "" : "View all \(count) Comments"
+            }
+            
+            if let content = post.content {
+                self.postContent.isHidden = content.trimmingCharacters(in: .whitespaces).isEmpty
+                self.bottomUserName.isHidden = self.postContent.isHidden
+                self.bottomUserName.text = post.username ?? "No user name"
+                self.postContent.text = content
+            }
+            
+            self.postTime.text = post.timeAgo ?? ""
+            self.checkForLikeStatus(status: post.liked ?? false)
+            self.isLiked = post.liked ?? false
+            
+        }
+        
+        likeRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe(on:ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { [weak self] isLiked in
+                guard let self = self else { return }
+                self.checkForLikeStatus(status: isLiked)
+                self.numberOfLikesLabel.text = "\(post.numberOfLikes ?? 0 + (isLiked ? 1 : -1)) Likes"
+            })
+            .disposed(by: disposeBag)
+
     }
+
     
     
     private func checkForLikeStatus(status:Bool){

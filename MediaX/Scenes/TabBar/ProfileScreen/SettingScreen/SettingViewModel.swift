@@ -12,7 +12,7 @@ import SwiftKeychainWrapper
 class SettingViewModel{
     
     let apiService:APIUsersprotocol
-    let coordinator : ProfileCoordinator
+    weak var coordinator : ProfileCoordinator?
     let user:UserModel
 
     let disposeBag = DisposeBag()
@@ -65,7 +65,7 @@ class SettingViewModel{
                     .catch {error in
                         print(error.localizedDescription)
                         self.indicatorPublisher.accept(false)
-                        self.coordinator.showErrorInSettingScreen(error)
+                        self.coordinator?.showErrorInSettingScreen(error)
                         self.resetUserInfo?()
                         return Observable.empty()
                     }

@@ -19,8 +19,9 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
-    var imageLoadDisposable:Disposable?
-    var viewModel:ProfileViewModel?
+    
+    var disposeBag = DisposeBag()
+    weak var viewModel:ProfileViewModel?
     var post:PostModel?
     var indexPath:IndexPath?
 //    MARK: - Cell life cycle
@@ -37,7 +38,7 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageLoadDisposable?.dispose()
+        disposeBag = DisposeBag()
         postImage.image = nil
     }
 
@@ -61,7 +62,8 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
     func configureCell(with post: PostModel){
         if let imageUrlString = post.image,
            let url = URL(string: imageUrlString){
-            imageLoadDisposable = postImage.loadImage(url: url ,indicator:indicator)
+            postImage.loadImage(url: url ,indicator:indicator)
+                .disposed(by: disposeBag)
         }
 
     }
