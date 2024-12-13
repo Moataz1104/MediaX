@@ -167,13 +167,13 @@ class StoryView: UIViewController {
             }
         }
         
-        storyImageDisposable = storyImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil){[weak self]_ in
+        storyImage.loadImage(url: URL(string: storyDetails.storyImage!)!){[weak self]_ in
             self?.startProgress()
         }
         
-        bluredImageDisposable = bluredImage.loadImage(url: URL(string: storyDetails.storyImage!)!, indicator: nil)
+        bluredImage.loadImage(url: URL(string: storyDetails.storyImage!)!)
 
-        userImageDisposable = userImage.loadImage(url: URL(string: storyDetails.userImage!)!, indicator: nil)
+        userImage.loadImage(url: URL(string: storyDetails.userImage!)!)
 
         
     }

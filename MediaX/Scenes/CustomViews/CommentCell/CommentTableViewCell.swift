@@ -146,8 +146,7 @@ class CommentTableViewCell: UITableViewCell {
         DispatchQueue.main.async{[weak self] in
             guard let self = self else{return}
             UIView.transition(with: self.userImage ?? UIImageView(), duration: 0.1,options: .transitionCrossDissolve) {
-                self.userImage.loadImage(url: URL(string:comment.userImage!)!, indicator: nil)
-                    .disposed(by: self.disposeBag)
+                self.userImage.loadImage(url: URL(string:comment.userImage!)!)
                     
             }
         }

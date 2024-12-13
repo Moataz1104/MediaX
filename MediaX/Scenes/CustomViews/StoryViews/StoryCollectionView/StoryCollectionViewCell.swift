@@ -91,8 +91,7 @@ class StoryCollectionViewCell: UICollectionViewCell {
             }
         }
         if let userImageStr = story.userImage , let url = URL(string: userImageStr){
-            userImage.loadImage(url: url, indicator: nil)
-                .disposed(by: disposeBag)
+            userImage.loadImage(url: url)
         }
 
     }

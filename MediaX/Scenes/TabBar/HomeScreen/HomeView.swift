@@ -72,6 +72,7 @@ class HomeView: UIViewController {
         storyViewModel.getStoriesRelay.accept(())
 
     }
+    
     init(viewModel:PostsViewModel,storyViewModel:StoryViewModel) {
         self.postsViewModel = viewModel
         self.storyViewModel = storyViewModel

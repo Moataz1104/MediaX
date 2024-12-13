@@ -157,18 +157,28 @@ class SettingView: UIViewController {
     private func configureUser() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            
+            // Configure user text fields and bio
             self.userNameTextField.text = self.user.fullName ?? ""
             self.phoneTextField.text = self.user.phoneNumber ?? ""
             self.bioTextView.text = self.user.bio ?? ""
             
-            self.userImageLoadDisposable = self.userImage.loadImage(url: URL(string: self.user.image!)!, indicator: nil) { [weak self] loadedImage in
-                guard let self = self, let image = loadedImage else { return }
-                if let imageData = image.jpegData(compressionQuality: 0.99) {
-                    self.viewModel.imageDataPublisher.accept(imageData)
-                }
+            // Use Kingfisher to load and cache the image
+            if let imageUrlString = self.user.image, let imageUrl = URL(string: imageUrlString) {
+                self.userImage.kf.setImage(with: imageUrl, completionHandler: { [weak self] result in
+                    switch result {
+                    case .success(let value):
+                        if let imageData = value.image.jpegData(compressionQuality: 0.99) {
+                            self?.viewModel.imageDataPublisher.accept(imageData)
+                        }
+                    case .failure(let error):
+                        print("Error loading image: \(error.localizedDescription)")
+                    }
+                })
             }
         }
     }
+
     private func resetUserInfoClosure(){
         viewModel.resetUserInfo = {[weak self] in
             self?.configureUser()

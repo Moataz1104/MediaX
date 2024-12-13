@@ -85,8 +85,7 @@ class GeneralUserTableViewCell: UITableViewCell {
 
         
         if let urlString = user.image ?? user.userImage, let url = URL(string: urlString) {
-             userImage.loadImage(url: url, indicator: nil)
-                .disposed(by: disposeBag)
+             userImage.loadImage(url: url)
         }
     }
     

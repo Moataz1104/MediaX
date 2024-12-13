@@ -88,6 +88,7 @@ class PostTableViewCell: UITableViewCell {
         }
     }
     @objc func doubletapLike() {
+        guard !(isLiked ?? false) else {return}
         if let _ = post?.liked{
             bigHeartImage.isHidden = false
             bigHeartImage.alpha = 1
@@ -181,13 +182,11 @@ class PostTableViewCell: UITableViewCell {
 //    MARK: - Configuration
     func configureCell(with post: PostModel) {
         if let imageUrlString = post.image, let url = URL(string: imageUrlString) {
-            postImage.loadImage(url: url, indicator: indicator)
-                .disposed(by: disposeBag)
+            postImage.loadImage(url: url)
         }
 
         if let userImageString = post.userImage, let url = URL(string: userImageString) {
-            userImage.loadImage(url: url, indicator: nil)
-                .disposed(by: disposeBag)
+            userImage.loadImage(url: url)
         }
         
         
@@ -220,10 +219,9 @@ class PostTableViewCell: UITableViewCell {
             .subscribe(onNext: { [weak self] isLiked in
                 guard let self = self else { return }
                 self.checkForLikeStatus(status: isLiked)
-                self.numberOfLikesLabel.text = "\(post.numberOfLikes ?? 0 + (isLiked ? 1 : -1)) Likes"
+                self.numberOfLikesLabel.text = "\(post.numberOfLikes! + (isLiked ? 1 : -1)) Likes"
             })
             .disposed(by: disposeBag)
-
     }
 
     

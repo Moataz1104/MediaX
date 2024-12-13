@@ -54,14 +54,12 @@ class NotificationTableViewCell: UITableViewCell {
         
         if let fromUserImage = notification.fromUserImage,
            let userImageURL = URL(string: fromUserImage) {
-            userImage.loadImage(url: userImageURL, indicator: nil)
-                .disposed(by: disposeBag)
+            userImage.loadImage(url: userImageURL)
         }
         
         if let postImageStr = notification.postImage,
            let postImageURL = URL(string: postImageStr) {
-            postImage.loadImage(url: postImageURL, indicator: nil)
-                .disposed(by: disposeBag)
+            postImage.loadImage(url: postImageURL)
         }
     }
 

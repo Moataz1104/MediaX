@@ -62,8 +62,7 @@ class PostsGridCollectionViewCell: UICollectionViewCell {
     func configureCell(with post: PostModel){
         if let imageUrlString = post.image,
            let url = URL(string: imageUrlString){
-            postImage.loadImage(url: url ,indicator:indicator)
-                .disposed(by: disposeBag)
+            postImage.loadImage(url: url)
         }
 
     }

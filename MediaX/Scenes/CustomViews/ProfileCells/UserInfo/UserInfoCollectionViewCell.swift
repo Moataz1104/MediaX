@@ -98,8 +98,7 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         
         if let stringUrl = user.image,
            let url = URL(string: stringUrl){
-            userImage.loadImage(url: url, indicator: nil)
-                .disposed(by: disposeBag)
+            userImage.loadImage(url: url)
         }
         DispatchQueue.main.async{[weak self] in
             guard let self = self else{return}

@@ -11,6 +11,7 @@ target 'MediaX' do
 	pod 'RxCocoa', '6.7.1'
 	pod 'SwiftKeychainWrapper'
 	pod 'Hero'
+  pod 'Kingfisher', '~> 8.0'
 
 
 
