@@ -28,6 +28,7 @@ class HomeView: UIViewController {
     
     private var hasReachedBottom = false
     private var size = 5
+    var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var logoStack: UIStackView!
@@ -49,10 +50,10 @@ class HomeView: UIViewController {
         indicator.isHidden = true
         indicator.stopAnimating()
         self.hero.isEnabled = true
-
+        refreshControl.tintColor = UIColor.main
         setupTableView()
         registerCells()
-        
+        refreshTableView()
         reloadTableView()
         subscribeToIndicatorPublisher()
         subscribeToErrorPublisher()
@@ -61,16 +62,6 @@ class HomeView: UIViewController {
         postsViewModel.reloadTableAtIndex = {[weak self] indexPath in
             self?.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        
-            
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        postsViewModel.sizeReciver.accept(size)
-        storyViewModel.getStoriesRelay.accept(())
-
     }
     
     init(viewModel:PostsViewModel,storyViewModel:StoryViewModel) {
@@ -133,7 +124,7 @@ class HomeView: UIViewController {
 
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
-        tableView.bounces = false 
+//        tableView.bounces = false 
 
     }
     
@@ -152,8 +143,16 @@ class HomeView: UIViewController {
         }
     }
     
+    private func refreshTableView(){
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    }
 
-
+    @objc func refreshData() {
+        postsViewModel.sizeReciver.accept(size)
+        storyViewModel.getStoriesRelay.accept(())
+        refreshControl.endRefreshing()
+    }
 }
 
 
@@ -201,6 +200,7 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !postsViewModel.posts.isEmpty else{return}
         let currentOffset = scrollView.contentOffset.y
         let offsetDifference = currentOffset - previousScrollOffset
         let bottomOffset = scrollView.contentSize.height - scrollView.bounds.height
@@ -209,15 +209,14 @@ extension HomeView : UITableViewDelegate , UITableViewDataSource,UIScrollViewDel
             hasReachedBottom = true
             size += 5
             postsViewModel.sizeReciver.accept(size)
-            
         } else if scrollView.contentOffset.y < bottomOffset {
             hasReachedBottom = false
         }
 
-        if offsetDifference > 0 && !isLogoStackHidden {
+        if offsetDifference > 20 && !isLogoStackHidden {
             hideLogoStack()
             delegate?.didScrollDown()
-        } else if offsetDifference < 0 && isLogoStackHidden {
+        } else if offsetDifference < -20 && isLogoStackHidden {
             showLogoStack()
             delegate?.didScrollUp()
         }

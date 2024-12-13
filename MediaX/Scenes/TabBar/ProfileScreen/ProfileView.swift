@@ -92,7 +92,6 @@ class ProfileView: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
-
     }
     
         
@@ -145,7 +144,6 @@ class ProfileView: UIViewController {
         collectionView.refreshControl = refreshControl
         
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        
     }
 
     @objc func refreshData() {

@@ -39,6 +39,7 @@ class PostsViewModel {
 
         subscribeToLikeButton()
         fetchAllPosts()
+        sizeReciver.accept(5)
     }
     
     func fetchAllPosts() {
@@ -46,7 +47,6 @@ class PostsViewModel {
             print("Access token is nil")
             return
         }
-        
         sizeReciver
             .flatMapLatest {[weak self] size ->Observable<[PostModel]> in
                 guard let self = self else{return .empty()}

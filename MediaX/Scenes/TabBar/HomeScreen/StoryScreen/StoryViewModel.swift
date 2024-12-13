@@ -39,6 +39,7 @@ class StoryViewModel{
         addStory()
         getStoryDetails()
         getStoryViews()
+        getStoriesRelay.accept(())
     }
     
     
@@ -61,7 +62,6 @@ class StoryViewModel{
             }
             .subscribe {[weak self] stories in
                 self?.stories = stories
-                print(stories)
                 self?.reloadTableViewClosure?()
             }onError: { error in
                 print(error.localizedDescription)
